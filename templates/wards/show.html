@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Reports for" %} {{ward.name}}, {{ward.city.name}}{% endblock %}
+{% block content %}
+	<div id="fullwidth">
+	<h3>{% trans "Reports for" %} {{ward.name}}, {{ward.city.name}} (Ward {{ward.number}})</h3>
+	<p>{% trans "All reports for" %} {{ward.city.name}}'s {{ward.name}} {% trans "ward" %}.</p>
+		<div id='leftcol'>
+			<ol>
+				{% if not reports %}
+					<p>{% trans "No problems have been reported." %}</p>
+				
+				{% endif %}
+				{% for report in reports %}					
+					{% ifchanged report.status %}  	
+					 <p/><h2>{{report.status}}</h2>
+					{% endifchanged %}
+                    <li><a href='{{report.get_absolute_url}}'>{{report.title}}</a></li>
+                {% endfor %}
+             </ol>
+ 		</div>
+		<div id='rightcol'>
+		{% if google %}
+			{{ google.body }}
+    		<div id="{{ google.dom_id }}" style="width:400px;height:400px;"></div>
+    	{% endif %}
+    	{% include "wards/_info_box.html" %}   	
+		</div>
+	</div>
+	<br/ style="clear:both;">
+{% endblock %}

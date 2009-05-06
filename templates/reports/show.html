@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{report.ward.name}}{% trans "Problem Report" %}{% endblock %}
+{% block css %}
+	<style type="text/css" media="screen">
+    #update-header {
+        float: left;
+        width: 100%;
+    }
+    
+    #update-title {
+        float: left;
+        width: 48%;
+    }
+    
+    #update-email-me {
+        float: right;
+        width: 48%;
+        text-align: right;
+        margin-top: 4px;
+    }
+	</style>
+{% endblock %}
+{% block content %}
+<div id="page_content_container">
+	<div id="leftcol">    
+			{% if report.is_fixed %}
+			<div class='is_fixed'>{% trans "This problem has been fixed." %}</div>
+			{% endif %}
+				
+			{% if not report.is_confirmed %}
+				   <div class='is_fixed'>{% trans "Please check your email and click on the confirmation link to complete your submission. Your report will not be sent to the City's 311 Department or be visible to other visitors until you have done so." %}</div>
+			{% endif %}
+			<h3>{{report.title}}</h3>
+			<div class='status-text'>
+				{% trans "Category:" %}<b>{{report.category.name}}</b><br/>
+				{% trans "Filed by:" %}{{report.author}}<br/>				
+				<i>
+				{% if report.sent_at %}
+					{% trans "Sent to the city of" %} {{report.ward.city.name}} {% trans "on" %} {{report.sent_at|date:"l, F dS Y"}}.
+				{% else %}
+					{% if report.is_confirmed %}
+						{% blocktrans with report.ward.city.name as city %}This report will be sent to the city of {{city}} in the next 24 hrs.{% endblocktrans %}
+					{% endif %}
+				{% endif %}
+				</i>
+			</div><br/>
+			<p>{{report.desc}}</p>
+			{% if report.photo  %}
+                   <img align=center' src='/media/{{report.photo}}'>
+		    {% endif %}
+		    {% if report.is_confirmed %}
+				<div id="more-actions">
+					<p><a href='/reports/{{report.id}}/flags'>{% trans "Offensive? Unsuitable? Tell us" %}</a></p>
+				</div>
+			
+				{% if updates %}
+					<h3>{% trans "Updates" %}</h3>		
+					{% for update in updates %}
+						{% trans "posted by" %} {{update.author}}, {{update.created_at|date:"l, F dS, Y"}}
+						<br/>
+						{{update.desc}}
+						<hr/>
+					{% endfor %}
+				{% endif %}
+				{% if not report.is_fixed %}
+				<hr/>
+				<div id="update-header">
+					<div id="update-title"><h3>{% trans "Provide an update" %} </h3></div>
+					<div id="update-email-me"><a href="/reports/{{report.id}}/subscribers/">{% trans "Email me updates" %}</a></div>
+				</div>				
+				<p>{% trans "Please note that updates are not sent to the City." %}</p>
+				<form action="/reports/{{report.id}}/updates/" method="post">
+				<table class="form">
+					{{update_form.as_table}}					
+				<tr><td></td><td><input type="checkbox" id="is_fixed" name="is_fixed" value="1">{% trans "This problem has been fixed." %}</td></tr>
+				<tr><td></td><td><input type ="submit" value= "{% trans "Submit" %}"></td></td>
+				</table>
+				</form>
+				{% endif %}	
+		{% endif %}
+	</div>
+	<div id="rightcol">
+  	 	{{ google.body }}
+     	<div id="{{ google.dom_id }}" style="width:400px;height:400px;"></div>
+    	{% include "wards/_info_box.html" %}   	
+    </div>
+</div>
+	
+{% endblock %}

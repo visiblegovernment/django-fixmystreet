@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<div id="fullwidth">
+{% blocktrans %}
+<h2>Nearly Done! Now check your email...</h2>
+
+<p>The confirmation email may take a few minutes to arrive — please be patient.</p>
+
+<p>If you use web-based email or have 'junk mail' filters, you may wish to check your bulk/spam mail folders: sometimes, our messages are marked that way.
+You must now click the link in the email we've just sent you — if you do not, your alert will not be activated.</p>
+
+<p>(Don't worry — we'll hang on to your alert while you're checking your email.)</p>
+{% endblocktrans %}
+</div>
+{% endblock %}

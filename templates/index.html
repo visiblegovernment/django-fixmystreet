@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block css %}
+<style type="text/css" media="screen">
+	#supported_cities { font-size: 80%; }
+	#front-page  { text-align: center; min-height:500px; width: 100%; }
+	#status  { text-align: center; min-height:450px; width: 100%; }
+	.block { text-align: left; }
+</style>
+{% endblock %}
+</style>
+{% block content %}
+
+<div id="page_content_container">
+	{% if disambiguate %}
+		<div id='error-msg'>
+			<p>{% trans "That address returned more than one result.  Please try again, or select an option below:"%}</p>
+			{{disambiguate|safe}}
+		</div>
+	{% endif %}
+  <div id="front-page">
+	<div id="intro_text">	
+	  <h3>{% trans "Report, view, or discuss local problems" %}</h3>
+	  <p>{% trans "(like graffiti, potholes, excessive garbage, or street lighting)" %}</p>
+	</div>
+			
+	<div id="start_box"><div><div><div>
+	    <form name="lookup" action="/search/"   method="post">
+		<b>{% trans "Enter a nearby postal code, or street name and city:" %}</b>
+		<input type="text" name="q">
+		<input type="submit" name="submit" value="{% trans "Go" %}">
+		</form>		
+	</div></div></div></div>
+
+
+	<div id="supported_cities">
+		<div>
+		{% trans "Supported Cities" %}:
+		{% for city in cities %}
+			<b>{{ city.name }} {{city.province.abbrev}},</b>	
+		{% endfor %}
+			<a href="/about/add_city">{% trans "Add Your City" %}</a><br/>
+		</div>
+	</div>
+
+	<div id="status" >
+		<div id=col1>
+			<div class='block'>
+				<h4>{% trans "How to report a Problem" %}</h4>
+			   <ol>
+				   <li>{% trans "Enter a nearby postal code, or street name and city" %}</li>
+   				   <li>{% trans "Locate the problem on a map of the area" %}</li>
+   				   <li>{% trans "Enter details of the problem" %}</li>
+   				   <li>{% trans "We send it to the City on your behalf" %}</li>
+				</ol>
+			</div>
+			<div class='block'>
+				<h4>{% trans "Stats" %}</h4>
+				<div class='stat'><div><div><div><div>
+					<span>{{report_counts.recent_new}}</span><br/>{% trans "Reports Filed Last Month" %}
+				</div></div></div></div></div>
+				<div class='stat'><div><div><div><div>
+					<span>{{report_counts.recent_fixed}}</span><br/>{% trans "Reports Fixed Last Month" %}
+				</div></div></div></div></div>
+				<div class='stat'><div><div><div><div>
+					<span>{{report_counts.recent_updated}}</span><br/>{% trans "Reports Updated Last Month" %}
+				</div></div></div></div></div>
+
+			</div>
+		</div>
+		<div id=col2>
+		<div class='block'>
+			<h4>{% trans "Recent Photos" %}</h4>
+			<ul class='recent_photos'>
+			{% for report in reports_with_photos %}
+				<li><a href='/reports/{{report.id}}'><img src='{{report.photo.thumbnail.url }}' height=100 ></a></li>
+			{% endfor %}
+			</ul>
+		</div>
+		<br/>
+		<div class='block'>
+			<h4>{% trans "Recent Reports" %}</h4>
+			<ul>
+			{% for report in recent_reports %}
+				<li><a href='{{report.get_absolute_url}}'>{{report.title}}</a></li>
+			{% endfor %}
+			</ul>
+		</div>
+
+		</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

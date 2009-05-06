@@ -1,0 +1,385 @@
+body {
+	background: white;
+	padding: 0;
+	margin: 0;
+	text-align: center;
+}
+
+
+#page_container {
+	width: 950px;
+	margin: 0px auto;
+}
+
+#header {
+	width: 100%;
+	height: 80px;	
+	margin-top: 10px;
+}
+
+#header_left {
+	float: left;
+	width: 70%;
+	height: 60px;
+}
+
+#header_right {
+	float: right;
+	height: 60px;
+	width: 29%;
+}
+
+#page_content_container {
+	min-height:550px;
+	width: 100%;
+}
+
+#leftcol {
+float: left;
+width: 49%;
+min-height:450px;
+}
+
+
+#rightcol {
+float: right;
+width: 450px;
+}
+.is_fixed {
+    width:100%;
+    padding: 5px;
+    text-align: center;
+    position: relative;
+}
+
+#error-msg, #notice {
+    width:70%;
+    padding: 5px;
+    margin: 0px auto;
+    text-align: center;
+}
+
+
+.errorlist {
+    width:100%;
+    color: #990000;
+    font-size: 80%;
+}
+
+#fullwidth {
+padding: 5px;
+width: 100%;
+min-height: 300px;
+}
+
+
+#map_canvas {
+	margin: 0px auto;
+	width: 400px;
+	height: 400px;
+}
+
+#top_menu {
+	text-align: right;
+	width: 100%;
+	padding: 0;
+	height: 50px;
+}
+
+
+
+#top_menu ul li {
+    float: left;
+    margin-left: 20px;
+	list-style-type: none;
+	padding: 1em;
+}
+
+#top_menu a {
+	color: #fff;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+#top_menu a:hover {
+	padding-bottom: 3px;
+	border-bottom: 3px solid #fff;
+}
+
+#top_menu_br {
+	height: 50px;
+}
+
+#top_menu_bl {
+	height: 50px;
+}
+
+
+#top_menu_links {
+	float: left;
+	width: 700px;
+	text-align: left;
+	height: 50px;
+}
+
+#top_menu_links div {
+	float: right;
+	width: 100%;
+}
+
+#language {
+	padding-top: 1em;
+	padding-right: 1em;
+	width: 150px;
+	height: 50px;
+	float: right
+}
+
+
+
+#content {
+	text-align: left;
+	margin: 10px auto;
+	min-height:550px; 
+	width: 930px;
+}
+
+label {
+width: 85px;
+float: left;
+padding: 0px;
+}
+
+#photo_note {
+	font-size: 80%;
+	font-weight: italic;
+	padding-top: 0px;
+	padding-bottom: 2px;
+}
+
+
+table.form td,th {
+	padding-top: 5px;
+	padding-bottom: 5px;
+
+}
+
+table.form td input[type='submit'] {
+	align: right;
+}
+
+table.form td select {
+	width: 100%;
+}
+
+table.form td textarea {
+	width: 100%;
+}
+
+table.form td input[type='text'] {
+	width: 100%;
+}
+
+table.form th
+{
+	vertical-align: top;
+	text-align: right;
+	padding-right: 5px;
+} 
+
+.checklist {
+margin-left: 105px;
+}
+
+.checklist label {
+}
+
+.inactive {
+color: silver;
+border: 1px solid silver;
+text-decoration: none;
+padding: 4px;
+}
+
+
+#more-actions {
+font-size: 80%;
+text-align: right;
+}
+
+#intro_text {
+text-align: center;
+padding-top: 5px;
+}
+
+#start_box {
+width: 625px;
+text-align: center;
+margin-left: auto;
+margin-right: auto;
+}
+
+
+
+#supported_cities {
+margin-left: auto;
+margin-right: auto;
+/*margin-top: -10px;*/
+width: 625px;
+min-height: 3em;
+}
+
+#supported_cities div {
+margin: 0px auto;
+text-align: center;
+margin-top: 10px;
+width: 625px;
+}
+
+#supported_cities ul li {
+list-style-type: none;
+padding: 0px 4px;
+margin: 0;
+}
+
+
+#testing {
+width: 625px;
+text-align: center;
+font-style: italic;
+margin-left: auto;
+margin-right: auto;
+}
+
+
+#col2 {
+	float: right;
+	width: 48%;
+	min-height:450px;
+}
+
+#col1 {
+float: left;
+width: 48%;
+min-height:450px;
+}
+
+.block {
+height: 150px;
+}
+
+
+hr {
+border: 0.3px dotted silver;
+}
+
+.error {
+background-color: #fce7e7;
+color: red;
+padding: 3px;
+}
+
+
+.stat {
+width: 95px;
+color: #fff;
+height: 105px;
+margin: 5px;
+float: left;
+font-size: 80%;
+text-align: center;
+vertical-align: middle;
+}
+
+.stat div div {
+	height: 105px;
+}
+
+.stat div div div {
+	height: 105px;
+}
+
+.stat div div div div {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.stat span {
+font-size: 250%;
+font-weight: bold;
+}
+
+a {
+text-decoration: underline;
+}
+
+div.block ul li {
+list-style-type: square;
+margin-left: 2em;
+}
+
+div.block ul li a:hover {
+text-decoration: underline;
+}
+
+
+#ward_box {
+width: 400px;
+margin: 1em auto;
+padding: 5px;
+overflow: hidden;
+}
+
+#ward_box img {
+padding-right: 5px;
+}
+
+
+blockquote {
+margin-left: 3em !important;
+padding-left: 1em !important;
+border: 1px solid silver;
+border-left: 5px solid silver !important;
+margin-bottom: 0.8em;
+}
+
+
+#footer {
+font-size: 80%;
+width: 100%;
+height: 60px;
+text-align: center;
+padding: 5px;
+}
+
+#bugreport {
+}
+
+.note {
+font-weight:bold;
+font-size:9pt;
+background-color:#eee;
+padding:1.2em;
+}
+
+.note strong {
+	font-size:10pt;
+}
+
+.subitem {
+	margin-left:105px;
+}
+.subitem strong{
+font-weight:bold;
+font-color:green;	
+}
+
+
+.recent_photos li {
+height: 100px;
+display: block !important;
+margin: 2px !important;
+padding: 0 !important;
+list-item-type: none;
+}
+

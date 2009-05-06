@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{report.ward.name}}{% trans "Update Created" %}{% endblock %}
+{% block content %}
+<p><p>
+<div id="notice">
+    {% trans "A confirmation email has been sent. You must confirm your update in order for your update to be displayed. Please check your email." %}
+</div>
+
+{% endblock %}

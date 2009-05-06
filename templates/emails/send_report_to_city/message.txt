@@ -1,0 +1,10 @@
+Title:    {{update.report.title}}
+Category: {{update.report.category.name}}
+Phone:    {{update.phone}}
+Email:    {{update.email}}
+FMS ID:   {{update.report.id}}
+
+{{update.desc}}
+
+Submitted via FixMyStreet.ca on {{update.report.created_at}}.
+{{update.report.get_absolute_url}}

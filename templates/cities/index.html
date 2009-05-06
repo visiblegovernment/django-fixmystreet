@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "All Reports" %}{% endblock %}
+{% block css %}
+<style type="text/css" media="screen">
+    td { padding: 2px; }
+    
+    td.section {
+     	background-color: #bbbbbb;
+     	border-bottom: 2px color:#ffffff;
+        font-weight: bold;
+        font-size: 80%;
+        color: #ffffff;
+        padding-left: 5px;
+        margin-top: 5px;
+    }
+    
+</style>
+{% endblock %}
+{% block content %}
+
+<div id="page_content_container">
+	<div id="fullwidth">
+	<h3>{% trans "All Reports" %}</h3>
+		<p>{% trans "Reports by City" %}</p>
+		{% include "cities/_report_count_table.html" %}
+	</div>
+	<br/ style="clear:both;">
+</div>
+
+{% endblock %}

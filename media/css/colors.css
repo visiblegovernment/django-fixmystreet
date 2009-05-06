@@ -1,0 +1,141 @@
+
+#heading {
+	background: olive;
+}
+
+#page_container {
+	background-color: #fff;
+}
+
+#error-msg, #notice {
+    background-color: #ffffcc;
+    border: solid 2px #999900;
+}
+
+.is_fixed {
+    background-color: #ccffcc;
+    border: solid 2px #009900;
+}
+
+
+.errorlist {
+    color: #990000;
+}
+
+.row-highlight {
+	background: #FFFFAA;
+}
+
+.row-odd {
+	background: #fafafa;
+}
+
+#photo_note {
+	color: #6396b0;
+}
+
+#top_menu {
+	background: #666666;
+}
+
+
+#top_menu {
+	background: #666666 url(/media/images/stat_tl.png) no-repeat;
+}
+
+#top_menu_tr {
+	background: url(/media/images/stat_tr.png) top right no-repeat;
+}
+
+#top_menu_bl {
+	background: url(/media/images/stat_bl.png) bottom left no-repeat;
+}
+
+#top_menu_br {
+	background: url(/media/images/stat_br.png) bottom right no-repeat;
+}
+
+
+.stat {
+	background: #666666 url(/media/images/stat_tl.png) no-repeat;
+}
+
+.stat div {
+	background: url(/media/images/stat_tr.png) top right no-repeat;
+}
+
+.stat div div {
+	background: url(/media/images/stat_bl.png) bottom left no-repeat;
+}
+
+.stat div div div {
+	background: url(/media/images/stat_br.png) bottom right no-repeat;
+}
+
+#footer {
+	color: #666666;
+}
+
+.note strong {
+	color:green;
+}
+
+#start_box {
+	background: #6396b0 url(/media/images/start_tl.png) no-repeat;
+	color: #ffffff;
+}
+
+#start_box div {
+	background: url(/media/images/start_tr.png) top right no-repeat;
+}
+
+#start_box div div {
+	background: url(/media/images/start_bl.png) bottom left no-repeat;
+}
+
+#start_box div div div {
+	background: url(/media/images/start_br.png) bottom right no-repeat;
+	padding: 15px;
+}
+
+a {
+	color: #6396b0;
+}
+
+
+.status-text {
+color:#666666;	
+}
+
+
+#ward_box {
+	background-color: #aafbaf;
+}
+
+#content_container h1 {
+	color: #4a8797;
+}
+#content_container h2 {
+	color: #f3865a;
+}
+#content_container h3 {
+	color: #6396b0;
+}
+
+#content_container p a {
+	color: #4b8898;
+}
+
+
+.ishate strong {
+color:red;
+
+}
+
+th {
+	font-weight: bold;
+}
+
+
+
+

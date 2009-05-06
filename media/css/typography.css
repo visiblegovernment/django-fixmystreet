@@ -1,0 +1,111 @@
+/*--------------------------------------------------------------------------------------------------------*/
+/*** Headings ***/
+
+#content_container h1 {
+	font-size: 2.4em;
+	letter-spacing: -0.03em;
+	font-weight: normal;
+}
+#content_container h2 {
+	font-size: 1.4em;
+	font-weight: bold;
+	margin: 2px 0;
+}
+#content_container h3 {
+	font-size: 150%;
+	font-weight: bold;
+	margin: 2px 0 7px 0;
+}
+
+#content_container h4 {
+	font-size: 110%;
+	font-weight: bold;
+	margin: 4px 0 7px 0;
+}
+
+th {
+	font-weight: bold;
+	font-size: 80%;
+}
+
+/*--------------------------------------------------------------------------------------------------------*/
+/*** Paragraphs ***/
+#content p {
+	line-height: 1.5em;
+	margin: 0 0  1em 0;
+}
+
+#content ul {
+	margin: 0 0  1em 0;
+}
+
+#content ul li {
+	line-height: 1.5em;
+	margin: 0 0  0 2em;
+	list-style-type: disc;	
+}
+
+#content p:hover a {
+	text-decoration: underline;
+}
+
+#faq p,ul {
+	margin-left: 2em;
+}
+
+#faq ul li { margin-left:4em; }
+
+/*--------------------------------------------------------------------------------------------------------*/
+/*** Lists ***/
+
+ul.keyline_list li {
+	padding: 0.7em 0;
+	border-bottom: 1px solid #e5e5e5;
+	font-size: 1.2em;
+}
+
+ul.circle_list li {
+	background: url(../images/common/blt_green_circle.gif) no-repeat 0px 0.45em;	
+	padding-left: 16px;
+	margin: 0.2em 0;
+	font-size: 1.2em;	
+	line-height: 1.6em;
+}
+
+
+ol li {
+	list-style-type:decimal;
+        margin-left:2.5em;
+}
+
+ul.info_links li {
+		float: left;
+		padding: 0 1.3em;
+		border-left: 1px solid #c2c2c2;
+	}
+	ul.info_links li:first-child {
+		border-left: none;
+		padding: 0 1.3em 0 0;
+	}
+	ul.info_links li a {
+		font-size: 1.2em;
+		color: #8e8c8c;
+	}
+	ul.info_links li a:hover {
+		color: #505050;
+	}
+
+
+.status-text {
+color:silver;	
+}
+
+
+blockquote {
+margin-left:3em;
+padding-left:1em;
+border:1px solid silver;
+border-left:5px solid silver;
+margin-bottom:0.8em;
+}
+

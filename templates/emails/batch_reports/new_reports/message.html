@@ -1,0 +1,16 @@
+<p>Hello Councillor {{ward.councillor.first_name}} {{ward.councillor.last_name}},</p>
+<br/>
+<p>The following is a summary of reports affecting {{ward.name}}, {{ward.city.name}} 
+that have been submitted in the last 24 hours</p>
+
+<ul>
+{% for report in new_reports %}
+	<li><a href='{{report.get_absolute_url}}'>{{report.title}}</a></li>
+	<p>Reported by: {{report.first_update.author}}, {{report.first_update.phone}} ({{report.first_update.email}})</p>
+	<p>{{report.desc}}</p>
+{% endfor %}
+</ul>
+
+<p>Thank you for your co-operation,</p>
+<p>The FixMyStreet.ca Team</p>
+

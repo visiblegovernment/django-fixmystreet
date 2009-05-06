@@ -1,0 +1,63 @@
+{% load i18n %}
+{% load googleanalytics_tags %}
+<html>
+<head>
+	<title>{% trans "FixMyStreet Canada" %} - {% block title %}{% trans "Home" %}{% endblock %}</title>
+	<link rel="stylesheet" type="text/css" href="/media/css/global.css" />
+	<link rel="stylesheet" type="text/css" href="/media/css/typography.css" />
+	<link rel="stylesheet" type="text/css" href="/media/css/layout-3.css" />
+	<link rel="stylesheet" type="text/css" href="/media/css/colors.css" />
+	{% block css %}{% endblock %}
+	{% block script %}{% endblock %}	
+	{% if google  %}
+	   {{ google.style }}
+	   {{ google.scripts }}
+ 	{% endif %}
+</head>
+	<body>
+		<div id="content_container">
+			<div id="page_container">
+				<div id="header">
+					<div id="header_left">
+						<a href='/'><img src="/media/images/fixmystreetlogo.png"></a>
+					</div>
+					<div id="header_right">
+						<a href='http://visiblegovernment.ca'><img src="/media/images/sitebyvg.png"></a>
+					</div>
+				</div>
+				<div id="top_menu"><div id='top_menu_tr'><div id='top_menu_bl'><div id='top_menu_br'>
+					<div id="top_menu_links"><div>
+					<ul>
+						<li><a href="/" >{% trans "Report a Problem" %}</a></li>
+						<li><a href="/cities/">{% trans "All Reports" %}</a></li>
+						<li><a href="/contact/">{% trans "Contact" %}</a></li>
+						<li><a href="/about/">{% trans "About" %}</a></li>
+					</ul>
+					</div></div>
+					<div id="language">
+						<form action="/i18n/setlang/" method="post">
+						<select name="language">
+						{% for lang in LANGUAGES %}
+						<option value="{{ lang.0 }}">{{ lang.1 }}</option>
+						{% endfor %}
+						</select>
+						<input type="submit" value="Go" />
+						</form>
+					</div>
+				</div></div></div></div>
+				<div id="content">
+					{% if error_msg %}
+						<div id="error-msg">{{error_msg}}</div>
+					{% endif %}				
+					{% block content %}{% endblock %}
+				</div>
+				<div id="footer">
+					<a href="http://visiblegovernment.ca">VisibleGovernment.ca</a>  | {% trans "Promotions" %}: <a href="/promotions/OBC">OBC</a></p>
+					<div id='bugreport'>{% trans "Find a bug?" %} <a href="/contact/">{% trans "Tell us" %}</a>!</div>
+				</div>
+			</div><!--end page_container -->
+			</div><!-- end of content container -->
+		{% block endbody %}{% endblock %}
+		{% googleanalytics %}
+	</body>
+</html>

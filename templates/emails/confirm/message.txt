@@ -1,0 +1,16 @@
+{% if update.author %}
+Hello {{update.author}}
+{% endif %}
+
+{% if update.first_update %}
+Thank you for submitting the report '{{update.report.title}}' to FixMyStreet.ca.  
+{% else %}
+Thank you for submitting an update on the report '{{update.report.title}}'
+to FixMyStreet.ca.  
+{% endif %}
+
+To confirm your submission, please click on the following URL:
+{{confirm_url}}
+
+Thank you,
+The FixMyStreet.ca Team

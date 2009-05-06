@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}
+	{% trans "About" %}
+{% endblock %}
+{% block content %}
+<div id="page_content_container">
+
+<h3>{% trans "About" %} FixMyStreet Canada</h3>
+<div id="faq">
+	{% for faq in faq_entries %}
+	<h4>{{faq.q}}</h4>
+	<p>{{faq.a|safe}}</p>
+	{% endfor %}
+
+<h4>{% trans "Credits" %}</h4>
+<p>{% trans "Thanks to:" %}</p>
+<ul>
+	<li><a href='http://mysociety.org'>MySociety</a>, {% trans "for the original concept." %}</li>
+	<li>{% trans "Chris Taggart, of <a href='http://www.openottawa.org/'>OpenOttawa</a>, for adapting the source code to Canada." %}</li>
+	<li>{% trans "Brad Elliott, of <a href='http://www.dyad.ca'>dyad infoSys</a>, for the domain name." %}</li>
+	<li>{% trans "The City of Ottawa, for being open to new ideas." %}</li>
+	<li>{% trans "The Rae Family of Montreal, for hosting and IT support." %}</li>
+</ul>
+<p>
+ {% trans "In addition, Chris Taggart would like to thank:" %}
+</p>
+<ul>
+	<li>{% trans "Pierre Lewis, for his MTM conversion script. The script enabled conversion from the City's MTM projection to the Google-friendly WGS-84 format." %}
+</ul>
+</div>
+</div>
+{% endblock %}

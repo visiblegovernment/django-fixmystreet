@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<div id="page_content_container">
+<h2>{% trans "Contact Us" %}</h2>
+{% blocktrans %}
+<p>
+	Please <strong>DO NOT</strong> report problems through this form.
+	Messages go to the team behind FixMyStreet.ca, not to City Councillors.
+</p>
+<p>
+	To report a problem, please follow the instructions <a href="/">here</a>.
+</p>
+<p>We'd love to get your feedback on this site:</p> 
+{% endblocktrans %}
+<form action="/contact" method="POST">
+<table class='form'>
+{{contact_form}}
+<tr>
+	<td></td>
+	<td>
+		<input type="submit" name="Submit" value="{% trans "Send" %}">
+	</td>
+</tr>
+</table>
+</form>
+
+</div>
+
+{% endblock %}

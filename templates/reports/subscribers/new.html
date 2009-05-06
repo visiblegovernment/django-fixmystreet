@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{{report.ward.name}}{% trans "Subscribe to a Report" %}{% endblock %}
+{% block content %}
+<div id="page_content_container">
+<h2>{% trans "Subscribe to Updates to Report" %}: {{report.title}}</h2>
+<p>{% trans "Enter your email address to subscribe to updates:" %}</p>
+<form action="/reports/{{report.id}}/subscribers/" method="POST">
+{{subscriber_form.as_table}}
+<input type="submit" value="{% trans "Subscribe" %}">
+</form>
+</div>
+
+{% endblock %}

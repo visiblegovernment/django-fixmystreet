@@ -1,0 +1,720 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-04-29 18:35-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: mainapp/forms.py:11 mainapp/models.py:109 mainapp/models.py:147
+msgid "Name"
+msgstr "Nom"
+
+#: mainapp/forms.py:14 mainapp/models.py:146
+msgid "Email"
+msgstr "Courriel"
+
+#: mainapp/forms.py:16
+msgid "Message"
+msgstr "Message"
+
+#: mainapp/models.py:87
+msgid "Subject"
+msgstr "Sujet"
+
+#: mainapp/models.py:107
+msgid "* Photo"
+msgstr "* Photo"
+
+#: mainapp/models.py:108 mainapp/models.py:141
+msgid "Details"
+msgstr "Détails"
+
+#: mainapp/models.py:148
+msgid "Phone"
+msgstr "Téléphone"
+
+#: mainapp/views/main.py:39
+msgid ""
+"Sorry, we couldn't retreive the coordinates of that location, please use the "
+"Back button on your browser and try something more specific or include the "
+"city name at the end of your search."
+msgstr ""
+"Désolé, nous n'avons pas pu retrouver les coordonnées de cet endroit, s'il "
+"vous plaît cliquer sur le bouton de votre navigateur et essayez quelque "
+"chose de plus spécifique ou inclure le nom de la ville à la fin de votre "
+"recherche."
+
+#: mainapp/views/main.py:50
+msgid ""
+"Sorry, we couldn't find the address you entered.  Please try again with "
+"another intersection, address or postal code, or add the name of the city to "
+"the end of the search."
+msgstr ""
+"Désolé, nous n'avons pas pu trouver l'adresse que vous avez entrée. S'il "
+"vous plaît essayer de nouveau avec une autre intersection, adresse ou le "
+"code postal."
+
+#: mainapp/views/main.py:60
+msgid ""
+"Sorry, we don't yet have that area in our database.  Please have your area "
+"councillor contact fixmystreet.ca."
+msgstr ""
+"Désolé, nous n'avons pas ce domaine dans notre base de données. S'il vous "
+"plaît demander à votre échevin municipal qu'il contacte fixmystreet.ca."
+
+#: mainapp/views/reports/main.py:41
+msgid "Please select a category"
+msgstr "S'il vous plaît choisir une catégorie"
+
+#: mainapp/views/reports/subscribers.py:18
+msgid "You are already subscribed to this report."
+msgstr "Vous vous avez déjà abonné aux mises à jour de ce rapport."
+
+#: mainapp/views/reports/subscribers.py:50
+msgid "You have unsubscribed from updates to:"
+msgstr "Vous vous avez désabonné des mises à jour de:"
+
+#: stdimage/widgets.py:19
+msgid "Currently:"
+msgstr "Actuellement:"
+
+#: stdimage/widgets.py:20
+msgid "Change:"
+msgstr "Modifier:"
+
+#: stdimage/widgets.py:21
+msgid "Delete"
+msgstr "Supprimer"
+
+#: templates/about.html:4 templates/about.html.py:9 templates/base.html:33
+#: templates/base.html.py:53 templates/faq/show.html:3
+#: templates/faq/show.html.py:7
+msgid "About"
+msgstr "À Propos"
+
+#: templates/about.html:16
+msgid "Credits"
+msgstr "Crédits"
+
+#: templates/about.html:17
+msgid "Thanks to:"
+msgstr "Remerciements À:"
+
+#: templates/about.html:19
+msgid "for the original concept."
+msgstr "pour le concept original."
+
+#: templates/about.html:20
+msgid ""
+"Chris Taggart, of <a href='http://www.openottawa.org/'>OpenOttawa</a>, for "
+"adapting the source code to Canada."
+msgstr ""
+"Chris Taggart, d' <a href='http://www.openottawa.org/'> OpenOttawa </a>, "
+"pourl'adaptation du code source pour le Canada."
+
+#: templates/about.html:21
+msgid ""
+"Brad Elliott, of <a href='http://www.dyad.ca'>dyad infoSys</a>, for the "
+"domain name."
+msgstr ""
+"Brad Elliott, de <a href='http://www.dyad.ca'>dyad infoSys</a>, pour le nom "
+"de domain."
+
+#: templates/about.html:22
+msgid "The City of Ottawa, for being open to new ideas."
+msgstr "La Ville d'Ottawa, pour être ouvert aux idées nouvelles."
+
+#: templates/about.html:23
+msgid "The Rae Family of Montreal, for hosting and IT support."
+msgstr ""
+"La Famille Rae de Montréal, pour l'hébergement et l'assistance informatique."
+
+#: templates/about.html:26
+msgid "In addition, Chris Taggart would like to thank:"
+msgstr "En outre, Chris Taggart tiens à remercier:"
+
+#: templates/about.html:29
+msgid ""
+"Pierre Lewis, for his MTM conversion script. The script enabled conversion "
+"from the City's MTM projection to the Google-friendly WGS-84 format."
+msgstr ""
+"Pierre Lewis, pour son script de conversion MTM. Le script a permis la "
+"conversion des projections MTM de la Ville au format WGS-84 mieux reconnu "
+"par Google."
+
+#: templates/base.html:4
+msgid "FixMyStreet Canada"
+msgstr "FixMyStreet (réparer ma rue) Canada"
+
+#: templates/base.html:4
+msgid "Home"
+msgstr "Page d'accueil"
+
+#: templates/base.html:30 templates/reports/new.html:58
+msgid "Report a Problem"
+msgstr "Signalez un Problème"
+
+#: templates/base.html:31 templates/cities/index.html:3
+#: templates/cities/index.html.py:8
+msgid "All Reports"
+msgstr "Tous les Rapports"
+
+#: templates/base.html:32
+msgid "Contact"
+msgstr "Contact"
+
+#: templates/base.html:53
+msgid "Promotions"
+msgstr "Promotions"
+
+#: templates/base.html:54
+msgid "Find a bug?"
+msgstr "Vous avez trouver un problème?"
+
+#: templates/base.html:54
+msgid "Tell us"
+msgstr "Laissez nous savoir"
+
+#: templates/index.html:9
+msgid "Report, view, or discuss local problems"
+msgstr "Signalez, examinez ou discutez des problèmes locaux"
+
+#: templates/index.html:10
+msgid "(like graffiti, potholes, excessive garbage, or street lighting)"
+msgstr ""
+"(comme les graffitis, les nids de poule, trop de déchets, ou l'éclairage de "
+"rue)"
+
+#: templates/index.html:16
+msgid "Enter a nearby postal code, or street name and city:"
+msgstr ""
+"Entrez un code postal à proximité, ou le nom de la rue et de la région:"
+
+#: templates/index.html:18
+msgid "Go"
+msgstr "Allez"
+
+#: templates/index.html:25
+msgid "Supported Cities"
+msgstr "Villes Incluses"
+
+#: templates/index.html:29
+msgid "Add Your City"
+msgstr "Ajoutez Votre Ville"
+
+#: templates/index.html:37
+msgid "How to report a Problem"
+msgstr "Signalez un Problème"
+
+#: templates/index.html:39
+msgid "Enter a nearby postal code, or street name and city"
+msgstr ""
+"Entrez un code postal à proximité, ou le nom de la rue et de la région:"
+
+#: templates/index.html:40
+msgid "Locate the problem on a map of the area"
+msgstr "Localisez le problème sur une carte de la région"
+
+#: templates/index.html:41
+msgid "Enter details of the problem"
+msgstr "Entrez les détails du problème"
+
+#: templates/index.html:42
+msgid "We send it to the City on your behalf"
+msgstr "Nous le rapporterons à la ville en votre nom<"
+
+#: templates/index.html:46
+msgid "Stats"
+msgstr "Statistiques"
+
+#: templates/index.html:48
+msgid "Reports Filed Last Month"
+msgstr "Rapports de le Mois Dernière"
+
+#: templates/index.html:51
+msgid "Reports Fixed Last Month"
+msgstr "Rapports Résolus le Mois Dernière"
+
+#: templates/index.html:54
+msgid "Reports Updated Last Month"
+msgstr "Rapports Mis à Jour le Mois Dernière"
+
+#: templates/index.html:61
+msgid "Recent Photos"
+msgstr "Dernières Photos"
+
+#: templates/index.html:70
+msgid "Recent Reports"
+msgstr "Derniers Rapports"
+
+#: templates/search_result.html:8
+msgid "Problems near"
+msgstr "Problèmes proche de"
+
+#: templates/search_result.html:10
+msgid ""
+"To report a problem, simply drag the marker to the correct location on the "
+"map."
+msgstr ""
+"Pour signaler un problème, il suffit de faire glisser le marqueur à "
+"l'emplacement sur la carte."
+
+#: templates/search_result.html:15
+msgid "fixed"
+msgstr "r�solu"
+
+#: templates/search_result.html:19
+msgid "Zoom out to see more reports nearby."
+msgstr "Zoom en arrière pour voir d'autres rapports en proximité."
+
+#: templates/search_result.html:21
+msgid "No problems have been reported yet."
+msgstr "Aucun problème n'a été signalé pour le moment."
+
+#: templates/ajax/category_description.html:2 templates/reports/new.html:93
+msgid "Please Note"
+msgstr "Notez S'il Vous Plaît"
+
+#: templates/ajax/category_description.html:5
+msgid "Is it Hate Graffiti?"
+msgstr "Est-ce du Graffiti Haineux?"
+
+#: templates/ajax/category_description.html:6
+msgid ""
+"Please contact the City directly regarding hate or racist graffiti by "
+"calling #311."
+msgstr ""
+"S'il vous plaît contactez directement la ville en ce qui concerne les "
+"graffitis racistes ou haineux en appelant # 311."
+
+#: templates/cities/_report_count_table.html:6
+msgid "New Problems"
+msgstr "Nouveaux Problèmes"
+
+#: templates/cities/_report_count_table.html:7
+msgid "Older Unresolved Problems"
+msgstr "Problèmes Pas Encore Résolu"
+
+#: templates/cities/_report_count_table.html:8
+msgid "Recently Fixed"
+msgstr "Résolu Récemment"
+
+#: templates/cities/_report_count_table.html:9
+msgid "Old Fixed"
+msgstr "Résolu"
+
+#: templates/cities/index.html:9
+msgid "Reports by City"
+msgstr "Rapports par Ville"
+
+#: templates/cities/show.html:4 templates/cities/show.html.py:8
+#: templates/promotions/show.html:4 templates/wards/show.html:3
+#: templates/wards/show.html.py:6
+msgid "Reports for"
+msgstr "Rapports par"
+
+#: templates/cities/show.html:9
+msgid "Reports by Ward"
+msgstr "Rapports par Quartier"
+
+#: templates/contact/new.html:7
+msgid "Contact Us"
+msgstr "Contactez Nous"
+
+#: templates/contact/new.html:8
+msgid ""
+"\n"
+"<p>\n"
+"\tPlease <strong>DO NOT</strong> report problems through this form.\n"
+"\tMessages go to the team behind FixMyStreet.ca, not to City Councillors.\n"
+"</p>\n"
+"<p>\n"
+"\tTo report a problem, please follow the instructions <a href=\"/\">here</"
+"a>.\n"
+"</p>\n"
+"<p>We'd love to get your feedback on this site:</p> \n"
+msgstr ""
+"\n"
+"<p>\n"
+"\tS'il vous plait <strong>NE PAS</strong> signaler de problèmes par "
+"l'entremise de ce formulaire.\n"
+"\tLes messages vont à l'équipe de FixMyStreet.ca, pas aux Échevins "
+"Municipaux.\n"
+"</p>\n"
+"<p>\n"
+"\tPour signaler un problème, s'il vous plait suivre les instructions <a href="
+"\"/\">que vous trouverez ici</a>.\n"
+"</p>\n"
+"<p>Nous voulons vraiment obtenir vos commentaires sur ce site:</p> \n"
+
+#: templates/contact/new.html:24
+msgid "Send"
+msgstr "Envoyez"
+
+#: templates/contact/thanks.html:7
+msgid "Thank you"
+msgstr "Merci"
+
+#: templates/contact/thanks.html:8
+msgid ""
+"\n"
+"<p>Thanks for submitting your comments.</p>\n"
+"<a href=\"/\">Return to FixMyStreet.ca</a>\n"
+msgstr ""
+"\n"
+"<p>Merci pour nous avoir envoyer vos commentaires.</p>\n"
+"<a href=\"/\">Retournez à FixMyStreet.ca</a>\n"
+
+#: templates/promotions/show.html:8
+msgid "First 100 Reports"
+msgstr "Premier 100 Rapports"
+
+#: templates/promotions/show.html:9
+msgid ""
+" out of the first 100 confirmed reports were filed with the promotional code "
+msgstr ""
+" de ces 100 premier rapports confirmé ont été enregistré avec le code de "
+"promotion "
+
+#: templates/reports/new.html:3
+msgid "New Report"
+msgstr "Nouveau Rapport"
+
+#: templates/reports/new.html:67
+msgid "* Optional"
+msgstr "* Facultatif"
+
+#: templates/reports/new.html:70 templates/reports/show.html:37
+msgid "Category:"
+msgstr "Catégorie:"
+
+#: templates/reports/new.html:75
+msgid "Select a Category"
+msgstr "Choisissez une Catégorie"
+
+#: templates/reports/new.html:95
+msgid "Please be polite, concise and to the point."
+msgstr ""
+"S'il vous plaît noter que les mises à jour ne sont pas envoyées à la Ville."
+
+#: templates/reports/new.html:96
+msgid ""
+"Please do not be abusive - abusing the service devalues the service for all "
+"users."
+msgstr ""
+"S'il vous plaît ne pas être abusif, ceci dévalue le service pour tous les "
+"utilisateurs"
+
+#: templates/reports/new.html:97
+msgid ""
+"Writing your message entirely in block capitals makes it hard to read, as "
+"does a lack of punctuation."
+msgstr ""
+"Écrire votre message entièrement en lettres majuscules ou sans ponctuation "
+"rend la lecture difficile."
+
+#: templates/reports/new.html:98
+msgid ""
+"Remember that FixMyStreet is primarily for reporting physical problems that "
+"can be fixed. If your problem is not appropriate for submission via this "
+"site remember that you can contact city officials directly at #311."
+msgstr ""
+"Rappelez-vous que FixMyStreet est surtout pour signaler les problèmes "
+"physiques qui peuvent être résolus. Si votre problème n'est pas approprié "
+"pour cesite, rappelez-vous que vous pouvez contacter directement les "
+"fonctionnaires municipaux en appelant # 311."
+
+#: templates/reports/new.html:106 templates/reports/show.html:78
+msgid "Submit"
+msgstr "Envoyez"
+
+#: templates/reports/show.html:4
+msgid "Problem Report"
+msgstr "Rapport d'un Problème"
+
+#: templates/reports/show.html:29 templates/reports/show.html.py:77
+msgid "This problem has been fixed."
+msgstr "Ce problème a été résolu."
+
+#: templates/reports/show.html:33
+msgid ""
+"Please check your email and click on the confirmation link to complete your "
+"submission. Your report will not be sent to the City's 311 Department or be "
+"visible to other visitors until you have done so."
+msgstr ""
+"S'il vous plaît vérifier votre adresse courriel et cliquez sur le lien de "
+"confirmation pour compléter votresoumission. Votre rapport ne sera pas "
+"envoyé au département 311 de la Ville et ne sera pas visible aux autres "
+"visiteurs jusqu'à ce que vous l'avez fait."
+
+#: templates/reports/show.html:38
+msgid "Filed by:"
+msgstr "Par:"
+
+#: templates/reports/show.html:41
+msgid "Sent to the city of"
+msgstr "Envoyer à la ville de"
+
+#: templates/reports/show.html:41
+msgid "on"
+msgstr " le "
+
+#: templates/reports/show.html:44
+#, python-format
+msgid "This report will be sent to the city of %(city)s in the next 24 hrs."
+msgstr ""
+"Ce rapport va être envoyer à la ville de %(city)s dans les prochaines 24 "
+"heures."
+
+#: templates/reports/show.html:55
+msgid "Offensive? Unsuitable? Tell us"
+msgstr "Offensif? Inappropriées? Dites-le-nous"
+
+#: templates/reports/show.html:59
+msgid "Updates"
+msgstr "Mises à Jour"
+
+#: templates/reports/show.html:61
+msgid "posted by"
+msgstr "signalé par"
+
+#: templates/reports/show.html:70
+msgid "Provide an update"
+msgstr "Fournir une mise à jour"
+
+#: templates/reports/show.html:71
+msgid "Email me updates"
+msgstr "Abonnez-vous aux Mises à Jour des Rapports"
+
+#: templates/reports/show.html:73
+msgid "Please note that updates are not sent to the City."
+msgstr ""
+"S'il vous plaît noter que les mises à jour ne sont pas envoyées à la Ville."
+
+#: templates/reports/show.html:92
+msgid "Councillor"
+msgstr "Échevin"
+
+#: templates/reports/show.html:93
+msgid "Ward"
+msgstr "Quartier"
+
+#: templates/reports/flags/new.html:6
+msgid "Flag an Offensive Report"
+msgstr "Identifiez un Rapport comme étant Offensif"
+
+#: templates/reports/flags/new.html:7
+msgid ""
+"You are reporting the following problem report for being abusive, containing "
+"personal information, or similar to another report:"
+msgstr ""
+"Vous déclarez le problème suivant comme étant abusif, contenant des "
+"renseignements personnels, ou similaire à un autre rapport:"
+
+#: templates/reports/flags/new.html:13
+msgid "Flag this Report"
+msgstr "Identifiez ce Rapport"
+
+#: templates/reports/flags/thanks.html:4
+msgid ""
+"\n"
+"<h2>Thank you</h2>\n"
+"<p>Thank you, your feedback has been received and we will act accordingly as "
+"soon as possible.</p>\n"
+msgstr ""
+"\n"
+"<h2>Merci</h2>\n"
+"<p>Merci, vos commentaires ont été reçus et nous agirons en conséquence dès "
+"que possible.</p>\n"
+
+#: templates/reports/subscribers/confirm.html:5
+msgid "You have subscribed to updates to"
+msgstr "Vous vous avez abonné aux mises à jour de"
+
+#: templates/reports/subscribers/create.html:5
+msgid ""
+"\n"
+"<h2>Nearly Done! Now check your email...</h2>\n"
+"\n"
+"<p>The confirmation email may take a few minutes to arrive — please be "
+"patient.</p>\n"
+"\n"
+"<p>If you use web-based email or have 'junk mail' filters, you may wish to "
+"check your bulk/spam mail folders: sometimes, our messages are marked that "
+"way.\n"
+"You must now click the link in the email we've just sent you — if you do "
+"not, your alert will not be activated.</p>\n"
+"\n"
+"<p>(Don't worry — we'll hang on to your alert while you're checking your "
+"email.)</p>\n"
+msgstr ""
+
+#: templates/reports/subscribers/new.html:3
+msgid "Subscribe to a Report"
+msgstr "Abonnez-vous aux Mises à Jour d'un Rapport"
+
+#: templates/reports/subscribers/new.html:6
+msgid "Subscribe to Updates to Report"
+msgstr "Abonnez-vous aux Mises à Jour des Rapports"
+
+#: templates/reports/subscribers/new.html:7
+msgid "Enter your email address to subscribe to updates:"
+msgstr "Entrez votre adresse courriel pour vous abonner aux mises à jour:"
+
+#: templates/reports/subscribers/new.html:10
+msgid "Subscribe"
+msgstr "Abonnez-vous"
+
+#: templates/reports/updates/create.html:4
+msgid "Update Created"
+msgstr "Mise à Jour"
+
+#: templates/reports/updates/create.html:8
+msgid ""
+"A confirmation email has been sent. You must confirm your update in order "
+"for your update to be displayed. Please check your email."
+msgstr ""
+"Un courriel de confirmation a été envoyé. Vous devez confirmer votre mise à "
+"jour pour que la mise à jour soit affiché. S'il vous plaît vérifier votre "
+"courriel."
+
+#: templates/wards/show.html:7
+msgid "All reports for"
+msgstr "Tous les Rapports pour"
+
+#: templates/wards/show.html:7
+msgid "ward"
+msgstr "quartier"
+
+#~ msgid "Report filed by "
+#~ msgstr "Rapports par "
+
+#~ msgid "Who Runs This Site?"
+#~ msgstr "Qui Gère Ce Site"
+
+#~ msgid "FixMyStreet Canada is maintained by the non-profit "
+#~ msgstr ""
+#~ "FixMyStreet Canada est maintenu par l'organisation à but non lucratif"
+
+#~ msgid ""
+#~ "The site was inspired by <a href='http://mysociety.com'>MySociety's</a> "
+#~ "<a href='http://fixmystreet.com'>example</a>, which was adapted for "
+#~ "Canada by Chris Taggart of"
+#~ msgstr ""
+#~ "Le site a été inspiré par <a href='http://mysociety.com'>MySociety's </a> "
+#~ "<a href='http://fixmystreet.com'>FixMyStreet</a>, et adaptée pour le "
+#~ "Canada par Chris Taggart de"
+
+#~ msgid "Why Isn't My Municipality Listed?"
+#~ msgstr "Pourquoi Ma Municipalité n'Est-Elle Pas Inscrite?"
+
+#~ msgid "To support a municipality, we require:"
+#~ msgstr "Pour inscrire une municipalité, nous avons besoin de:"
+
+#~ msgid "shape files of city ward boundary maps."
+#~ msgstr ""
+#~ "fichiers graphiques décrivant les frontières de ses quartiers de la ville."
+
+#~ msgid "a list of contact email addresses for each city ward."
+#~ msgstr ""
+#~ "une liste d'adresses courriels de contact pour chaque quartier de la "
+#~ "ville."
+
+#~ msgid ""
+#~ "If you would like to see your municipality included on our site, please "
+#~ "have your municipality representative contact"
+#~ msgstr ""
+#~ "Si vous souhaitez voir votre municipalité sur notre site, s'il vous plaît "
+#~ "demander à un représentant de votre municipalité de nous contacter"
+
+#~ msgid "Do you remove silly or illegal content?"
+#~ msgstr "Supprimer-vous le contenu illégal ou stupide?"
+
+#~ msgid ""
+#~ "FixMyStreet Canada is not responsible for the content and accuracy of "
+#~ "material submitted by its users. All reports are accepted on the basis "
+#~ "that they contain no illegal content, and we reserve the right to remove "
+#~ "any problems or updates which we consider to be inappropriate upon being "
+#~ "informed by a user of the site."
+#~ msgstr ""
+#~ "FixMyStreet Canada n'est pas responsable pour le contenu et la précision "
+#~ "des documents soumis par les utilisateurs. Tous les rapports sont "
+#~ "acceptés avec l'assomption qu'ils ne contiennent pas de contenu illégal, "
+#~ "et nous nous réservons le droit de supprimer toutles problèmes ou les "
+#~ "mises à jour que nous considérons comme étant inappropriés une fois "
+#~ "averti par un utilisateur du site."
+
+#~ msgid "Who gets to see my email address?"
+#~ msgstr "Qui peut voir mon adresse courriel?"
+
+#~ msgid ""
+#~ "If you submit a problem, we pass on your contact details, and details of "
+#~ "the problem, to the municipality contact responsible for the area where "
+#~ "you located the problem.  When you submit a report or update, your name "
+#~ "is displayed upon the site, but not your email address."
+#~ msgstr ""
+#~ "Si vous soumettez un problème, nous transmettons vos coordonnées et les "
+#~ "détails du problème au contact municipal responsable de la région où vous "
+#~ "avez localisé le problème. Lorsque vous envoyez un rapport ou une mise à "
+#~ "jour, votre nom est affiché sur le site, mais pas votre adresse courriel."
+
+#~ msgid ""
+#~ "We will never give or sell your email address to anyone else, unless we "
+#~ "are obliged to by law."
+#~ msgstr ""
+#~ "Jamais nous ne donnerons ou venderons votre adresse courriel à quiconque, "
+#~ "à moins que nous sommes obligé par la loi."
+
+#~ msgid "Will you send spam to my email address?"
+#~ msgstr "Allez-vous envoyer du spam à mon adresse courriel?"
+
+#~ msgid ""
+#~ "Never. We will email you if someone leaves an update on a problem you’ve "
+#~ "reported, or subscribed to.  We will also send you a questionnaire email "
+#~ "four weeks after you submit a problem, asking for a status update."
+#~ msgstr ""
+#~ "Jamais. Nous vous envoyerons un courriel si quelqu'un quitte une mise à "
+#~ "jour sur un problème que vous avez signalé, ou auxquel vous vous êtes "
+#~ "souscrit. Nous allons aussi vous envoyer un questionnaire par courriel "
+#~ "quatre semaines après que vous avez soumis un problème our que vous avez "
+#~ "demander l'état du problème."
+
+#~ msgid ""
+#~ "We’ll only ever send you emails in relation to problems you have reported "
+#~ "or subscribed to."
+#~ msgstr ""
+#~ "Nous vous envoyerons des courriels seulements pour les problèmes que vous "
+#~ "avez signalé ou auxquels vous vous êtes souscrits."
+
+#~ msgid ""
+#~ "Chris Wightman, e-Media Division, Communications and Customer Service, "
+#~ "City of Ottawa"
+#~ msgstr ""
+#~ "Chris Wightman, Division des Médias électroniques, Communications et "
+#~ "Service à la Clientèle, de la Ville d'Ottawa"
+
+#~ msgid "Stephen Perkins, City Mapper, City of Ottawa"
+#~ msgstr "Stephen Perkins, Cartographeur Municipal de la Ville d'Ottawa"
+
+#~ msgid "Privacy Policy"
+#~ msgstr "Politique de Confidentialité"
+
+#~ msgid "Help"
+#~ msgstr "Aide"
+
+#~ msgid "English"
+#~ msgstr "Anglais"
+
+#~ msgid "French"
+#~ msgstr "Francais"

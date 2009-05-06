@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "About" %} - {{faq_entry.q}}{% endblock %}
+{% block content %}
+<div id="page_content_container">
+
+<h3>{% trans "About" %} FixMyStreet Canada</h3>
+<div id="faq">
+	<h4>{{faq_entry.q}}</h4>
+	<p>{{faq_entry.a|safe}}</p>
+</div>
+</div>
+{% endblock %}

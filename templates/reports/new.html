@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "New Report" %}{% endblock %}
+{% block script %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.livequery.pack.js"></script>
+<script>
+function updateNotes() {
+	// updates entry notes
+	var el_id = $('#category_select').val();
+	 $("#secondary_container").load("/ajax/categories/"+el_id, function(){
+	 });
+}
+
+ $(document).ready(function() {
+	   $('#category_select').change(function() {
+			updateNotes();
+		   });
+
+			 // Do onLoad as well..
+			updateNotes();
+
+			if($('input[name=is_hate]:checked').val() =='yes') {
+				$('.ishate').show();
+			}
+
+
+$('.radiohate').livequery('click', function(event) {
+		if($(this)[0].value =='yes') {
+			$('.ishate').show('slow');
+			// disable fields
+			$('.hideonhate').hide();
+			$('#submit_report_button').enabled = false;
+
+		} else {
+			$('.ishate').hide();
+			$('.hideonhate').show();
+			$('#submit_report_button').enabled = true;
+		}
+	   });
+
+
+
+   });
+</script>
+{% endblock %}
+{% block content %}
+
+<style>
+#leftcol ul {
+list-style-type:disc !important;
+margin-left:1.5em;
+}
+.ishate {display:none;}
+</style>
+<div id="page_content_container">
+	<div id="leftcol">
+	<h3>{% trans "Report a Problem" %}</h3>
+	
+	<form enctype="multipart/form-data" method="post" action="/reports/">
+		<input type="hidden" name="lat" id="lat" value="{{lat}}" />
+		<input type="hidden" name="lon" id="lon" value="{{lon}}" />
+		<table class='form'>		
+			{{ report_form.as_table }}			
+			<tr>
+				<th></th>
+				<td id="photo_note">{% trans "* Optional" %}</td>
+			</tr>
+       		<tr>			
+				<th><label for="strCategory">{% trans "Category:" %}</label></th>
+				<td>{% if category_error %}
+						<ul class='errorlist'><li>{{category_error}}</li></ul>
+					{% endif %}
+					<select class='input' name="category_id" id='category_select'>
+					<option value="">{% trans "Select a Category" %}</option>
+					{% for category in categories  %} 
+						{% ifchanged category.category_class.name %}
+							</optgroup><optgroup label='{{category.category_class.name}}'>
+						{% endifchanged %}
+						<option value="{{category.id}}">{{category.name}}</option>
+					{% endfor %}
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><div id='secondary_container'></div></td>
+			</tr>
+        	{{ update_form.as_table }}
+        	<tr>
+        		<td></td>
+        		<td><div class='note'>
+        			<p><strong>{% trans "Please Note" %} :</strong></p>
+     				<ul>
+     					<li>{% trans "Please be polite, concise and to the point." %}</li>
+     					<li>{% trans "Please do not be abusive - abusing the service devalues the service for all users." %}</li>
+     					<li>{% trans "Writing your message entirely in block capitals makes it hard to read, as does a lack of punctuation." %}</li>
+     					<li>{% trans "Remember that FixMyStreet is primarily for reporting physical problems that can be fixed. If your problem is not appropriate for submission via this site remember that you can contact city officials directly at #311." %}</li>
+					</ul>
+					<p/>
+					</div>
+				</td>
+			</tr>        	
+        	<tr>
+        		<td></td>
+        		<td align="right"><input type="submit" value="{% trans "Submit" %}" /></td>
+        	</tr>
+        </table>
+    	
+    	</form>
+	
+	</div>
+	<div id="rightcol">
+     <div id="{{ google.dom_id }}" style="width:400px;height:400px;"></div>
+	 {{ google.body }}
+	</div>
+</div>
+{% endblock %}

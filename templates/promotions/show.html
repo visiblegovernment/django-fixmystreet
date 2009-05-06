@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Reports for" %} {{city.name}}{% endblock %}
+{% block content %}
+<div id="page_content_container">
+	<div id="fullwidth">
+		<h3>{% trans "First 100 Reports" %}</h3>
+		<p>{{count}} {% trans " out of the first 100 confirmed reports were filed with the promotional code " %} "{{promo_code}}".</p>
+		<table width='100%'>
+			<tr>
+				<th>Order</th>
+				<th>Report</th>
+				<th>Author</th>
+				<th>Match?</th>
+			</tr>
+		{% for report in reports %}
+			<tr {% if report.match %} class='row-highlight' {% endif %} >
+				<td>{{forloop.counter}}</td>
+				<td><a href='{{report.get_absolute_url}}'>{{report.title}}</a></td>
+				<td>{{report.author}}</td>
+				<td>
+				{% if report.match %}
+				**
+				{% else %}
+				{% endif %}
+				</td>
+			</tr>
+		{% endfor %}
+		</table>
+	</div>
+	<br/ style="clear:both;">
+</div>
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Reports for" %} {{city.name}}{% endblock %}
+{% block content %}
+<div id="page_content_container">
+	<div id="fullwidth">
+	<h3>{% trans "Reports for" %} {{city.name}}</h3>
+	<p>{% trans "Reports by Ward" %}</p>
+		{% include "cities/_report_count_table.html" %}		
+	</div>
+	<br/ style="clear:both;">
+		{% if google %}
+			{{ google.body }}
+    		<div id="{{ google.dom_id }}" style="width:400px;height:400px;"></div>
+    	{% endif %}
+	
+</div>
+
+{% endblock %}

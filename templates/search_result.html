@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div id="page_content_container">
+
+	<div id="leftcol">
+	<h3>{% trans "Problems near" %} {{ward.name}}, {{ward.city.name}}</h3>
+
+		<p>{% trans "To report a problem, simply drag the marker to the correct location on the map." %}</p>
+		<ol>
+	{% if reports %}
+		{% for report in reports %}
+			<li><a href="{{report.get_absolute_url}}"> {{report.title}} ({{report.distance.km|floatformat:2}} km)</a>
+			{% if report.is_fixed %}({% trans "fixed" %}){% endif %}
+			</li>
+		{% endfor %}
+			<p/>
+			<p>{% trans "Zoom out to see more reports nearby." %}</p>
+	{% else %}
+			<p>{% trans "No problems have been reported yet." %}</p>
+	{% endif %}
+		</ol>
+
+	</div>
+
+	<div id="rightcol">	
+     <div id="{{ google.dom_id }}" style="width:400px;height:400px;"></div>
+ 	{{google.body}}
+ 	</div>  
+</div>  
+{% endblock %}

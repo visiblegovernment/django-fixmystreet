@@ -1,0 +1,21 @@
+The FixMyStreet.ca Report: '{{update.report.title}}' 
+was updated by {{update.author}} on {{update.created_at}}:
+
+{% if update.is_fixed %}This issue has been fixed. {% endif %}
+-----------------------------------------------------------------------------
+
+{{update.desc}}
+
+-----------------------------------------------------------------------------
+
+For more information, see the full report at:
+{{update.report.get_absolute_url}}
+
+Thank you for supporting FixMyStreet.ca,
+The FixMyStreet.ca Team
+
+{% if unsubscribe_url %}
+You are receiving this email because you subscribed to updates for this report
+on FixMyStreet.ca.  To unsubscribe from updates to this report, click the 
+following link: {{unsubscribe_url}}
+{% endif %}

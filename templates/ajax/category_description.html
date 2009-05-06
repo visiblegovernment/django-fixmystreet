@@ -1,0 +1,7 @@
+{% load i18n %}
+<label> </label><div class='note'><strong>{% trans "Please Note" %}</strong><br/>{{category.hint}}</div>
+
+{% ifequal category.category_class.id 99 %}
+	<div class='subitem'><strong>{% trans "Is it Hate Graffiti?" %}</strong><br/><input class='radio radiohate' type='radio' name='is_hate' value='yes'>Yes (racist, vulgar, or hate) <input class='radio radiohate' type='radio' name='is_hate' value='no'>No (tagging) <br/></div>
+	<div class='subitem ishate'><br/><strong>{% trans "Please contact the City directly regarding hate or racist graffiti by calling #311." %}</strong></div><br/>					  			
+{% endifequal %}
