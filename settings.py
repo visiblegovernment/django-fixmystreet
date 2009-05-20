@@ -41,6 +41,12 @@ MEDIA_URL = '/media/'
 # Examples: "http://foo.com/media/", "/media/".
 ADMIN_MEDIA_PREFIX = '/admin_media/'
 
+# ensure large uploaded files end up with correct permissions.  See
+# http://docs.djangoproject.com/en/dev/ref/settings/#file-upload-permissions
+
+FILE_UPLOAD_PERMISSIONS = 0644
+
+
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.load_template_source',

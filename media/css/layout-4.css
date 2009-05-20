@@ -377,9 +377,13 @@ font-color:green;
 
 .recent_photos li {
 height: 100px;
-display: block !important;
+display: inline !important;
 margin: 2px !important;
 padding: 0 !important;
 list-item-type: none;
+display: inline; 
 }
+
+.recent_photos li a { text-decoration: none; }
+
 
