@@ -13,11 +13,17 @@
 				{% endif %}
 				{% for report in reports %}					
 					{% ifchanged report.status %}  	
-					 <p/><h2>{{report.status}}</h2>
+					 <p/><h2>{% trans report.status %}</h2>
 					{% endifchanged %}
                     <li><a href='{{report.get_absolute_url}}'>{{report.title}}</a></li>
                 {% endfor %}
              </ol>
+             <br/><br/>
+             {% if reports %}
+             <div class="fix-disclaimer">
+             	<p>{% trans "Note: fixmystreet.ca relies on users to report problems as fixed." %}</p>
+             </div>
+             {% endif %}
  		</div>
 		<div id='rightcol'>
 		{% if google %}

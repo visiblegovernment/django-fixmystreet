@@ -6,8 +6,8 @@
 		<th></th>
 		<th width=15%>{% trans "New Problems" %}</th>
 		<th width=15%>{% trans "Older Unresolved Problems" %}</th>
-		<th width=15%>{% trans "Recently Fixed" %}</th>
-		<th width=15%>{% trans "Old Fixed" %}</th>
+		<th width=15%>{% trans "Recently Fixed" %}*</th>
+		<th width=15%>{% trans "Old Fixed" %}*</th>
 	</tr>
 {% for entry in report_counts.get_results %}
 	{% if report_counts.province_changed %}
@@ -25,3 +25,4 @@
 	</tr>
 {% endfor %}
 </table>
+<div class="fix-disclaimer"><p>*{% trans "As reported by fixmystreet.ca users." %}</p></div>

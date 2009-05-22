@@ -56,16 +56,18 @@
 			</div>
 			<div class='block'>
 				<h4>{% trans "Stats" %}</h4>
-				<div class='stat'><div><div><div><div>
-					<span>{{report_counts.recent_new}}</span><br/>{% trans "Reports Filed Last Month" %}
-				</div></div></div></div></div>
-				<div class='stat'><div><div><div><div>
-					<span>{{report_counts.recent_fixed}}</span><br/>{% trans "Reports Fixed Last Month" %}
-				</div></div></div></div></div>
-				<div class='stat'><div><div><div><div>
-					<span>{{report_counts.recent_updated}}</span><br/>{% trans "Reports Updated Last Month" %}
-				</div></div></div></div></div>
-
+				<div id='stat-group'>
+					<div class='stat'><div><div><div><div>
+						<span>{{report_counts.recent_new}}</span><br/>{% trans "Reports Filed Last Month" %}
+					</div></div></div></div></div>
+					<div class='stat'><div><div><div><div>
+						<span>{{report_counts.recent_fixed}}</span><br/>{% trans "Reports Fixed Last Month" %}*
+					</div></div></div></div></div>
+					<div class='stat'><div><div><div><div>
+						<span>{{report_counts.recent_updated}}</span><br/>{% trans "Reports Updated Last Month" %}
+					</div></div></div></div></div>
+				</div>
+				<div class="fix-disclaimer"><p>*{% trans "As reported by fixmystreet.ca users." %}</p></div>
 			</div>
 		</div>
 		<div id=col2>

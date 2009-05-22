@@ -242,6 +242,17 @@ padding: 0px 4px;
 margin: 0;
 }
 
+.block .fix-disclaimer {
+width: 300px;
+}
+
+.fix-disclaimer { 
+float: left; 
+text-align: center;
+margin-top: 10px;
+font-size: 90%;
+}
+
 
 #testing {
 width: 625px;
@@ -279,6 +290,9 @@ color: red;
 padding: 3px;
 }
 
+#stat-group {
+height: 115px;
+}
 
 .stat {
 width: 95px;

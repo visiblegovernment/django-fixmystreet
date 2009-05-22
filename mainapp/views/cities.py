@@ -14,7 +14,7 @@ def show( request, city_id ):
         google = CityMap(city)
     else:
         google = None
-
+        
     return render_to_response("cities/show.html",
                 {"city":city,
                  "google": google,
