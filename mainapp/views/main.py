@@ -10,6 +10,7 @@ import settings
 from django.utils.translation import ugettext as _
 import logging
 import os
+import urllib
 
 
 def index(request, error_msg = None, disambiguate=None): 
@@ -32,7 +33,7 @@ def search_address(request):
         return HttpResponseRedirect("/search?q=" + address )
 
     address = urllib.urlencode({'x':request.GET["q"]})[2:]
-    url = "http://maps.google.ca/maps/geo?q=" + address + "&output=xml&key=" + settings.GMAP_KEY
+    url = "http://maps.google.ca/maps/geo?q=" + address + "&output=xml&key=" + settings.GMAP_KEY +"&oe=utf-8"
  
     try:
         resp = urllib.urlopen(url).read()
