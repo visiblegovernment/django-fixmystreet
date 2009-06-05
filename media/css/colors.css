@@ -60,16 +60,20 @@
 	background: #666666 url(/media/images/stat_tl.png) no-repeat;
 }
 
-.stat div {
+.stat .top-right {
 	background: url(/media/images/stat_tr.png) top right no-repeat;
 }
 
-.stat div div {
+.stat .bottom-left {
 	background: url(/media/images/stat_bl.png) bottom left no-repeat;
 }
 
-.stat div div div {
+.stat .bottom-right {
 	background: url(/media/images/stat_br.png) bottom right no-repeat;
+}
+
+.stat .content {
+	background: none;
 }
 
 #footer {

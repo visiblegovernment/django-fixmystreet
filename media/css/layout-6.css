@@ -295,27 +295,28 @@ height: 115px;
 }
 
 .stat {
-width: 95px;
-color: #fff;
-height: 105px;
-margin: 5px;
-float: left;
-font-size: 80%;
-text-align: center;
-vertical-align: middle;
+	width: 95px;
+	color: #fff;
+	height: 105px;
+	margin: 5px;
+	float: left;
+	font-size: 80%;
+	text-align: center;
+	vertical-align: middle;
 }
 
-.stat div div {
+.stat .bottom-left {
 	height: 105px;
 }
 
-.stat div div div {
+.stat .bottom-right {
 	height: 105px;
 }
 
-.stat div div div div {
-	padding-left: 5px;
+.stat .content {
+	padding-top: 10px;
 	padding-right: 5px;
+	padding-left: 5px;
 }
 
 .stat span {

@@ -18,7 +18,7 @@ def index(request, error_msg = None, disambiguate=None):
     recent_reports = Report.objects.filter(is_confirmed=True).order_by("-created_at")[:5]
         
     return render_to_response("index.html",
-                {"report_counts": ReportCountQuery(),
+                {"report_counts": ReportCountQuery('1 year'),
                  "cities": City.objects.all(),
                  "reports_with_photos": reports_with_photos,
                  "recent_reports": recent_reports , 

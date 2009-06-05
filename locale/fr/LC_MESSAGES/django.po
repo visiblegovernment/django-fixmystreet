@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-05-22 17:05-0400\n"
+"POT-Creation-Date: 2009-06-05 15:02-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,7 +44,7 @@ msgstr "Détails"
 msgid "Phone"
 msgstr "Téléphone"
 
-#: mainapp/views/main.py:40
+#: mainapp/views/main.py:41
 msgid ""
 "Sorry, we couldn't retreive the coordinates of that location, please use the "
 "Back button on your browser and try something more specific or include the "
@@ -55,7 +55,7 @@ msgstr ""
 "chose de plus spécifique ou inclure le nom de la ville à la fin de votre "
 "recherche."
 
-#: mainapp/views/main.py:48
+#: mainapp/views/main.py:49
 msgid ""
 "Sorry, we couldn't find the address you entered.  Please try again with "
 "another intersection, address or postal code, or add the name of the city to "
@@ -65,7 +65,7 @@ msgstr ""
 "vous plaît essayer de nouveau avec une autre intersection, adresse ou le "
 "code postal."
 
-#: mainapp/views/main.py:71
+#: mainapp/views/main.py:72
 msgid ""
 "Sorry, we don't yet have that area in our database.  Please have your area "
 "councillor contact fixmystreet.ca."
@@ -232,16 +232,16 @@ msgid "Stats"
 msgstr "Statistiques"
 
 #: templates/index.html:61
-msgid "Reports Filed Last Month"
-msgstr "Rapports de le Mois Dernière"
+msgid "Reports Filed"
+msgstr "Rapports "
 
 #: templates/index.html:64
-msgid "Reports Fixed Last Month"
-msgstr "Rapports Résolus le Mois Dernière"
+msgid "Reports Fixed"
+msgstr "Rapports Résolus"
 
 #: templates/index.html:67
-msgid "Reports Updated Last Month"
-msgstr "Rapports Mis à Jour le Mois Dernière"
+msgid "Reports Updated"
+msgstr "Rapports Mis à Jour"
 
 #: templates/index.html:70 templates/cities/_report_count_table.html:28
 msgid "As reported by fixmystreet.ca users."
@@ -604,6 +604,9 @@ msgstr ""
 "Note: fixmystreet.ca s'appuie sur les utilisateurs pour signaler les "
 "problèmes comme étant résolus."
 
+#~ msgid "Reports Filed Last Month"
+#~ msgstr "Rapports de le Mois Dernière"
+
 #~ msgid "Currently:"
 #~ msgstr "Actuellement:"
 
@@ -612,9 +615,6 @@ msgstr ""
 
 #~ msgid "Delete"
 #~ msgstr "Supprimer"
-
-#~ msgid "Report filed by "
-#~ msgstr "Rapports par "
 
 #~ msgid "Who Runs This Site?"
 #~ msgstr "Qui Gère Ce Site"
