@@ -29,7 +29,7 @@ class ReportUpdateForm(forms.ModelForm):
 class ReportSubscriberForm(forms.ModelForm):
     class Meta:
         model = ReportSubscriber
-        fields = ( 'email')
+        fields = ( 'email', )
 
 class ReportForm(forms.ModelForm):
     class Meta:

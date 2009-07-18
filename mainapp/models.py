@@ -1,6 +1,6 @@
 from django.db import models, connection
 from django.contrib.gis.db import models
-from django.contrib.gis.maps.google import GoogleMap, GMarker, GEvent, GPolygon
+from django.contrib.gis.maps.google import GoogleMap, GMarker, GEvent, GPolygon, GIcon
 from django.template.loader import render_to_string
 from fixmystreet import settings
 from django import forms
@@ -246,7 +246,7 @@ class ReportSubscriber(models.Model):
     report = models.ForeignKey(Report)    
     confirm_token = models.CharField(max_length=255, null=True)
     is_confirmed = models.BooleanField(default=False)    
-    email = models.EmailField(max_length=255)
+    email = models.EmailField()
 
     class Meta:
         db_table = u'report_subscribers'
@@ -266,31 +266,6 @@ class ReportSubscriber(models.Model):
         super(ReportSubscriber, self).save()
 
  
-class CenterMarker(GMarker):
-    """
-        Override the marker class that comes with geodjango to make
-        the marker draggable.
-    """
-    
-    def __init__(self, geom, title=None, draggable=False):
-        self.draggable = draggable
-        super(CenterMarker, self).__init__(geom,title)
-
-    def options(self):
-        result = []
-        if self.draggable: result.append('draggable: true')
-        if self.title: result.append('title: "%s"' % self.title) 
-        return '{%s}' % ','.join(result)
- 
-    def __unicode__(self):      
-        return mark_safe('%s(%s)' % ("GMarker", self.js_params))
-
-    # just use the default icon for the center marker.
-    def icon(self):
-        str = ""
-        return mark_safe(str)
-   
-    
 class ReportMarker(GMarker):
     """
         A marker for an existing report.  Override the GMarker class to 
@@ -300,41 +275,32 @@ class ReportMarker(GMarker):
     """
     def __init__(self, report, icon_number ):
         if report.is_fixed:
-            self.color = 'green'
+            color = 'green'
         else:
-            self.color = 'red'
-        self.icon_number = icon_number
-        super(ReportMarker, self).__init__(geom=(report.point.x,report.point.y), title=report.title)
+            color = 'red'
+        icon_number = icon_number
+        img = "/media/images/marker/%s/marker%s.png" %( color, icon_number )
+        name = 'letteredIcon%s' %( icon_number )      
+        icon = GIcon(name,image=img,iconsize=(20,34))
+        GMarker.__init__(self,geom=(report.point.x,report.point.y), title=report.title, icon=icon)
 
-    def __unicode__(self):      
-        return mark_safe('%s(%s)' % ("GMarker", self.js_params))
+    def __unicode__(self):
+        "The string representation is the JavaScript API call."
+        return mark_safe('GMarker(%s)' % ( self.js_params))
 
-    def icon(self):
-        str = """
-        letteredIcon%s = new GIcon(baseIcon);
-        letteredIcon%s.image = "/media/images/marker/%s/marker%s.png";
-              """ %( self.icon_number, self.icon_number, self.color, self.icon_number )
-        return mark_safe(str)
     
-    def options(self):
-        result = []
-        if self.title: result.append('title: "%s"' % self.title) 
-        if self.icon_number: result.append(' icon: letteredIcon%s' % str(self.icon_number)) 
-        return '{%s}' % ','.join(result)
-
-
 class FixMyStreetMap(GoogleMap):  
     """
         Overrides the GoogleMap class that comes with GeoDjango.  Optionally,
         show nearby reports.
     """
     def __init__(self,pnt,draggable=False,nearby_reports = [] ):  
-        self.icons = []
+#        self.icons = []
         markers = []
-        marker = CenterMarker(geom=(pnt.x,pnt.y), draggable=draggable)
+        marker = GMarker(geom=(pnt.x,pnt.y), draggable=draggable)
         if draggable:
             event = GEvent('dragend',
-                           'function() { window.location.href = "/reports/new?" +"&lat="+marker1.getPoint().lat().toString()+"&lon="+marker1.getPoint().lng().toString(); }')        
+                           'function() { window.location.href = "/reports/new?" +"&lat="+geodjango.map_canvas_marker1.getPoint().lat().toString()+"&lon="+geodjango.map_canvas_marker1.getPoint().lng().toString(); }')        
             marker.add_event(event)
         markers.append(marker)
         
@@ -342,7 +308,7 @@ class FixMyStreetMap(GoogleMap):
             nearby_marker = ReportMarker(nearby_reports[i], str(i+1) )
             markers.append(nearby_marker)
 
-        GoogleMap.__init__(self,center=(pnt.x,pnt.y),zoom=17,key=settings.GMAP_KEY, template="maps/fixmystreetmap.js", markers=markers, dom_id='map_canvas')
+        GoogleMap.__init__(self,center=(pnt.x,pnt.y),zoom=17,key=settings.GMAP_KEY, markers=markers, dom_id='map_canvas')
 
 class WardMap(GoogleMap):
     """ 
@@ -358,7 +324,7 @@ class WardMap(GoogleMap):
             marker = ReportMarker(reports[i], str(i+1) )
             markers.append(marker)
 
-        GoogleMap.__init__(self,zoom=13,markers=markers,key=settings.GMAP_KEY, polygons=polygons, dom_id='map_canvas', template="maps/fixmystreetmap.js")
+        GoogleMap.__init__(self,center=ward.geom.centroid,zoom=13,markers=markers,key=settings.GMAP_KEY, polygons=polygons, dom_id='map_canvas')
 
            
 

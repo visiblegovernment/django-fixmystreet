@@ -22,7 +22,15 @@ def show( request, ward_id ):
         WHEN age( clock_timestamp(), fixed_at ) < interval '1 month' AND is_fixed = true THEN 'Recently Fixed'
         WHEN age( clock_timestamp(), fixed_at ) > interval '1 month' AND is_fixed = true THEN 'Older Fixed Problems'
         ELSE 'Unknown Status'
-        END """ }, order_by = ['status'] ) 
+        END """,
+        'status_int' : """
+        CASE 
+        WHEN age( clock_timestamp(), created_at ) < interval '1 month' AND is_fixed = false THEN 1
+        WHEN age( clock_timestamp(), created_at ) > interval '1 month' AND is_fixed = false THEN 2
+        WHEN age( clock_timestamp(), fixed_at ) < interval '1 month' AND is_fixed = true THEN 3
+        WHEN age( clock_timestamp(), fixed_at ) > interval '1 month' AND is_fixed = true THEN 4
+        ELSE 0
+        END """ }, order_by = ['status_int'] ) 
     
     google = WardMap(ward,reports)
         

@@ -6,8 +6,30 @@
 <div id="page_content_container">
 	<div id="fullwidth">
 	<h3>{% trans "Reports for" %} {{city.name}}</h3>
-	<p>{% trans "Reports by Ward" %}</p>
+	{% if top_problems %}
+	<div id="city_top_problems">
+		<p><b>{% trans "Top Problems" %}</b></p>
+		<table>
+			<tr>
+				<th class='table-intro'>Rank</th>
+				<th class='row-text' >Problem</th>
+				<th class='table-stat'>Number of Subscribers</th>
+			</tr>
+			{% for top_problem in top_problems %}
+			<tr class="{% cycle 'row-odd' 'row-even' %}">
+				<td>{{forloop.counter}}</td>
+				<td><a href='{{top_problem.get_absolute_url}}'>{{top_problem.title}}</a></td>
+				<td width="30px;">{{top_problem.subscriber_count|add:"1"}}</td>
+			</tr>
+			{% endfor %}
+		</table>
+		<br/>
+	</div>
+	{% endif %}
+	<div id="city_all_problems">
+		<p><b>{% trans "Reports by Ward" %}</b></p>
 		{% include "cities/_report_count_table.html" %}		
+	</div>
 	</div>
 	<br/ style="clear:both;">
 		{% if google %}

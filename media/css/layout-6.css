@@ -11,6 +11,15 @@ body {
 	margin: 0px auto;
 }
 
+#city_top_problems table td:first-child { padding-left: 5px; }
+
+#city_all_problems {  }
+
+.table-stat { width: 80px; }
+.table-rank { width: 60px; }
+.table-intro { width: 140px; }
+.row-text { width: 470px; }
+
 #header {
 	width: 100%;
 	height: 80px;	
@@ -294,6 +303,26 @@ padding: 3px;
 height: 115px;
 }
 
+#subscribe-form-bg { 
+	text-align: center; 
+}
+
+#subscribe-form { 
+	width: 600px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center; 
+}
+
+#subscribe-form form { 
+	width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	background: #eeeeee;
+}
+
 .stat {
 	width: 95px;
 	color: #fff;
@@ -401,4 +430,6 @@ display: inline;
 
 .recent_photos li a { text-decoration: none; }
 
-
+#report-header { width: 100%; height: 80px;}
+#report-status { padding-top:10px; width: 80%; float: left; }
+#report-subscribers { padding-top:10px; padding-bottom: 10px; width: 20%; float: right; text-align: center; background: #AAFBAF; } 

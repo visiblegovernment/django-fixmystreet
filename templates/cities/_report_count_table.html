@@ -1,13 +1,13 @@
 {% load i18n %}
 <table width="100%">
 	<tr class ='table_heading'>
-		<th></th>
-		<th></th>
-		<th></th>
-		<th width=15%>{% trans "New Problems" %}</th>
-		<th width=15%>{% trans "Older Unresolved Problems" %}</th>
-		<th width=15%>{% trans "Recently Fixed" %}*</th>
-		<th width=15%>{% trans "Old Fixed" %}*</th>
+		<th class='table-stat'></th>
+		<th class='table-rank'></th>
+		<th class='row-text' ></th>
+		<th class='table-stat'>{% trans "New Problems" %}</th>
+		<th class='table-stat'>{% trans "Older Unresolved Problems" %}</th>
+		<th class='table-stat'>{% trans "Recently Fixed" %}*</th>
+		<th class='table-stat'>{% trans "Old Fixed" %}*</th>
 	</tr>
 {% for entry in report_counts.get_results %}
 	{% if report_counts.province_changed %}

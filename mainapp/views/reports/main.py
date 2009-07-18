@@ -58,8 +58,10 @@ def new( request ):
     
 def show( request, report_id ):
     report = get_object_or_404(Report, id=report_id)
+    subscribers = report.reportsubscriber_set.count() + 1
     return render_to_response("reports/show.html",
                 { "report": report,
+                  "subscribers": subscribers,
                   "ward":report.ward,
                   "updates": ReportUpdate.objects.filter(report=report, is_confirmed=True).order_by("created_at")[1:], 
                   "update_form": ReportUpdateForm(), 

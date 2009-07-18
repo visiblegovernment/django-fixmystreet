@@ -33,7 +33,21 @@
 				   <div class='is_fixed'>{% trans "Please check your email and click on the confirmation link to complete your submission. Your report will not be sent to the City's 311 Department or be visible to other visitors until you have done so." %}</div>
 			{% endif %}
 			<h3>{{report.title}}</h3>
-			<div class='status-text'>
+			{% if not report.is_fixed and report.is_confirmed %}
+			<!-- AddThis Button BEGIN -->
+			<div class="addthis_toolbox addthis_default_style">
+			<a href="http://www.addthis.com/bookmark.php?v=250&pub=xa-4a620b09451f9502" class="addthis_button_compact">Share</a>
+				<span class="addthis_separator">|</span>
+				<a class="addthis_button_facebook"></a>
+				<a class="addthis_button_myspace"></a>
+				<a class="addthis_button_google"></a>
+				<a class="addthis_button_twitter"></a>
+			</div>
+			<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js?pub=xa-4a620b09451f9502"></script>
+			<!-- AddThis Button END -->
+			{% endif %}
+			<div id='report-header'>
+				<div id='report-status'>
 				{% trans "Category:" %}<b>{{report.category.name}}</b><br/>
 				{% trans "Filed by:" %}{{report.author}}<br/>				
 				<i>
@@ -45,8 +59,19 @@
 					{% endif %}
 				{% endif %}
 				</i>
-			</div><br/>
-			<p>{{report.desc}}</p>
+				<br/>
+				</div>
+				<div id='report-subscribers'>
+				{% if report.is_confirmed %}
+				{% trans "Subscribers:" %} <b>{{subscribers}}</b><br/>					
+				{% if not report.is_fixed %}
+				<a href="/reports/{{report.id}}/subscribers/">{% trans "Subscribe" %}</a>
+				{% endif %}
+				{% endif %}
+				</div>
+			</div>
+			
+			<p>{{report.desc|linebreaks}}</p>
 			{% if report.photo  %}
                    <img align=center' src='/media/{{report.photo}}'>
 		    {% endif %}
@@ -68,7 +93,6 @@
 				<hr/>
 				<div id="update-header">
 					<div id="update-title"><h3>{% trans "Provide an update" %} </h3></div>
-					<div id="update-email-me"><a href="/reports/{{report.id}}/subscribers/">{% trans "Email me updates" %}</a></div>
 				</div>				
 				<p>{% trans "Please note that updates are not sent to the City." %}</p>
 				<form action="/reports/{{report.id}}/updates/" method="post">
