@@ -52,7 +52,7 @@
 				{% trans "Filed by:" %}{{report.author}}<br/>				
 				<i>
 				{% if report.sent_at %}
-					{% trans "Sent to " %}{{report.email_sent_to}}<br/>{% trans "on" %} {{report.sent_at|date:"l, F dS, Y"}}.
+					{% trans "Sent to " %} {{report.email_sent_to}}<br/>{% trans "on" %} {{report.sent_at|date:"l, F dS, Y"}}.
 				{% else %}
 					{% if report.is_confirmed %}
 						{% blocktrans with report.ward.city.name as city %}This report will be sent to the city of {{city}} in the next 24 hrs.{% endblocktrans %}
