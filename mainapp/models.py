@@ -106,6 +106,9 @@ class Report(models.Model):
     # last time report was sent to city
     sent_at = models.DateTimeField(null=True)
     
+    # email where the report was sent
+    email_sent_to = models.EmailField(null=True)
+    
     # last time a reminder was sent to the person that filed the report.
     reminded_at = models.DateTimeField(auto_now_add=True)
     
@@ -189,6 +192,7 @@ class ReportUpdate(models.Model):
 
         # update report to show time sent to city.
         self.report.sent_at=dt.now()
+        self.report.email_sent_to = email_addr
         self.report.save()
         
     
@@ -324,7 +328,7 @@ class WardMap(GoogleMap):
             marker = ReportMarker(reports[i], str(i+1) )
             markers.append(marker)
 
-        GoogleMap.__init__(self,center=ward.geom.centroid,zoom=13,markers=markers,key=settings.GMAP_KEY, polygons=polygons, dom_id='map_canvas')
+        GoogleMap.__init__(self,zoom=13,markers=markers,key=settings.GMAP_KEY, polygons=polygons, dom_id='map_canvas')
 
            
 
@@ -339,7 +343,7 @@ class CityMap(GoogleMap):
         for ward in Ward.objects.filter(city=city):
             for poly in ward.geom:
                 polygons.append( GPolygon( poly ) )
-        GoogleMap.__init__(self,zoom=13,key=settings.GMAP_KEY, polygons=polygons, dom_id='map_canvas', template="maps/fixmystreetmap.js")
+        GoogleMap.__init__(self,zoom=13,key=settings.GMAP_KEY, polygons=polygons, dom_id='map_canvas')
     
     
 class SqlQuery(object):

@@ -11,9 +11,9 @@
 		<p><b>{% trans "Top Problems" %}</b></p>
 		<table>
 			<tr>
-				<th class='table-intro'>Rank</th>
-				<th class='row-text' >Problem</th>
-				<th class='table-stat'>Number of Subscribers</th>
+				<th class='table-intro'>{% trans "Rank" %}</th>
+				<th class='row-text' >{% trans "Problem" %}</th>
+				<th class='table-stat'>{% trans "Number of Subscribers" %}</th>
 			</tr>
 			{% for top_problem in top_problems %}
 			<tr class="{% cycle 'row-odd' 'row-even' %}">
