@@ -1,3 +1,4 @@
+
 from django.db import models, connection
 from django.contrib.gis.db import models
 from django.contrib.gis.maps.google import GoogleMap, GMarker, GEvent, GPolygon, GIcon
@@ -6,13 +7,17 @@ from fixmystreet import settings
 from django import forms
 from django.core.mail import send_mail, EmailMessage
 import md5
+import urllib
 import time
 from datetime import datetime as dt
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy, ugettext as _
 from contrib.transmeta import TransMeta
 from contrib.stdimage import StdImageField
-
+import libxml2
+from django.utils.encoding import iri_to_uri
+      
+        
 class Province(models.Model):
     name = models.CharField(max_length=100)
     abbrev = models.CharField(max_length=3)
@@ -44,7 +49,7 @@ class Councillor(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     
-    # this email addr. is used to send reports to if there is no 411 email for the city.
+    # this email addr. is used to send reports to if there is no 311 email for the city.
     email = models.EmailField(blank=True, null=True)
     fax = models.CharField(max_length=20,blank=True, null=True)
     phone = models.CharField(max_length=20,blank=True, null=True)
@@ -345,6 +350,89 @@ class CityMap(GoogleMap):
                 polygons.append( GPolygon( poly ) )
         GoogleMap.__init__(self,zoom=13,key=settings.GMAP_KEY, polygons=polygons, dom_id='map_canvas')
     
+
+
+class GoogleAddressLookup(object):
+    
+    """
+    Simple Google Geocoder abstraction - supports UTF8
+ 
+    >>> doesnt_exist = GoogleAddressLookup("Foobar")
+    >>> doesnt_exist.resolve()
+    True
+    >>> doesnt_exist.exists()
+    False
+
+    # Create test matches
+    >>> single_match = GoogleAddressLookup("4691 Rue Garnier, Montreal Quebec")
+    
+    # Check existence
+    >>> single_match.resolve()
+    True
+    >>> single_match.exists()
+    True
+    >>> single_match.matches_multiple()
+    False
+    >>> single_match.lat(0)
+    '45.5320187'
+    >>> single_match.lon(0)
+    '-73.5789397'
+
+    # multiple matches
+    >>> multiple_matches = GoogleAddressLookup("Beaconsfield")
+    >>> multiple_matches.resolve()
+    True
+    >>> multiple_matches.matches_multiple()
+    True
+    >>> multiple_matches.get_match_options()
+    ['Beaconsfield, QC, Canada', 'Beaconsfield, Buckinghamshire, UK', 'Beaconsfield, St James, NB, Canada', 'Beaconsfield, Andover, NB, Canada', 'Beaconsfield, Norwich, ON, Canada', 'Beaconsfield, Annapolis, Subd. B, NS, Canada', 'Beaconsfield, Withernsea, East Riding of Yorkshire HU19 2, UK', 'Beaconsfield, Stirchley, Telford and Wrekin TF3 1, UK', 'Beaconsfield, Luton LU2 0, UK', 'Beaconsfield TAS, Australia']
+
+    >>> utf8_match = GoogleAddressLookup(u'4691 Rue de Br\xe9beuf Montreal Canada')
+    >>> utf8_match.resolve()
+    True
+    >>> utf8_match.exists()
+    True
+     """
+
+    def __init__(self,address ):
+        self.query_results = []
+        self.match_coords = []
+        self.xpathContext = None
+        self.url = iri_to_uri(u'http://maps.google.ca/maps/geo?q=%s&output=xml&key=%s&oe=utf-8' % (address, settings.GMAP_KEY) )
+    
+    def resolve(self):
+        try:
+            resp = urllib.urlopen(self.url).read()
+            doc = libxml2.parseDoc(resp)
+            self.xpathContext = doc.xpathNewContext()
+            self.xpathContext.xpathRegisterNs('google', 'http://earth.google.com/kml/2.0')
+            self.query_results = self.xpathContext.xpathEval("//google:coordinates")
+            return( True )
+        except:
+            return( False )
+        
+    def exists(self):
+        return len(self.query_results) != 0 
+        
+    def matches_multiple(self):
+        return len(self.query_results) > 1 
+        
+    def lat(self, index ):
+        coord = self.query_results[index] 
+        coord_pair = coord.content.split(',')
+        return( coord_pair[1] ) 
+        
+    def lon(self, index ):
+        coord = self.query_results[index] 
+        coord_pair = coord.content.split(',')
+        return( coord_pair[0] ) 
+                        
+    def get_match_options(self):
+        addr_list = []
+        addr_nodes = self.xpathContext.xpathEval("//google:address")
+        for i in range(0,len(addr_nodes)):
+            addr_list.append(addr_nodes[i].content) 
+        return ( addr_list )
     
 class SqlQuery(object):
     """
