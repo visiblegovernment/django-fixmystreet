@@ -30,9 +30,7 @@ def index(request, error_msg = None, disambiguate=None):
 
 def search_address(request):
     if request.method == 'POST':
-        print request.POST['q']
         address = iri_to_uri(u'/search?q=%s' % request.POST["q"])
-        print address
         return HttpResponseRedirect( address )
 #        address = urllib.urlencode({'x':urlquote(request.POST["q"])})[2:]
 #        return HttpResponseRedirect("/search?q=" + address )
