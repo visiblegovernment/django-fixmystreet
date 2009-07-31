@@ -57,7 +57,7 @@ urlpatterns += patterns( 'mainapp.views.reports.subscribers',
     (r'^reports/subscribers/confirm/(\S+)', 'confirm'), 
     (r'^reports/subscribers/unsubscribe/(\S+)', 'unsubscribe'),
     (r'^reports/subscribers/create/', 'create'),
-    (r'^reports/(\d+)/subscribers/', 'new'),
+    (r'^reports/(\d+)/subscribers', 'new'),
 )
 
 urlpatterns += patterns( 'mainapp.views.reports.flags',
