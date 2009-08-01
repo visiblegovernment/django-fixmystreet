@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block title %}{{report.ward.city.name}} - {{report.ward.name}} {% trans "Problem Report" %} {% endblock %}
+{% block title %}{{report.title}}{% endblock %}
 {% block css %}
 	<style type="text/css" media="screen">
     #update-header {
