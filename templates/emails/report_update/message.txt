@@ -1,10 +1,10 @@
-The FixMyStreet.ca Report: '{{update.report.title}}' 
-was updated by {{update.author}} on {{update.created_at}}:
+The FixMyStreet.ca Report: '{{update.report.title|safe}}' 
+was updated by {{update.author|safe}} on {{update.created_at}}:
 
 {% if update.is_fixed %}This issue has been fixed. {% endif %}
 -----------------------------------------------------------------------------
 
-{{update.desc}}
+{{update.desc|safe}}
 
 -----------------------------------------------------------------------------
 

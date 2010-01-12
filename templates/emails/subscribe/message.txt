@@ -2,7 +2,7 @@ Please click on the following URL:
 {{confirm_url}}
 
 To confirm your subscription to updates on the report:
-{{subscriber.report.title}}
+{{subscriber.report.title|safe}}
 
 Thank you,
 The FixMyStreet.ca Team

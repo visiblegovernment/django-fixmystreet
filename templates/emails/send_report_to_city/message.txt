@@ -1,10 +1,11 @@
-Title:    {{update.report.title}}
-Category: {{update.report.category.name}}
-Phone:    {{update.phone}}
-Email:    {{update.email}}
-FMS ID:   {{update.report.id}}
+Title:        {{update.report.title|safe}}
+Category:     {{update.report.category.name}}
+Submitted By: {{update.author|safe}}	
+Phone:        {{update.phone}}
+Email:        {{update.email}}
+FMS ID:       {{update.report.id}}
 
-{{update.desc}}
+{{update.desc|safe}}
 
-Submitted via FixMyStreet.ca on {{update.report.created_at}}.
+Submitted via FixMyStreet.ca on {{update.report.created_at|date:"l, F dS, Y"}}.
 {{update.report.get_absolute_url}}
