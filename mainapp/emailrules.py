@@ -22,7 +22,7 @@ class MatchingCategoryClass(EmailRuleBehaviour):
             return( None )
 
     def describe(self,email_rule):
-        return('Send All Reports Matching Category Class %s To %s' % (email_rule.category_class.name_en, email_rule.email))
+        return('Send All Reports Matching Category Type %s To %s' % (email_rule.category_class.name_en, email_rule.email))
     
 class NotMatchingCategoryClass(EmailRuleBehaviour):
     def get_email(self,report, email_rule):
@@ -32,4 +32,4 @@ class NotMatchingCategoryClass(EmailRuleBehaviour):
             return( None )
 
     def describe(self,email_rule):
-        return('Send All Reports Not Matching Category Class %s To %s' % (email_rule.category_class.name_en, email_rule.email))
+        return('Send All Reports Not Matching Category Type %s To %s' % (email_rule.category_class.name_en, email_rule.email))

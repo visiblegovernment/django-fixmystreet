@@ -30,7 +30,7 @@
 			{% endif %}
 				
 			{% if not report.is_confirmed %}
-				   <div class='is_fixed'>{% trans "Please check your email and click on the confirmation link to complete your submission. Your report will not be sent to the City's 311 Department or be visible to other visitors until you have done so." %}</div>
+				   <div class='is_fixed'>{% trans "Please check your email and click on the confirmation link to complete your submission. Your report will not be sent to city officials or be visible to other visitors until you have done so." %}</div>
 			{% endif %}
 			<h3>{{report.title}}</h3>
 			{% if not report.is_fixed and report.is_confirmed %}
@@ -91,7 +91,7 @@
 				<div id="update-header">
 					<div id="update-title"><h3>{% trans "Provide an update" %} </h3></div>
 				</div>				
-				<p>{% trans "Please note that updates are not sent to the City." %}</p>
+				<p>{% trans "Please note that updates are not sent to city officials." %}</p>
 				<form action="/reports/{{report.id}}/updates/" method="post">
 				<table class="form">
 					{{update_form.as_table}}					

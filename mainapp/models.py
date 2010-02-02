@@ -18,7 +18,30 @@ from contrib.stdimage import StdImageField
 import libxml2
 from django.utils.encoding import iri_to_uri
       
-        
+# from here: http://www.djangosnippets.org/snippets/630/        
+class CCEmailMessage(EmailMessage):
+    def __init__(self, subject='', body='', from_email=None, to=None, cc=None,
+                 bcc=None, connection=None, attachments=None, headers=None):
+        super(CCEmailMessage, self).__init__(subject, body, from_email, to,
+                                           bcc, connection, attachments, headers)
+        if cc:
+            self.cc = list(cc)
+        else:
+            self.cc = []
+
+    def recipients(self):
+        """
+        Returns a list of all recipients of the email
+        """
+        return super(CCEmailMessage, self).recipients() + self.cc 
+
+    def message(self):
+        msg = super(CCEmailMessage, self).message()
+        if self.cc:
+            msg['Cc'] = ', '.join(self.cc)
+        return msg
+
+         
 class Province(models.Model):
     name = models.CharField(max_length=100)
     abbrev = models.CharField(max_length=3)
@@ -68,17 +91,21 @@ class Ward(models.Model):
 
     # return a list of email addresses to send new problems in this ward to.
     def get_emails(self,report):
-        emails = []
+        to_emails = []
+        cc_emails = []
         if self.city.email:
-            emails.append(self.city.email)
+            to_emails.append(self.city.email)
             
         # check for rules for this city.
         rules = EmailRule.objects.filter(city=self.city)
         for rule in rules:
             rule_email = rule.get_email(report)
             if rule_email:
-                emails.append(rule_email)
-        return( emails )
+               if not rule.is_cc: 
+                   to_emails.append(rule_email)
+               else:
+                   cc_emails.append(rule_email)
+        return( to_emails,cc_emails )
 
 
     class Meta:
@@ -132,6 +159,9 @@ class EmailRule(models.Model):
                      NOT_MATCHING_CATEGORY_CLASS: emailrules.NotMatchingCategoryClass }
     
     rule = models.IntegerField(choices=RuleChoices)
+    
+    # is this a 'to' email or a 'cc' email
+    is_cc = models.BooleanField(default=False)
 
     # the city this rule applies to 
     city = models.ForeignKey(City)    
@@ -151,7 +181,11 @@ class EmailRule(models.Model):
     
     def __str__(self):
         rule_behavior = EmailRule.RuleBehavior[ self.rule ]()
-        return( self.city.name + ": " + rule_behavior.describe(self) )
+        if self.is_cc:
+            prefix = "CC:"
+        else:
+            prefix = "TO:"
+        return( "%s - %s (%s)" % (self.city.name,rule_behavior.describe(self),prefix) )
         
 
 class Report(models.Model):
@@ -243,9 +277,9 @@ class ReportUpdate(models.Model):
         subject = render_to_string("emails/send_report_to_city/subject.txt", {'update': self })
         message = render_to_string("emails/send_report_to_city/message.txt", { 'update': self })
         
-        to_email_addrs = self.report.ward.get_emails(self.report)
-        email_msg = EmailMessage(subject,message,settings.EMAIL_FROM_USER, 
-                        to_email_addrs, headers = {'Reply-To': self.email })
+        to_email_addrs,cc_email_addrs = self.report.ward.get_emails(self.report)
+        email_msg = CCEmailMessage(subject,message,settings.EMAIL_FROM_USER, 
+                        to_email_addrs, cc_email_addrs,headers = {'Reply-To': self.email })
         if self.report.photo:
             email_msg.attach_file( self.report.photo.file.name )
         
