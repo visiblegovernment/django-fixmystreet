@@ -30,7 +30,7 @@
 			{% endif %}
 				
 			{% if not report.is_confirmed %}
-				   <div class='is_fixed'>{% trans "Please check your email and click on the confirmation link to complete your submission. Your report will not be sent to city officials or be visible to other visitors until you have done so." %}</div>
+				   <div class='is_fixed'>{% trans "<p>Please check your email for a message from fixmystreet.ca, which will include a confirmation link.  Complete your submission by clicking on it.</p><p>Your report will not be sent to city officials or be visible to other visitors until you have done so.</p>" %}</div>
 			{% endif %}
 			<h3>{{report.title}}</h3>
 			{% if not report.is_fixed and report.is_confirmed %}

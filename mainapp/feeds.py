@@ -45,7 +45,7 @@ class LatestReportsByWard(Feed):
         return Ward.objects.get(id=bits[0])
 
     def title(self, obj):
-        return "FixMyStreet.ca: Reports for %s" % obj.name
+        return "FixMyStreet.ca: Reports for %s, %s" % (obj.name, obj.city.name)
 
     def link(self, obj):
         if not obj:
@@ -53,7 +53,7 @@ class LatestReportsByWard(Feed):
         return obj.get_absolute_url()
 
     def description(self, obj):
-        return "Problems recently reports in %s, %s" % ( obj.name, obj.city.name)
+        return "Problems recently reported in %s, %s" % ( obj.name, obj.city.name)
 
     def items(self, obj):
        return Report.objects.filter(is_confirmed=True,ward=obj.id).order_by('-created_at')[:30]
