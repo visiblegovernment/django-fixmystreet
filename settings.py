@@ -3,7 +3,8 @@ import os
 import logging
 
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
-
+TEST_RUNNER='django.contrib.gis.tests.run_tests'
+POSTGIS_TEMPLATE = 'template_postgis'
 
 logging.basicConfig(
     level = logging.DEBUG,
@@ -45,7 +46,7 @@ ADMIN_MEDIA_PREFIX = '/admin_media/'
 # http://docs.djangoproject.com/en/dev/ref/settings/#file-upload-permissions
 
 FILE_UPLOAD_PERMISSIONS = 0644
-
+DATE_FORMAT = "l, F jS, Y"
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (

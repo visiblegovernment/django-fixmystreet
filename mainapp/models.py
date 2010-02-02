@@ -9,6 +9,7 @@ from django.core.mail import send_mail, EmailMessage
 import md5
 import urllib
 import time
+from mainapp import emailrules
 from datetime import datetime as dt
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy, ugettext as _
@@ -30,15 +31,12 @@ class City(models.Model):
     name = models.CharField(max_length=100)
     # the city's 311 email, if it has one.
     email = models.EmailField(blank=True, null=True)    
-    # unused, for now.
-    geom = models.PolygonField( null=True)
 
     objects = models.GeoManager()
 
     def __unicode__(self):      
         return self.name
-
-
+    
     def get_absolute_url(self):
         return settings.SITE_URL + "/cities/" + str(self.id)
 
@@ -68,6 +66,21 @@ class Ward(models.Model):
     def get_absolute_url(self):
         return settings.SITE_URL + "/wards/" + str(self.id)
 
+    # return a list of email addresses to send new problems in this ward to.
+    def get_emails(self,report):
+        emails = []
+        if self.city.email:
+            emails.append(self.city.email)
+            
+        # check for rules for this city.
+        rules = EmailRule.objects.filter(city=self.city)
+        for rule in rules:
+            rule_email = rule.get_email(report)
+            if rule_email:
+                emails.append(rule_email)
+        return( emails )
+
+
     class Meta:
         db_table = u'wards'
 
@@ -93,7 +106,54 @@ class ReportCategory(models.Model):
     class Meta:
         db_table = u'report_categories'
         translate = ('name', 'hint', )
-               
+    
+            
+# Override where to send a report for a given city.        
+#
+# If no rule exists, the email destination is the 311 email address 
+# for that city.
+#
+# Cities can have more than one rule.  If a given report matches more than
+# one rule, more than one email is sent.  (Desired behaviour for cities that 
+# want councillors CC'd)
+
+class EmailRule(models.Model):
+    TO_COUNCILLOR = 0
+    MATCHING_CATEGORY_CLASS = 1
+    NOT_MATCHING_CATEGORY_CLASS = 2
+    
+    RuleChoices = [   
+    (TO_COUNCILLOR, 'Send Reports to Councillor Email Address'),
+    (MATCHING_CATEGORY_CLASS, 'Send Reports Matching Category Class (eg. Parks) To This Email'),
+    (NOT_MATCHING_CATEGORY_CLASS, 'Send Reports Not Matching Category Class To This Email'), ]
+    
+    RuleBehavior = { TO_COUNCILLOR: emailrules.ToCouncillor,
+                     MATCHING_CATEGORY_CLASS: emailrules.MatchingCategoryClass,
+                     NOT_MATCHING_CATEGORY_CLASS: emailrules.NotMatchingCategoryClass }
+    
+    rule = models.IntegerField(choices=RuleChoices)
+
+    # the city this rule applies to 
+    city = models.ForeignKey(City)    
+    
+    # filled in if this is a category class rule
+    category_class = models.ForeignKey(ReportCategoryClass,null=True, blank=True)
+    
+    # filled in if this is a category rule
+    category = models.ForeignKey(ReportCategory,null=True, blank=True)
+    
+    # filled in if an additional email address is required for the rule type
+    email = models.EmailField(blank=True, null=True)
+    
+    def get_email(self,report):
+        rule_behavior = EmailRule.RuleBehavior[ self.rule ]()
+        return( rule_behavior.get_email(report,self))
+    
+    def __str__(self):
+        rule_behavior = EmailRule.RuleBehavior[ self.rule ]()
+        return( self.city.name + ": " + rule_behavior.describe(self) )
+        
+
 class Report(models.Model):
     title = models.CharField(max_length=100, verbose_name = ugettext_lazy("Subject"))
     category = models.ForeignKey(ReportCategory,null=True)
@@ -183,13 +243,9 @@ class ReportUpdate(models.Model):
         subject = render_to_string("emails/send_report_to_city/subject.txt", {'update': self })
         message = render_to_string("emails/send_report_to_city/message.txt", { 'update': self })
         
-        if self.report.ward.city.email:
-            email_addr = self.report.ward.city.email
-        else:
-            email_addr = self.report.ward.councillor.email
-        
+        to_email_addrs = self.report.ward.get_emails(self.report)
         email_msg = EmailMessage(subject,message,settings.EMAIL_FROM_USER, 
-                        [email_addr], headers = {'Reply-To': self.email })
+                        to_email_addrs, headers = {'Reply-To': self.email })
         if self.report.photo:
             email_msg.attach_file( self.report.photo.file.name )
         
@@ -197,7 +253,13 @@ class ReportUpdate(models.Model):
 
         # update report to show time sent to city.
         self.report.sent_at=dt.now()
-        self.report.email_sent_to = email_addr
+        email_addr_str = ""
+        for email in to_email_addrs:
+            if email_addr_str != "":
+                email_addr_str += ", "
+            email_addr_str += email
+            
+        self.report.email_sent_to = email_addr_str
         self.report.save()
         
     
@@ -344,11 +406,13 @@ class CityMap(GoogleMap):
     
     def __init__(self,city):
         polygons = []
+        kml_url = 'http://localhost:8000/media/kml/' + city.name + '.kml'
 
-        for ward in Ward.objects.filter(city=city):
-            for poly in ward.geom:
-                polygons.append( GPolygon( poly ) )
-        GoogleMap.__init__(self,zoom=13,key=settings.GMAP_KEY, polygons=polygons, dom_id='map_canvas')
+        ward = Ward.objects.filter(city=city)[:1][0]
+        #for ward in Ward.objects.filter(city=city):
+        #    for poly in ward.geom:
+        #        polygons.append( GPolygon( poly ) )
+        GoogleMap.__init__(self,center=ward.geom.centroid,zoom=13,key=settings.GMAP_KEY, polygons=polygons, kml_urls=[kml_url],dom_id='map_canvas')
     
 
 

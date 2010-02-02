@@ -20,7 +20,6 @@
         "pk": 1, 
         "model": "mainapp.city", 
         "fields": {
-            "geom": null, 
             "name": "Oglo",
             "province": 1,
             "email": "example_city_email@yahoo.ca"

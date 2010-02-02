@@ -3,6 +3,8 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.contrib import admin
 from mainapp.feeds import LatestReports, LatestReportsByCity, LatestReportsByWard, LatestUpdatesByReport
+from mainapp.models import City
+import mainapp.views.cities as cities
 
 feeds = {
     'reports': LatestReports,
@@ -41,9 +43,9 @@ urlpatterns += patterns('mainapp.views.wards',
     
 )
 
-urlpatterns += patterns('mainapp.views.cities',
-    (r'^cities/(\d+)$', 'show'),       
-    (r'^cities', 'index'),
+urlpatterns += patterns('',
+    (r'^cities/(\d+)$', cities.show ),       
+    (r'^cities', cities.index),
 )
 
 urlpatterns += patterns( 'mainapp.views.reports.updates',

@@ -1,6 +1,9 @@
-from fixmystreet.mainapp.models import Ward,ReportCategory, ReportCategoryClass, FaqEntry, Councillor
+from fixmystreet.mainapp.models import EmailRule,Ward,ReportCategory,City, ReportCategoryClass, FaqEntry, Councillor
 from django.contrib import admin
 from contrib.transmeta import canonical_fieldname
+
+admin.site.register(EmailRule)
+admin.site.register(City)
 
 class ReportCategoryClassAdmin(admin.ModelAdmin):
     list_display = ('name',)
@@ -14,7 +17,6 @@ admin.site.register(ReportCategory, ReportCategoryAdmin)
 
 class FaqEntryAdmin(admin.ModelAdmin):
     list_display = ('q', 'order')
-#    prepopulated_fields = {'slug': ('q') }
 
 admin.site.register(FaqEntry, FaqEntryAdmin)
 
