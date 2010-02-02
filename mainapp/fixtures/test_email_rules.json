@@ -1,0 +1,53 @@
+[
+     {
+        "pk": 2, 
+        "model": "mainapp.city", 
+        "fields": {
+            "name": "TestCityWithoutEmail",
+            "province": 1,
+            "email": ""
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "mainapp.city", 
+        "fields": {
+            "name": "TestCityWithEmail",
+            "province": 1,
+            "email": "311email@city.com"
+        }
+    }, 
+
+     {
+        "pk": 7, 
+        "model": "mainapp.councillor", 
+        "fields": {
+            "phone": "514-513-0999", 
+            "first_name": "Angus", 
+            "last_name": "Arthur-Doyle", 
+            "fax": null, 
+            "email": "councillor_email@testward1.com"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "mainapp.ward", 
+        "fields": {
+            "city": 2, 
+            "name": "WardInCityWithNo311Email", 
+            "councillor": 7, 
+            "number": 1
+        }
+    },
+    {
+        "pk": 2, 
+        "model": "mainapp.ward", 
+        "fields": {
+            "city": 3, 
+            "name": "WardInCityWith311Email", 
+            "councillor": 7, 
+            "number": 1
+        }
+    }
+
+]
