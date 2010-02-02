@@ -32,5 +32,6 @@ class Command(BaseCommand):
             city = City.objects.get(name=city_name)
             wards = Ward.objects.filter(city=city)
             for ward in wards:
-                row = [ city.name, ward.name, ward.councillor.first_name, ward.councillor.last_name]
+                row = [ city.name, ward.name, ward.councillor.first_name, ward.councillor.last_name, ward.councillor.email]
                 csv.writerow(row)
+
