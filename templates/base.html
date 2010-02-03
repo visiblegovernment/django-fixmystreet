@@ -14,7 +14,7 @@
 	   {{ google.scripts }}
  	{% endif %}
 </head>
-	<body>
+	<body {% if google %}{{ google.onload }} {{ google.onunload }}{% endif %}>
 		<div id="content_container">
 			<div id="page_container">
 				<div id="header">
