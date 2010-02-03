@@ -2,6 +2,8 @@
 {% load i18n %}
 
 {% block title %}{{report.title}}{% endblock %}
+{% block script %}<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js?pub=xa-4a620b09451f9502"></script>
+{% endblock %}
 {% block css %}
 	<style type="text/css" media="screen">
     #update-header {
@@ -43,7 +45,6 @@
 				<a class="addthis_button_google"></a>
 				<a class="addthis_button_twitter"></a>
 			</div>
-			<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js?pub=xa-4a620b09451f9502"></script>
 			<!-- AddThis Button END -->
 			{% endif %}
 			<div id='report-header'>
