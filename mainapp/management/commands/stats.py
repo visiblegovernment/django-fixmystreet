@@ -142,15 +142,15 @@ class PercentFixedInDays(Stat):
         return( float(self.total_fixed_in_period) / self.count )
     
 
-class PercentUnfixed(Stat):
-    
-    def __init__(self):
-        super(PercentUnfixed,self).__init__("Percent Unfixed")
+class PercentFixed(Stat):
+    def __init__(self, name = "Percent Fixed", fixed_value = True):
+        super(PercentFixed,self).__init__(name)
         self.total = 0
+        self.fixed_value = fixed_value
 
     def add_report(self,report):
         self.count += 1
-        if  report.is_fixed:
+        if  report.is_fixed == self.fixed_value:
             return
         self.total += 1
 
@@ -158,17 +158,37 @@ class PercentUnfixed(Stat):
         if self.count == 0:
             return 0
         return( float(self.total) / self.count )
+
+class PercentUnfixed(PercentFixed):
+    
+    def __init__(self):
+        super(PercentUnfixed,self).__init__("Percent Unfixed",False)
+
+
+class NumReports(Stat):
+
+    def __init__(self):
+        super(NumReports,self).__init__("Total Reports")
+
+    def add_report(self,report):
+        self.count += 1
+
+    def result(self):
+        return( self.count )
+
     
 class StatGroup1(StatColGroup):
     
     def __init__(self):
         stats = []
+        stats.append(NumReports())
+        stats.append(PercentFixed())
+        stats.append(PercentUnfixed())
         stats.append(AvgTimeToFix())
         stats.append(PercentFixedInDays(0,7))
         stats.append(PercentFixedInDays(7,14))
         stats.append(PercentFixedInDays(14,30))
         stats.append(PercentFixedInDays(30,60))
-        stats.append(PercentUnfixed())
         super(StatGroup1,self).__init__(stats=stats)
 
 class StatGroup2(CategoryStatGroup):

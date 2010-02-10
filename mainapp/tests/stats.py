@@ -1,6 +1,6 @@
 from django.test import TestCase
 from mainapp.models import Report,ReportUpdate,Ward,City
-from mainapp.management.commands.stats import CityStatGroup,CategoryStatGroup,StatColGroup,AvgTimeToFix, PercentUnfixed, PercentFixedInDays
+from mainapp.management.commands.stats import NumReports,CityStatGroup,CategoryStatGroup,StatColGroup,AvgTimeToFix, PercentUnfixed, PercentFixedInDays
 
 class StatTestCase(TestCase):
     fixtures = ['test_stats.json']
@@ -13,6 +13,11 @@ class StatTestCase(TestCase):
             stat_instance.add_report(report)
         self.assertEquals(stat_instance.result(), expected)
             
+
+class NumReportsTestCase(StatTestCase):
+    
+    def test(self):
+        self.check_result(NumReports(), 4)
 
 class AvgFixTestCase(StatTestCase):
     
