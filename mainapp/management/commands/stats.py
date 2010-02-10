@@ -20,7 +20,7 @@ class Stat(StatBase):
         
     def get_fix_time(self,report):
         """ a commonly used computation """
-        if not report.is_fixed:
+        if (not report.is_fixed) or (report.fixed_at == None):
             raise Exception("report is not fixed")
         return( report.fixed_at - report.created_at )
     
@@ -117,8 +117,15 @@ class AvgTimeToFix(Stat):
     
 class PercentFixedInDays(Stat):
     
-    def __init__(self,min_num_days,max_num_days):
-        super(PercentFixedInDays,self).__init__("Fixed in %d-%d Days" % (min_num_days, max_num_days))
+    MAX_NUM_DAYS = 9999
+    
+    def __init__(self,min_num_days = 0,max_num_days = MAX_NUM_DAYS):
+        if max_num_days == PercentFixedInDays.MAX_NUM_DAYS:
+            name = "Fixed After %d Days" % ( min_num_days )
+        else:
+            name = "Fixed in %d-%d Days" % (min_num_days, max_num_days)
+            
+        super(PercentFixedInDays,self).__init__(name)
         self.total_fixed_in_period = 0
         self.min_num_days = min_num_days
         self.max_num_days = max_num_days
@@ -131,7 +138,7 @@ class PercentFixedInDays(Stat):
         fix_days = self.get_fix_time(report).days
         if fix_days < self.min_num_days:
             return
-        if fix_days > self.max_num_days:
+        if fix_days >= self.max_num_days:
             return
         
         self.total_fixed_in_period += 1    
@@ -186,9 +193,11 @@ class StatGroup1(StatColGroup):
         stats.append(PercentFixed())
         stats.append(PercentUnfixed())
         stats.append(PercentFixedInDays(0,7))
-        stats.append(PercentFixedInDays(7,14))
-        stats.append(PercentFixedInDays(14,30))
+        stats.append(PercentFixedInDays(7,30))
         stats.append(PercentFixedInDays(30,60))
+        stats.append(PercentFixedInDays(60,180))
+        stats.append(PercentFixedInDays(180,PercentFixedInDays.MAX_NUM_DAYS))
+
         super(StatGroup1,self).__init__(stats=stats)
 
 class StatGroup2(CategoryStatGroup):
