@@ -150,7 +150,7 @@ class PercentFixed(Stat):
 
     def add_report(self,report):
         self.count += 1
-        if  report.is_fixed == self.fixed_value:
+        if  report.is_fixed != self.fixed_value:
             return
         self.total += 1
 
@@ -182,9 +182,9 @@ class StatGroup1(StatColGroup):
     def __init__(self):
         stats = []
         stats.append(NumReports())
+        stats.append(AvgTimeToFix())
         stats.append(PercentFixed())
         stats.append(PercentUnfixed())
-        stats.append(AvgTimeToFix())
         stats.append(PercentFixedInDays(0,7))
         stats.append(PercentFixedInDays(7,14))
         stats.append(PercentFixedInDays(14,30))
