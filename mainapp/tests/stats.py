@@ -1,8 +1,14 @@
 from django.test import TestCase
 from mainapp.models import Report,ReportUpdate,Ward,City
-from mainapp.management.commands.stats import NumReports,CityStatGroup,CategoryStatGroup,StatColGroup,AvgTimeToFix, PercentUnfixed, PercentFixedInDays
+from mainapp.management.commands.stats import CountReportsWithStatusOnDay,NumReports,CityStatGroup,CategoryStatGroup,StatColGroup,AvgTimeToFix, PercentUnfixed, PercentFixedInDays
 
 class StatTestCase(TestCase):
+    """ 
+        our fixture has:
+            1 report fixed in 2 days
+            1 report fixed in 16 days
+            2 unfixed reports, which are the same age
+    """
     fixtures = ['test_stats.json']
     
     def setUp(self):
@@ -35,7 +41,19 @@ class FixedInDaysTestCase(StatTestCase):
         self.check_result(PercentFixedInDays(0,3), .25)
         self.check_result(PercentFixedInDays(3,19), .25)
         self.check_result(PercentFixedInDays(0,19), .5)
-        
+
+class CountReportsWithStatusOnDayTestCase(StatTestCase):
+
+    def test(self):
+        self.check_result(CountReportsWithStatusOnDay(7,
+                                                      CountReportsWithStatusOnDay.FIXED), 1)
+        self.check_result(CountReportsWithStatusOnDay(7,
+                                                      CountReportsWithStatusOnDay.OPEN), 3)
+        self.check_result(CountReportsWithStatusOnDay(17,
+                                                      CountReportsWithStatusOnDay.OPEN), 2)
+        self.check_result(CountReportsWithStatusOnDay(17,
+                                                      CountReportsWithStatusOnDay.FIXED), 2)
+            
 class ColGroupTestCase(StatTestCase):
     
     def test(self):

@@ -1,8 +1,6 @@
+import datetime
 from mainapp.models import Report,ReportUpdate
-from optparse import make_option
-import csv
 from django.core.management.base import NoArgsCommand,CommandError
-from unicodewriter import UnicodeWriter
 
 class StatBase(object):
     
@@ -13,6 +11,11 @@ class StatBase(object):
         pass
     
 class Stat(StatBase):
+    """ Base class for discrete statistics """
+    
+    # a commonly used constant.
+    MAX_NUM_DAYS = 9999
+    
 
     def __init__(self,name):
         self.name = name
@@ -23,6 +26,16 @@ class Stat(StatBase):
         if (not report.is_fixed) or (report.fixed_at == None):
             raise Exception("report is not fixed")
         return( report.fixed_at - report.created_at )
+    
+    def get_open_time(self,report):
+        if report.is_fixed:
+            return( self.get_fix_time(report))
+        else:
+            return( self.get_report_age(report))
+                    
+    def get_report_age(self, report):
+        now = datetime.datetime.now()
+        return( now - report.created_at )
     
     def labels(self):
         return( [ self.name ])
@@ -114,13 +127,53 @@ class AvgTimeToFix(Stat):
         if self.count == 0:
             return 0
         return( self.total / self.count )
+
+class CountReportsWithStatusOnDay(Stat):
+    
+    OPEN = True
+    FIXED = False
+    
+    def __init__(self, day = 0,status = OPEN ):
+        
+        if status == CountReportsWithStatusOnDay.OPEN:
+            desc = "Open"
+        else:
+            desc = "Fixed"
+        
+        name = "Total %s On Day %d" % (desc, day )
+            
+        super(CountReportsWithStatusOnDay,self).__init__(name)
+        self.status = status
+        self.day = day
+        
+    def add_report(self,report):
+ 
+        # is this report too young to be counted in this time span?
+        if self.get_report_age(report).days < self.day:
+            return
+
+        # how long was this report open for?
+        open_time = self.get_open_time(report).days
+
+        if self.status == CountReportsWithStatusOnDay.OPEN:
+            # was this report open on the given day?
+            if open_time >= self.day:
+                self.count +=1
+        else:
+            # looking to count fixed reports only
+            if report.is_fixed:
+                # was this report fixed by the given day?
+                if open_time < self.day:
+                    self.count +=1    
+
+    def result(self):
+        return( self.count )
+    
     
 class PercentFixedInDays(Stat):
-    
-    MAX_NUM_DAYS = 9999
-    
-    def __init__(self,min_num_days = 0,max_num_days = MAX_NUM_DAYS):
-        if max_num_days == PercentFixedInDays.MAX_NUM_DAYS:
+        
+    def __init__(self,min_num_days = 0,max_num_days = Stat.MAX_NUM_DAYS):
+        if max_num_days == Stat.MAX_NUM_DAYS:
             name = "Fixed After %d Days" % ( min_num_days )
         else:
             name = "Fixed in %d-%d Days" % (min_num_days, max_num_days)
@@ -182,6 +235,8 @@ class NumReports(Stat):
 
     def result(self):
         return( self.count )
+    
+    
 
     
 class StatGroup1(StatColGroup):
@@ -197,7 +252,14 @@ class StatGroup1(StatColGroup):
         stats.append(PercentFixedInDays(30,60))
         stats.append(PercentFixedInDays(60,180))
         stats.append(PercentFixedInDays(180,PercentFixedInDays.MAX_NUM_DAYS))
-
+        stats.append(CountReportsWithStatusOnDay(7, CountReportsWithStatusOnDay.OPEN))
+        stats.append(CountReportsWithStatusOnDay(30, CountReportsWithStatusOnDay.OPEN))
+        stats.append(CountReportsWithStatusOnDay(60, CountReportsWithStatusOnDay.OPEN))
+        stats.append(CountReportsWithStatusOnDay(180, CountReportsWithStatusOnDay.OPEN))
+        stats.append(CountReportsWithStatusOnDay(7, CountReportsWithStatusOnDay.FIXED))
+        stats.append(CountReportsWithStatusOnDay(30, CountReportsWithStatusOnDay.FIXED))
+        stats.append(CountReportsWithStatusOnDay(60, CountReportsWithStatusOnDay.FIXED))
+        stats.append(CountReportsWithStatusOnDay(180, CountReportsWithStatusOnDay.FIXED))
         super(StatGroup1,self).__init__(stats=stats)
 
 class StatGroup2(CategoryStatGroup):
