@@ -96,20 +96,26 @@ class StatRowGroup(StatBase):
         return( rows )
 
     
-class CityStatGroup(StatRowGroup):
+class CityStatRows(StatRowGroup):
     def __init__(self,newstat_fcn):
-        super(CityStatGroup,self).__init__('City',newstat_fcn)
+        super(CityStatRows,self).__init__('City',newstat_fcn)
     
     def get_group_key(self,report):
         return( report.ward.city.name )
 
-class CategoryStatGroup(StatRowGroup):
+class CategoryGroupStatRows(StatRowGroup):
     def __init__(self,newstat_fcn):
-        super(CategoryStatGroup,self).__init__('Category',newstat_fcn)
+        super(CategoryGroupStatRows,self).__init__('Category Group',newstat_fcn)
     
     def get_group_key(self,report):
         return( report.category.category_class.name_en )
             
+class CategoryStatRows(StatRowGroup):
+    def __init__(self,newstat_fcn):
+        super(CategoryStatRows,self).__init__('Category',newstat_fcn)
+    
+    def get_group_key(self,report):
+        return( report.category.name_en )
     
 class AvgTimeToFix(Stat):  
     def __init__(self):
@@ -237,9 +243,11 @@ class NumReports(Stat):
         return( self.count )
     
     
-
+"""
+    Define a series of statistics for a report.
+"""
     
-class StatGroup1(StatColGroup):
+class ReportStatCols(StatColGroup):
     
     def __init__(self):
         stats = []
@@ -260,21 +268,29 @@ class StatGroup1(StatColGroup):
         stats.append(CountReportsWithStatusOnDay(30, CountReportsWithStatusOnDay.FIXED))
         stats.append(CountReportsWithStatusOnDay(60, CountReportsWithStatusOnDay.FIXED))
         stats.append(CountReportsWithStatusOnDay(180, CountReportsWithStatusOnDay.FIXED))
-        super(StatGroup1,self).__init__(stats=stats)
+        super(ReportStatCols,self).__init__(stats=stats)
 
-class StatGroup2(CategoryStatGroup):
+"""
+    Define a series of ways of breaking down the report statistics --
+    eg. by city, by category group, by category
+"""
+class ReportRowGroup1(CategoryStatRows):
     def __init__(self):
-        super(StatGroup2,self).__init__(StatGroup1)
+        super(ReportRowGroup1,self).__init__(ReportStatCols)
+
+class ReportRowGroup2(CategoryGroupStatRows):
+    def __init__(self):
+        super(ReportRowGroup2,self).__init__(ReportRowGroup1)
         
-class StatGroup3(CityStatGroup):
+class ReportRowGroup3(CityStatRows):
     def __init__(self):
-        super(StatGroup3,self).__init__(StatGroup2)
+        super(ReportRowGroup3,self).__init__(ReportRowGroup2)
         
 class Command(NoArgsCommand):
     help = 'Get Time To Fix Statistics'
 
     def handle_noargs(self, **options):
-        stat_group = StatGroup3()
+        stat_group = ReportRowGroup3()
         reports = Report.objects.filter(is_confirmed=True)
         for report in reports:
             stat_group.add_report(report)

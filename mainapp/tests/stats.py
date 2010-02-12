@@ -1,6 +1,6 @@
 from django.test import TestCase
 from mainapp.models import Report,ReportUpdate,Ward,City
-from mainapp.management.commands.stats import CountReportsWithStatusOnDay,NumReports,CityStatGroup,CategoryStatGroup,StatColGroup,AvgTimeToFix, PercentUnfixed, PercentFixedInDays
+from mainapp.management.commands.stats import CountReportsWithStatusOnDay,NumReports,CityStatRows,CategoryGroupStatRows,CategoryStatRows,StatColGroup,AvgTimeToFix, PercentUnfixed, PercentFixedInDays
 
 class StatTestCase(TestCase):
     """ 
@@ -63,21 +63,33 @@ class ColGroupTestCase(StatTestCase):
 
 
 class TestStatGroup1(StatColGroup):
+    """
+        A grouping of statistics columns to be used in testing
+        different row groupings (city,category,category group).
+    """
     def __init__(self):
         super(TestStatGroup1,self).__init__(stats = [ PercentFixedInDays(0,3),PercentFixedInDays(3,18), PercentUnfixed() ])
         
-        
+
 class CategoryTestCase(StatTestCase):
     
     def test(self):
-        cat_group = CategoryStatGroup(TestStatGroup1)
+        cat_group = CategoryStatRows(TestStatGroup1)
         self.assertEquals(cat_group.labels(),  ['Category','Fixed in 0-3 Days','Fixed in 3-18 Days', 'Percent Unfixed'] )
+        self.check_result(cat_group, [[ 'All',.25, .25, .5 ], [u'Graffiti On City Property',0,.5,.5],[u'Broken or Damaged Equipment/Play Structures',.5, 0, .5]])
+
+        
+class CategoryGroupTestCase(StatTestCase):
+    
+    def test(self):
+        cat_group = CategoryGroupStatRows(TestStatGroup1)
+        self.assertEquals(cat_group.labels(),  ['Category Group','Fixed in 0-3 Days','Fixed in 3-18 Days', 'Percent Unfixed'] )
         self.check_result(cat_group, [[ 'All',.25, .25, .5 ], [u'Grafitti',0,.5,.5],[u'Parks',.5, 0, .5]])
 
 
 class CityTestCase(StatTestCase):
 
     def test(self):
-        cat_group = CityStatGroup(TestStatGroup1)
+        cat_group = CityStatRows(TestStatGroup1)
         self.assertEquals(cat_group.labels(),  ['City','Fixed in 0-3 Days','Fixed in 3-18 Days', 'Percent Unfixed'] )
         self.check_result(cat_group, [[ 'All',.25, .25, .5 ], [u'Oglo',.25,.25,.5]])
