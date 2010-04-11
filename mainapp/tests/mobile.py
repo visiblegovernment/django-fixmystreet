@@ -49,23 +49,23 @@ class MobileTestCases(TestCase):
         return( simplejson.loads(response.content) )
         
     def test_get_by_query(self):
-        result = self.get_json('/rest/reports.json?q=K2P1N8')
+        result = self.get_json('/mobile/reports.json?q=K2P1N8')
         self.assertEquals( len(result), 4 )
         
     def test_get_bad_format(self):
-        response = self.c.get('/rest/reports.unknown?q=K2P1N8')
+        response = self.c.get('/mobile/reports.unknown?q=K2P1N8')
         self.assertEquals(response.status_code,415)
 
     def test_get_by_lat_lon(self):
         lon = '-75.6824648380000014'
         lat = '45.4301269580000024'
-        result = self.get_json('/rest/reports.json?lat=%s;lon=%s' % (lat,lon))
+        result = self.get_json('/mobile/reports.json?lat=%s;lon=%s' % (lat,lon))
         self.assertEquals( len(result), 4 )
 
     def test_get_by_lat_lon_with_r(self):
         lon = '-75.6824648380000014'
         lat = '45.4301269580000024'
-        result = self.get_json('/rest/reports.json?lat=%s;lon=%s;r=.002' % (lat,lon))
+        result = self.get_json('/mobile/reports.json?lat=%s;lon=%s;r=.002' % (lat,lon))
         self.assertEquals( len(result), 2 )
 
     def test_create_param_tranform(self):  
@@ -80,7 +80,7 @@ class MobileTestCases(TestCase):
         m = md5.new( seed )
         params['api_key'] = binascii.b2a_base64(m.digest())
 
-        response = self.c.post('/rest/reports.json', params )
+        response = self.c.post('/mobile/reports.json', params )
         self.assertEquals( response.status_code, 200 )
         self.assertEqual(Report.objects.filter(title=params['title']).count(), 1 )
         # mail should go directly to the city.
@@ -89,9 +89,8 @@ class MobileTestCases(TestCase):
         
     def test_create_no_nonce(self):
         params = MOBILE_PARAMS.copy()
-        response = self.c.post('/rest/reports.json', params )
+        response = self.c.post('/mobile/reports.json', params )
         self.assertEquals( response.status_code, 412 )
-        print response.content
     
     def test_create_basecase(self):
         """

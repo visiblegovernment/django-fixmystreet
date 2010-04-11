@@ -85,24 +85,11 @@ urlpatterns += patterns('mainapp.views.ajax',
 
 # REST Urls
 rest_format = r'(?P<format>\w+)'
-urlpatterns += patterns('mainapp.views.rest',
-   url(r'^rest/reports.%s$'%rest_format, 'reports_rest'),
+urlpatterns += patterns('mainapp.views.mobile',
+   url(r'^mobile/reports.%s$'%rest_format, 'mobile_report_rest'),
+   url(r'^mobile/categories/(.*?)/?$', 'json_poll_resource'),
 )
 
-urlpatterns += patterns('mainapp.views.rest',
-   url(r'^rest/report/create/$', 'report_create',name='create'),
-)
-
-# Categories REST -- should move this to its rest.py
-json_poll_resource = Collection(
-    queryset = ReportCategory.objects.all(),
-    expose_fields = ('id', 'name_en', 'name_fr'),
-    #permitted_methods = ('GET'),
-    responder = JSONResponder()
-)
-urlpatterns += patterns('mainapp.views.rest',
-   url(r'^rest/categories/(.*?)/?$', json_poll_resource),
-)
 
 #The following is used to serve up local media files like images
 #if settings.LOCAL_DEV:
