@@ -22,7 +22,7 @@ urlpatterns = patterns('',
 
 
 urlpatterns += patterns('mainapp.views.main',
-    (r'^$', 'index'),
+    (r'^$', 'home'),
     (r'^search', 'search_address'),
     (r'about/$', 'about')
 )
