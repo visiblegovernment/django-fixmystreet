@@ -29,7 +29,7 @@
 					<div id="top_menu_links"><div>
 					<ul>
 						<li><a href="/" >{% trans "Report a Problem" %}</a></li>
-						<li><a href="/cities/">{% trans "All Reports" %}</a></li>
+						<li><a href={% block all_reports_link %}"/cities/"{% endblock %}>{% trans "All Reports" %}</a></li>
 						<li><a href="/contact/">{% trans "Contact" %}</a></li>
 						<li><a href="/about/">{% trans "About" %}</a></li>
 					</ul>

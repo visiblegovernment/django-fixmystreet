@@ -61,7 +61,7 @@ class City(models.Model):
         return self.name
     
     def get_absolute_url(self):
-        return settings.SITE_URL + "/cities/" + str(self.id)
+        return "/cities/" + str(self.id)
 
     class Meta:
         db_table = u'cities'
@@ -87,7 +87,7 @@ class Ward(models.Model):
     objects = models.GeoManager()
     
     def get_absolute_url(self):
-        return settings.SITE_URL + "/wards/" + str(self.id)
+        return "/wards/" + str(self.id)
 
     # return a list of email addresses to send new problems in this ward to.
     def get_emails(self,report):
@@ -238,7 +238,7 @@ class Report(models.Model):
         return( ReportUpdate.objects.get(report=self,first_update=True))
 
     def get_absolute_url(self):
-        return settings.SITE_URL + "/reports/" + str(self.id)
+        return  "/reports/" + str(self.id)
             
     class Meta:
         db_table = u'reports'
@@ -583,12 +583,21 @@ class ReportCountQuery(SqlQuery):
  """ % (interval,interval,interval,interval,interval) 
         self.sql = self.base_query + " from reports where reports.is_confirmed = true" 
 
-class CityReportCountQuery(ReportCountQuery):
+class CityTotals(ReportCountQuery):
+
+    def __init__(self, interval, city):
+        ReportCountQuery.__init__(self,interval)
+        self.sql = self.base_query 
+        self.sql += """ from reports left join wards on reports.ward_id = wards.id left join cities on cities.id = wards.city_id 
+        """ 
+        self.sql += ' where reports.is_confirmed = True and city_id = %d ' % city.id
+        print self.sql
+        
+class CityWardsTotals(ReportCountQuery):
 
     def __init__(self, city):
         ReportCountQuery.__init__(self,"1 month")
         self.sql = self.base_query 
-        field_names = ""
         self.url_prefix = "/wards/"            
         self.sql +=  ", wards.name, wards.id, wards.number from wards "
         self.sql += """left join reports on wards.id = reports.ward_id join cities on wards.city_id = cities.id join province on cities.province_id = province.id
@@ -602,7 +611,7 @@ class CityReportCountQuery(ReportCountQuery):
     def get_absolute_url(self):
         return( self.url_prefix + str(self.get_results()[self.index][6]))
 
-class CitiesReportCountQuery(ReportCountQuery):
+class AllCityTotals(ReportCountQuery):
 
     def __init__(self):
         ReportCountQuery.__init__(self,"1 month")

@@ -20,7 +20,7 @@
 	{% endif %}
   <div id="front-page">
 	<div id="intro_text">	
-	  <h3>{% trans "Report, view, or discuss local problems" %}</h3>
+	  <h3>{% block search_instructions %}{% trans "Report, view, or discuss local problems" %}{% endblock %}</h3>
 	  <p>{% trans "(like graffiti, potholes, excessive garbage, or street lighting)" %}</p>
 	</div>
 			
@@ -55,7 +55,7 @@
 				</ol>
 			</div>
 			<div class='block'>
-				<h4>{% trans "Stats" %}</h4>
+				<h4>{% block stats_title %}{% endblock %}{% trans "Stats" %}</h4>
 				<div id='stat-group'>
 					<div class='stat'><div class='top-right'><div class='bottom-left'><div class='bottom-right'><div class='content'>
 						<span>{{report_counts.recent_new}}</span><br/>{% trans "Reports Filed" %}
