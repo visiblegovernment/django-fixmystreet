@@ -81,10 +81,19 @@ urlpatterns += patterns('mainapp.views.ajax',
     (r'^ajax/categories/(\d+)', 'category_desc'),
 )
 
+
+# REST Urls
+rest_format = r'(?P<format>\w+)'
+urlpatterns += patterns('mainapp.views.mobile',
+   url(r'^mobile/reports.%s$'%rest_format, 'mobile_report_rest'),
+   url(r'^mobile/categories/(.*?)/?$', 'json_poll_resource'),
+)
+
+
 #The following is used to serve up local media files like images
-if settings.LOCAL_DEV:
-    baseurlregex = r'^media/(?P<path>.*)$'
-    urlpatterns += patterns('',
-        (baseurlregex, 'django.views.static.serve',
-        {'document_root':  settings.MEDIA_ROOT}),
-    )
+#if settings.LOCAL_DEV:
+baseurlregex = r'^media/(?P<path>.*)$'
+urlpatterns += patterns('',
+   (baseurlregex, 'django.views.static.serve',
+   {'document_root':  settings.MEDIA_ROOT, 'show_indexes': True}),
+   )

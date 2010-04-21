@@ -2,11 +2,11 @@
 
 {% if update.first_update %}Thank you for submitting the report '{{update.report.title|safe}}' to FixMyStreet.ca.  
 {% else %}Thank you for submitting an update on the report '{{update.report.title|safe}}'
-to FixMyStreet.ca.  
 {% endif %}
+to {% if widget_domain %}{{widget_org}}{% else %}FixMyStreet.ca{% endif %}.  
 
 To confirm your submission, please click on the following URL:
-{{confirm_url}}
+{{host}}/reports/updates/confirm/{{update.confirm_token}}
 
 Thank you,
 The FixMyStreet.ca Team

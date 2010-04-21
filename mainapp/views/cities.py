@@ -4,6 +4,12 @@ from django.template import Context, RequestContext
 from django.db.models import  Count
 
 def index(request):    
+    # if the subdomain is a city, just go straight there.
+    if request.subdomain:
+        matching_cities = City.objects.filter(name__iexact=request.subdomain)
+        if matching_cities:
+            return( show(request,matching_cities[0].id)  )
+
     return render_to_response("cities/index.html",
                 {"report_counts": AllCityTotals() },
                 context_instance=RequestContext(request))

@@ -1,5 +1,5 @@
 Please click on the following URL:
-{{confirm_url}}
+{{host}}/reports/subscribers/confirm/{{subscriber.confirm_token}}
 
 To confirm your subscription to updates on the report:
 {{subscriber.report.title|safe}}

@@ -12,9 +12,16 @@ def new( request, report_id ):
             update = update_form.save(commit=False)
             update.is_fixed = request.POST.has_key('is_fixed')
             update.report=report
-            update.save()    
+            update.save(request)    
             # redirect after a POST       
             return( HttpResponseRedirect( '/reports/updates/create/' ) )
+        else:
+            print "update not valid"
+            for field in update_form:
+                if field.errors:
+                    print str(field)
+                    print field.errors
+                
     else:
         update_form = ReportUpdateForm()
         
@@ -43,7 +50,7 @@ def confirm( request, confirm_token ):
         update.report.fixed_at = update.created_at
     
     update.is_confirmed = True    
-    update.save()
+    update.save( request )
 
     # we track a last updated time in the report to make statistics 
     # (such as on the front page) easier.  
@@ -55,7 +62,6 @@ def confirm( request, confirm_token ):
         update.report.is_confirmed = True
  
     update.report.save()
-    update.send_emails()
-        
+         
     # redirect to report    
     return( HttpResponseRedirect( update.report.get_absolute_url() ))

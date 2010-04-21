@@ -3,6 +3,7 @@ from django.db import models, connection
 from django.contrib.gis.db import models
 from django.contrib.gis.maps.google import GoogleMap, GMarker, GEvent, GPolygon, GIcon
 from django.template.loader import render_to_string
+from django.template import  RequestContext
 from fixmystreet import settings
 from django import forms
 from django.core.mail import send_mail, EmailMessage
@@ -266,16 +267,22 @@ class ReportUpdate(models.Model):
     phone = models.CharField(max_length=255, verbose_name = ugettext_lazy("Phone") )
     first_update = models.BooleanField(default=False)
     
-    def send_emails(self):
+    def notify(self,request):
+        """
+        Tell whoever cares that there's been an update to this report.
+         -  If it's the first update, tell city officials
+         -  Anything after that, tell subscribers
+        """
         if self.first_update:
-            self.notify_on_new()
+            self.notify_on_new(request)
         else:
-            self.notify_on_update()
+            self.notify_on_update(request)
             
-    def notify_on_new(self):
+    def notify_on_new(self,request):
         # send to the city immediately.           
         subject = render_to_string("emails/send_report_to_city/subject.txt", {'update': self })
-        message = render_to_string("emails/send_report_to_city/message.txt", { 'update': self })
+        message = render_to_string("emails/send_report_to_city/message.txt", 
+                                   { 'update': self })
         
         to_email_addrs,cc_email_addrs = self.report.ward.get_emails(self.report)
         email_msg = CCEmailMessage(subject,message,settings.EMAIL_FROM_USER, 
@@ -297,35 +304,47 @@ class ReportUpdate(models.Model):
         self.report.save()
         
     
-    def notify_on_update(self):
+    def notify_on_update(self,request):
         subject = render_to_string("emails/report_update/subject.txt", 
                     { 'update': self })
         
         # tell our subscribers there was an update.
         for subscriber in self.report.reportsubscriber_set.all():
-            unsubscribe_url = settings.SITE_URL + "/reports/subscribers/unsubscribe/" + subscriber.confirm_token
             message = render_to_string("emails/report_update/message.txt", 
-               { 'update': self, 'unsubscribe_url': unsubscribe_url })
+                                       { 'update': self,
+                                         'subscriber': subscriber }, 
+                                       context_instance=RequestContext(request))
             send_mail(subject, message, 
                settings.EMAIL_FROM_USER,[subscriber.email], fail_silently=False)
 
         # tell the original problem reporter there was an update
         message = render_to_string("emails/report_update/message.txt", 
-                    { 'update': self })
+                    { 'update': self }, 
+                    context_instance=RequestContext(request)
+                    )
         send_mail(subject, message, 
               settings.EMAIL_FROM_USER,
               [self.report.first_update().email],  fail_silently=False)
 
             
-    def save(self):
+    def save(self,request):
+        # does this update require confirmation?
+        if not self.is_confirmed:
+            self.get_confirmation(request)
+        else:
+            self.notify(request)
+            
+            
+    def get_confirmation(self,request):
+        """ Send a confirmation email to the user. """        
         if not self.confirm_token or self.confirm_token == "":
             m = md5.new()
             m.update(self.email)
             m.update(str(time.time()))
             self.confirm_token = m.hexdigest()
-            confirm_url = settings.SITE_URL + "/reports/updates/confirm/" + self.confirm_token
             message = render_to_string("emails/confirm/message.txt", 
-                    { 'confirm_url': confirm_url, 'update': self })
+                    { 'update': self },
+                     context_instance=RequestContext(request))
             subject = render_to_string("emails/confirm/subject.txt", 
                     {  'update': self })
             send_mail(subject, message, 
@@ -345,7 +364,7 @@ class ReportUpdate(models.Model):
 
 class ReportSubscriber(models.Model):
     """ 
-        Report Subscribers are notified when there's an update.
+        Report Subscribers are notified when there's an update to an existing report.
     """
     
     report = models.ForeignKey(Report)    
@@ -357,15 +376,15 @@ class ReportSubscriber(models.Model):
         db_table = u'report_subscribers'
 
     
-    def save(self):
+    def save(self, request):
         if not self.confirm_token or self.confirm_token == "":
             m = md5.new()
             m.update(self.email)
             m.update(str(time.time()))
             self.confirm_token = m.hexdigest()
-            confirm_url = settings.SITE_URL + "/reports/subscribers/confirm/" + self.confirm_token
             message = render_to_string("emails/subscribe/message.txt", 
-                    { 'confirm_url': confirm_url, 'subscriber': self })
+                    { 'subscriber': self },
+                    context_instance=RequestContext(request) )
             send_mail('Subscribe to FixMyStreet.ca Report Updates', message, 
                    settings.EMAIL_FROM_USER,[self.email], fail_silently=False)
         super(ReportSubscriber, self).save()
@@ -435,17 +454,15 @@ class WardMap(GoogleMap):
 
 class CityMap(GoogleMap):
     """
-        Show all wards in a city as overlays.
+        Show all wards in a city as overlays.  Used when debugging maps for new cities.
     """
     
     def __init__(self,city):
         polygons = []
-        kml_url = 'http://localhost:8000/media/kml/' + city.name + '.kml'
-
         ward = Ward.objects.filter(city=city)[:1][0]
-        #for ward in Ward.objects.filter(city=city):
-        #    for poly in ward.geom:
-        #        polygons.append( GPolygon( poly ) )
+        for ward in Ward.objects.filter(city=city):
+            for poly in ward.geom:
+                polygons.append( GPolygon( poly ) )
         GoogleMap.__init__(self,center=ward.geom.centroid,zoom=13,key=settings.GMAP_KEY, polygons=polygons, kml_urls=[kml_url],dom_id='map_canvas')
     
 
@@ -454,43 +471,7 @@ class GoogleAddressLookup(object):
     
     """
     Simple Google Geocoder abstraction - supports UTF8
- 
-    >>> doesnt_exist = GoogleAddressLookup("Foobar")
-    >>> doesnt_exist.resolve()
-    True
-    >>> doesnt_exist.exists()
-    False
-
-    # Create test matches
-    >>> single_match = GoogleAddressLookup("4691 Rue Garnier, Montreal Quebec")
-    
-    # Check existence
-    >>> single_match.resolve()
-    True
-    >>> single_match.exists()
-    True
-    >>> single_match.matches_multiple()
-    False
-    >>> single_match.lat(0)
-    '45.5320187'
-    >>> single_match.lon(0)
-    '-73.5789397'
-
-    # multiple matches
-    >>> multiple_matches = GoogleAddressLookup("Beaconsfield")
-    >>> multiple_matches.resolve()
-    True
-    >>> multiple_matches.matches_multiple()
-    True
-    >>> multiple_matches.get_match_options()
-    ['Beaconsfield, QC, Canada', 'Beaconsfield, Buckinghamshire, UK', 'Beaconsfield, St James, NB, Canada', 'Beaconsfield, Andover, NB, Canada', 'Beaconsfield, Norwich, ON, Canada', 'Beaconsfield, Annapolis, Subd. B, NS, Canada', 'Beaconsfield, Withernsea, East Riding of Yorkshire HU19 2, UK', 'Beaconsfield, Stirchley, Telford and Wrekin TF3 1, UK', 'Beaconsfield, Luton LU2 0, UK', 'Beaconsfield TAS, Australia']
-
-    >>> utf8_match = GoogleAddressLookup(u'4691 Rue de Br\xe9beuf Montreal Canada')
-    >>> utf8_match.resolve()
-    True
-    >>> utf8_match.exists()
-    True
-     """
+    """
 
     def __init__(self,address ):
         self.query_results = []
@@ -591,7 +572,6 @@ class CityTotals(ReportCountQuery):
         self.sql += """ from reports left join wards on reports.ward_id = wards.id left join cities on cities.id = wards.city_id 
         """ 
         self.sql += ' where reports.is_confirmed = True and city_id = %d ' % city.id
-        print self.sql
         
 class CityWardsTotals(ReportCountQuery):
 
@@ -632,6 +612,27 @@ class AllCityTotals(ReportCountQuery):
         if (self.index ==0 ):
             return( True )
         return( self.get_results()[self.index][7] != self.get_results()[self.index-1][7] )
+    
+class ApiKey(models.Model):
+    
+    WIDGET = 0
+    MOBILE = 1
+    
+    TypeChoices = [   
+    (WIDGET, 'Embedded Widget'),
+    (MOBILE, 'Mobile'), ]
+    
+
+    organization = models.CharField(max_length=100)
+    domain = models.CharField(max_length=100)
+    key = models.CharField(max_length=100)
+    passcode = models.CharField(max_length=100)
+    type = models.IntegerField(choices=TypeChoices)
+    contact_email = models.EmailField(null=True,blank=True)
+    approved = models.BooleanField(default=False)
+    city = models.ForeignKey(City,null=True,blank=True)
+    template = models.CharField(max_length=100, default='widgets/900x600.html')
+    
 
 class FaqEntry(models.Model):
     __metaclass__ = TransMeta

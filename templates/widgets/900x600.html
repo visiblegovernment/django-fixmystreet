@@ -1,0 +1,33 @@
+{% load i18n %}
+{% load googleanalytics_tags %}
+<html>
+<head>
+	<title>{% trans "FixMyStreet.ca" %} - {% block title %}{% trans "Home" %}{% endblock %}</title>
+	<link rel="stylesheet" type="text/css" href="/media/css/global.css" />
+	<link rel="stylesheet" type="text/css" href="/media/css/typography.css" />
+	<link rel="stylesheet" type="text/css" href="/media/css/layout-6.css" />
+	<link rel="stylesheet" type="text/css" href="/media/css/colors.css" />
+	{% block css %}{% endblock %}
+	{% block script %}{% endblock %}	
+	{% if google  %}
+	   {{ google.style }}
+	   {{ google.scripts }}
+ 	{% endif %}
+</head>
+	<body {% if google %}{{ google.onload }} {{ google.onunload }}{% endif %}>
+		<div id="content_container">
+			<div id="page_container">
+				<div id="content">
+					{% if error_msg %}
+						<div id="error-msg">{{error_msg}}</div>
+					{% endif %}				
+					{% block content %}{% endblock %}
+				</div>
+				<div id="footer">
+				</div>
+			</div><!--end page_container -->
+			</div><!-- end of content container -->
+		{% block endbody %}{% endblock %}
+		{% googleanalytics %}
+	</body>
+</html>

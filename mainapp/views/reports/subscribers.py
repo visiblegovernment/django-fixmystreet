@@ -17,7 +17,7 @@ def new( request, report_id ):
            if report.is_subscribed(subscriber.email):
                error_msg = _("You are already subscribed to this report.")
            else:
-               subscriber.save()
+               subscriber.save(request)
                return( HttpResponseRedirect( '/reports/subscribers/create/' ) ) 
     else:
         form = ReportSubscriberForm()
@@ -36,7 +36,7 @@ def create( request ):
 def confirm( request, confirm_token ):
     subscriber = get_object_or_404(ReportSubscriber, confirm_token = confirm_token )
     subscriber.is_confirmed = True
-    subscriber.save()
+    subscriber.save(request)
     
     return render_to_response("reports/subscribers/confirm.html",
                 {   "subscriber": subscriber, },

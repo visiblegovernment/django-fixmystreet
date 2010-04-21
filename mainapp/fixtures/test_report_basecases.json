@@ -1,0 +1,95 @@
+[
+    {
+        "pk": 1, 
+        "model": "mainapp.report", 
+        "fields": {
+            "category": 2, 
+            "is_hate": false, 
+            "sent_at": "2010-02-02 15:18:43", 
+            "is_confirmed": true, 
+            "title": "An issue on rideau", 
+            "photo": "", 
+            "created_at": "2010-02-02 15:11:49", 
+            "point": "POINT (-75.6824648380000014 45.4301269580000024)", 
+            "updated_at": "2010-02-09 19:35:16", 
+            "email_sent_to": "311@testcity.com", 
+            "author": "Report Creator", 
+            "fixed_at": "2010-02-09 19:35:16", 
+            "reminded_at": "2010-02-02 15:11:49", 
+            "ward": 4, 
+            "is_fixed": true, 
+            "desc": "Parks!"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "mainapp.report", 
+        "fields": {
+            "category": 5, 
+            "is_hate": false, 
+            "sent_at": "2010-02-02 16:58:06", 
+            "is_confirmed": true, 
+            "title": "A new 'problem' report", 
+            "photo": "", 
+            "created_at": "2010-02-02 16:47:06", 
+            "point": "POINT (-75.6965517998000053 45.4187415580000007)", 
+            "updated_at": "2010-02-02 16:47:06", 
+            "email_sent_to": "311@test_city.com", 
+            "author": "Report Creator", 
+            "fixed_at": null, 
+            "reminded_at": "2010-02-02 16:47:06", 
+            "ward": 3, 
+            "is_fixed": false, 
+            "desc": "Here's a description with a lot of 'escapes' in it.\r\n\r\nAnd linebreaks!"
+        }
+    },  
+    {
+        "pk": 1, 
+        "model": "mainapp.reportupdate", 
+        "fields": {
+            "confirm_token": "9ad32cbb2a73bb31a046c7e7ff4ceca1", 
+            "is_confirmed": true, 
+            "author": "Report Creator", 
+            "created_at": "2010-02-02 15:11:54", 
+            "first_update": true, 
+            "phone": "514-513-0475", 
+            "report": 1, 
+            "is_fixed": false, 
+            "email": "reportcreator@test.com", 
+            "desc": "Parks!"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "mainapp.reportupdate", 
+        "fields": {
+            "confirm_token": "e7600210761099f24015c86b592d5aed", 
+            "is_confirmed": true, 
+            "author": "Report Creator", 
+            "created_at": "2010-02-02 16:47:10", 
+            "first_update": true, 
+            "phone": "514-513-0475", 
+            "report": 2, 
+            "is_fixed": false, 
+            "email": "reportcreator@test.com", 
+            "desc": "Here's a description with a lot of 'escapes' in it.\r\n\r\nAnd linebreaks!"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "mainapp.reportupdate", 
+        "fields": {
+            "confirm_token": "df9172f6c0582fb807dd50b9fe64914a", 
+            "is_confirmed": true, 
+            "author": "Report Updater", 
+            "created_at": "2010-02-09 19:35:16", 
+            "first_update": false, 
+            "phone": "514-513-0475", 
+            "report": 1, 
+            "is_fixed": true, 
+            "email": "reportupdater@test.com", 
+            "desc": "An update."
+        }
+    }
+ 
+]
