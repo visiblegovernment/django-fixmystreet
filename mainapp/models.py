@@ -418,13 +418,16 @@ class FixMyStreetMap(GoogleMap):
         Overrides the GoogleMap class that comes with GeoDjango.  Optionally,
         show nearby reports.
     """
-    def __init__(self,pnt,draggable=False,nearby_reports = [] ):  
+    def __init__(self,pnt,draggable=False,nearby_reports = [], api_key = None ):  
 #        self.icons = []
         markers = []
         marker = GMarker(geom=(pnt.x,pnt.y), draggable=draggable)
         if draggable:
+            create_url = '/reports/new?'
+            if api_key:
+                create_url += "api_key=%s;" % api_key
             event = GEvent('dragend',
-                           'function() { window.location.href = "/reports/new?" +"&lat="+geodjango.map_canvas_marker1.getPoint().lat().toString()+"&lon="+geodjango.map_canvas_marker1.getPoint().lng().toString(); }')        
+                           'function() { window.location.href = "%s" +"&lat="+geodjango.map_canvas_marker1.getPoint().lat().toString()+"&lon="+geodjango.map_canvas_marker1.getPoint().lng().toString(); }' % create_url)        
             marker.add_event(event)
         markers.append(marker)
         
@@ -632,6 +635,9 @@ class ApiKey(models.Model):
     approved = models.BooleanField(default=False)
     city = models.ForeignKey(City,null=True,blank=True)
     template = models.CharField(max_length=100, default='widgets/900x600.html')
+    
+    def __unicode__(self):
+        return( str(self.organization) )
     
 
 class FaqEntry(models.Model):

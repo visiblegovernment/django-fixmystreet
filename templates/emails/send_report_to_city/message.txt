@@ -7,5 +7,5 @@ FMS ID:       {{update.report.id}}
 
 {{update.desc|safe}}
 
-Submitted via FixMyStreet.ca on {{update.report.created_at|date}}.
+Submitted via {{organization}} on {{update.report.created_at|date}}.
 {{update.report.get_absolute_url}}

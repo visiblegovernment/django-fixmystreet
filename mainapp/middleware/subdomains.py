@@ -19,11 +19,11 @@ class SubdomainMiddleware:
             request.subdomain = None
             host_domain = request.META.get('HTTP_HOST', None)
             if host_domain:
-                request.host = 'http://' + host_domain
+                request.host_url = 'http://' + host_domain
                 host_s = host_domain.replace('www.', '').split('.')
                 if len(host_s) > 2:
                     request.subdomain = ''.join(host_s[:-2])
             else:
                 # true for test cases.
-                request.host = settings.SITE_URL
+                request.host_url = settings.SITE_URL
  

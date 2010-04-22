@@ -8,8 +8,10 @@ def widget(request):
         base = 'website_base.html'  
     extra_context['base_template'] = base
     if hasattr(request,'api_key'):
-        extra_context['widget_org'] = str(request.api_key.organization)
-        extra_context['widget_domain'] = str(request.api_key.domain)
-    if hasattr(request,'host'):
-        extra_context['host'] = request.host
+        extra_context['organization'] = str(request.api_key.organization)
+    else:
+        extra_context['organization'] = 'FixMyStreet.ca'
+        
+    if hasattr(request,'host_url'):
+        extra_context['host'] = request.host_url
     return extra_context

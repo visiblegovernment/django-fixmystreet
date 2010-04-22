@@ -1,4 +1,4 @@
-The FixMyStreet.ca Report: '{{update.report.title|safe}}' 
+The {{organization}} 311 Report: '{{update.report.title|safe}}' 
 was updated by {{update.author|safe}} on {{update.created_at|date}}:
 
 {% if update.is_fixed %}This issue has been fixed. {% endif %}
@@ -11,11 +11,11 @@ was updated by {{update.author|safe}} on {{update.created_at|date}}:
 For more information, see the full report at:
 {{host}}{{update.report.get_absolute_url}}
 
-Thank you for supporting FixMyStreet.ca,
-The FixMyStreet.ca Team
+Thank you for supporting {{organization}},
+The {{organization}} Team
 
 {% if subscriber %}
 You are receiving this email because you subscribed to updates for this report
-on FixMyStreet.ca.  To unsubscribe from updates to this report, click the 
+on {{organization}}.  To unsubscribe from updates to this report, click the 
 following link: {{host}}/reports/subscribers/unsubscribe/{{subscriber.confirm_token}}
 {% endif %}

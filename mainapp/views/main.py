@@ -66,7 +66,7 @@ def search_address(request):
         return( index(request, _(str(e))))
 
     reports = Report.objects.filter(is_confirmed = True,point__distance_lte=(pnt,D(km=4))).distance(pnt).order_by('distance')
-    gmap = FixMyStreetMap(pnt,True,reports)
+    gmap = FixMyStreetMap(pnt,True,reports,request.GET.get('api_key',None))
         
     return render_to_response("search_result.html",
                 {'google' : gmap,
