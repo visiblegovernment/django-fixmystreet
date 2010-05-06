@@ -1,0 +1,3 @@
+*.pyc
+.gitignore
+local_settings.py
