@@ -31,7 +31,7 @@ class WidgetMiddleware:
             request.base_template = key_entry.template
             
             # override the host URL
-            request.host_url = key_entry.domain
+            request.host_url = key_entry.domain + key_entry.link_offset
                 
         def get_api_key(self,request):
             return( request.POST.get('api_key',request.GET.get('api_key',None)) )

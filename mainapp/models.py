@@ -633,11 +633,21 @@ class ApiKey(models.Model):
     contact_email = models.EmailField(null=True,blank=True)
     approved = models.BooleanField(default=False)
 
-    # the following fields are used for embedded widget
-    # APIs
+    """---------------------------------------------
+    the following fields are used for embedded widget
+    views
+    ---------------------------------------------"""
     
+    # top-level domain of the site using the widget
     domain = models.CharField(max_length=100,null=True,blank=True)
+    
+    # offset for links in confirmation emails
+    link_offset = models.CharField(max_length=100,null=True,blank=True)
+    
+    # is this widget API specific to a city (eg. TO)
     city = models.ForeignKey(City,null=True,blank=True)
+    
+    # what base template do they use?
     template = models.CharField(max_length=100, default='widgets/900x600.html')
     
     def __unicode__(self):

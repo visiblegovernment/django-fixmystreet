@@ -5,7 +5,8 @@
     adds the following to the request:
      - host: the HTTP_HOST preceded by http:// - used when formatting 
              links for outgoing emails.
-    - subdomain: can be used to identify a city, or a widget.
+     - subdomain: can be used to identify a city, eg.
+             toronto.fixmystreet.ca
     
     NOTE: there may be login issues across sub-domains when user
     logins are supported
