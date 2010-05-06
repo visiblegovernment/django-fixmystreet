@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404
+from django.http import HttpResponseNotFound
 from mainapp.models import ApiKey
 import re
 
@@ -12,7 +12,12 @@ class WidgetMiddleware:
             key = self.get_api_key(request)
             if not key: 
                 return
-            key_entry = get_object_or_404(ApiKey,key=key)
+                        
+            try:
+                key_entry = ApiKey.objects.get(key=key)
+            except ApiKey.DoesNotExist:
+                return( HttpResponseNotFound('API Key does not exist.' ) )
+            
             if key_entry.type != ApiKey.WIDGET:
                 return
             

@@ -3,7 +3,7 @@ from contrib.django_restapi.responder import JSONResponder, XMLResponder
 from django.contrib.gis.geos import fromstr
 from django.contrib.gis.measure import D
 from django.forms.util import ErrorDict
-from mainapp.models import Report,ReportCategory
+from mainapp.models import Report,ReportCategory,ApiKey
 from mainapp import search
 from mainapp.views.reports.main import create_report
 import md5
@@ -17,8 +17,6 @@ from django.db import models
 class InputValidationException(Exception):
     pass
 
-class InvalidAPIKey(Exception):
-    pass
 
 class MobileReportAPI(object):
     
@@ -64,7 +62,7 @@ class MobileReportAPI(object):
             raise InputValidationException('General Service Error: No device_id')
 
         if not MobileReportAPI._nonce_ok(request):
-            raise InvalidAPIKey('Invalid API Key')
+            raise InputValidationException('Invalid API Key')
  
         # we're good.        
         report = create_report(request,True)
@@ -82,10 +80,19 @@ class MobileReportAPI(object):
     def _nonce_ok(request):
         timestamp = request.POST.get('timestamp')
         email = request.POST.get('email')
-        nonce = request.POST.get('api_key')
-        seed = '%s:%s:%s' % ( email,timestamp,settings.MOBILE_SECURE_KEY )
+        api_key = request.POST.get('api_key')
+        nonce = request.POST.get('nonce')
+
+        key_entries = ApiKey.objects.filter(key=api_key)[:1]
+        if not key_entries:
+            #really, this case should be caught by the check
+            #in the widget middleware.
+            return( false )
+        
+        seed = '%s:%s:%s' % ( email,timestamp,key_entries[0].passcode )
         m = md5.new( seed )
         compare_nonce = binascii.b2a_base64(m.digest())
+        
         return( compare_nonce == nonce)
     
     @staticmethod

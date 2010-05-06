@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.test.client import Client
-from mainapp.models import Report,ReportUpdate
-from mainapp.views.rest import MobileReportAPI
+from mainapp.models import Report,ReportUpdate, ApiKey
+from mainapp.views.mobile import MobileReportAPI
 import simplejson
 import md5
 import settings
@@ -18,7 +18,9 @@ LOCAL_PARAMS =  { 'title': 'A report from our API',
                      'email': 'testuser@hotmail.com',
                      'phone': '514-513-0475' } 
 
-MOBILE_PARAMS =  { 'title': 'A report from our API', 
+API_KEY = '123456'
+
+MOBILE_REPORT_PARAMS =  { 'title': 'A report from our API', 
                       'lat': '45.4301269580000024',
                       'lon': '-75.6824648380000014',
                       'category': 5,
@@ -27,12 +29,19 @@ MOBILE_PARAMS =  { 'title': 'A report from our API',
                       'description': 'The description',
                       'customer_email': 'testuser@hotmail.com',
                       'customer_phone': '514-513-0475' } 
+
+MOBILE_PARAMS = MOBILE_REPORT_PARAMS.copy()
+MOBILE_PARAMS.update(  {   
+                    'device_id': 'iphone',
+                    'timestamp': 'asdfasdf',
+                    'api_key': API_KEY } )
     
 UPDATE_PARAMS = { 'author': 'John Farmer',
                       'email': 'testuser@hotmail.com',
                       'desc': 'This problem has been fixed',
                       'phone': '514-513-0475',
                       'is_fixed': True }
+
 
 
 class MobileTestCases(TestCase):
@@ -42,11 +51,22 @@ class MobileTestCases(TestCase):
     """
     fixtures = ['test_rest.json']
     c = Client()
+    key_entry = ApiKey.objects.create(
+                organization = 'testing',
+                key = API_KEY,
+                passcode = 'hello',
+                type = ApiKey.MOBILE )        
+    
     
     def get_json(self, query):
         response = self.c.get(query)
         self.assertEquals(response.status_code,200)
         return( simplejson.loads(response.content) )
+    
+    def get_nonce(self, email, timestamp, passcode):
+        seed = '%s:%s:%s' % ( email,timestamp, passcode )
+        m = md5.new( seed )
+        return( binascii.b2a_base64(m.digest()))
         
     def test_get_by_query(self):
         result = self.get_json('/mobile/reports.json?q=K2P1N8')
@@ -69,16 +89,12 @@ class MobileTestCases(TestCase):
         self.assertEquals( len(result), 2 )
 
     def test_create_param_tranform(self):  
-       output = MobileReportAPI._transform_params( MOBILE_PARAMS.copy() )
+       output = MobileReportAPI._transform_params( MOBILE_REPORT_PARAMS.copy() )
        self.assertEquals(output, LOCAL_PARAMS ) 
 
     def test_create(self):
         params = MOBILE_PARAMS.copy()
-        params['device_id'] = 'iphone'
-        params['timestamp'] = 'asdfasdf'
-        seed = '%s:%s:%s' % ( params['customer_email'],params['timestamp'],settings.MOBILE_SECURE_KEY )
-        m = md5.new( seed )
-        params['api_key'] = binascii.b2a_base64(m.digest())
+        params['nonce'] = self.get_nonce(params['customer_email'],params['timestamp'], self.key_entry.passcode)
 
         response = self.c.post('/mobile/reports.json', params )
         self.assertEquals( response.status_code, 200 )
@@ -91,5 +107,22 @@ class MobileTestCases(TestCase):
         params = MOBILE_PARAMS.copy()
         response = self.c.post('/mobile/reports.json', params )
         self.assertEquals( response.status_code, 412 )
-    
+        
+    def test_create_bad_nonce(self):
+        params = MOBILE_PARAMS.copy()
+        # mess with the passcode
+        params['nonce'] = self.get_nonce(params['customer_email'],
+                                         params['timestamp'], 
+                                         self.key_entry.passcode + 'a')
+        response = self.c.post('/mobile/reports.json', params )
+        self.assertEquals( response.status_code, 412 )
+        
+    def test_create_bad_key(self):
+        params = MOBILE_PARAMS.copy()
+        params['nonce'] = self.get_nonce(params['customer_email'],params['timestamp'], self.key_entry.passcode)
+        # mess with the API key
+        params['api_key'] = params['api_key'] + 'a'
+        response = self.c.post('/mobile/reports.json', params )
+        self.assertEquals( response.status_code, 404 )
+        
  

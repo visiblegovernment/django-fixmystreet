@@ -1,7 +1,8 @@
 {% if update.author %}Hello {{update.author|safe}}{% endif %}
 
-{% if update.first_update %}Thank you for submitting'{% else %}Thank you for submitting an update on {% endif %}
-the report '{{update.report.title|safe}}' to {{organization}}.  
+{% if update.first_update %}Thank you for submitting{% else %}Thank you for submitting an update on {% endif %}the report 
+'{{update.report.title|safe}}'
+to {{organization}}.  
 
 To confirm your submission, please click on the following URL:
 {{host}}/reports/updates/confirm/{{update.confirm_token}}

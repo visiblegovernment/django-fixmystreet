@@ -626,13 +626,17 @@ class ApiKey(models.Model):
     (MOBILE, 'Mobile'), ]
     
 
-    organization = models.CharField(max_length=100)
-    domain = models.CharField(max_length=100)
+    organization = models.CharField(max_length=100)    
     key = models.CharField(max_length=100)
     passcode = models.CharField(max_length=100)
     type = models.IntegerField(choices=TypeChoices)
     contact_email = models.EmailField(null=True,blank=True)
     approved = models.BooleanField(default=False)
+
+    # the following fields are used for embedded widget
+    # APIs
+    
+    domain = models.CharField(max_length=100,null=True,blank=True)
     city = models.ForeignKey(City,null=True,blank=True)
     template = models.CharField(max_length=100, default='widgets/900x600.html')
     
