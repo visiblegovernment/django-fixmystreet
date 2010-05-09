@@ -134,6 +134,9 @@ class ReportCategory(models.Model):
     class Meta:
         db_table = u'report_categories'
         translate = ('name', 'hint', )
+
+    def __unicode__(self):      
+        return self.name
     
             
 # Override where to send a report for a given city.        

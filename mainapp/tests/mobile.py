@@ -12,7 +12,7 @@ from django.core import mail
 LOCAL_PARAMS =  { 'title': 'A report from our API', 
                      'lat': '45.4301269580000024',
                      'lon': '-75.6824648380000014',
-                     'category_id': 5,
+                     'category': 5,
                      'desc': 'The description',
                      'author': 'John Farmer',
                      'email': 'testuser@hotmail.com',
@@ -66,7 +66,7 @@ class MobileTestCases(TestCase):
     def get_nonce(self, email, timestamp, passcode):
         seed = '%s:%s:%s' % ( email,timestamp, passcode )
         m = md5.new( seed )
-        return( binascii.b2a_base64(m.digest()))
+        return( m.hexdigest())
         
     def test_get_by_query(self):
         result = self.get_json('/mobile/reports.json?q=K2P1N8')
@@ -125,4 +125,18 @@ class MobileTestCases(TestCase):
         response = self.c.post('/mobile/reports.json', params )
         self.assertEquals( response.status_code, 404 )
         
+    def test_bad_lat_lon(self):
+        params = MOBILE_PARAMS.copy()
+        params['nonce'] = self.get_nonce(params['customer_email'],params['timestamp'], self.key_entry.passcode)
+        params['lat'] = '35.4301269580000024'
+        params['lon'] = '-75.6824648380000014'
+        response = self.c.post('/mobile/reports.json', params )
+        self.assertEquals( response.status_code, 412 )
+        
+    def test_missing_param(self):
+        params = MOBILE_PARAMS.copy()
+        params['nonce'] = self.get_nonce(params['customer_email'],params['timestamp'], self.key_entry.passcode)
+        del params['customer_phone']
+        response = self.c.post('/mobile/reports.json', params )
+        self.assertEquals( response.status_code, 412 )
  

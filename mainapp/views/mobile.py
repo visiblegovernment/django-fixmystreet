@@ -5,8 +5,8 @@ from django.contrib.gis.measure import D
 from django.forms.util import ErrorDict
 from mainapp.models import Report,ReportCategory,ApiKey
 from mainapp import search
-from mainapp.views.reports.main import create_report
-import md5
+from mainapp.forms import ReportForm,ReportUpdateForm
+import hashlib
 import binascii
 import settings
 from django.core import serializers
@@ -17,7 +17,6 @@ from django.db import models
 class InputValidationException(Exception):
     pass
 
-
 class MobileReportAPI(object):
     
     EXPOSE_FIELDS = ('id','point', 'title','desc','author','email_sent_to','created_at','is_fixed')
@@ -25,7 +24,6 @@ class MobileReportAPI(object):
     FORIEGN_TO_LOCAL_KEYS = {    'customer_email':'email',
                                  'customer_phone':'phone',
                                  'description': 'desc',
-                                 'category': 'category_id'
                             }
     
     def get(self,request):
@@ -62,13 +60,19 @@ class MobileReportAPI(object):
             raise InputValidationException('General Service Error: No device_id')
 
         if not MobileReportAPI._nonce_ok(request):
-            raise InputValidationException('Invalid API Key')
+            raise InputValidationException('Invalid Nonce for API Key')
  
-        # we're good.        
-        report = create_report(request,True)
+        # we're good. 
+        update_form = ReportUpdateForm( request.POST  )   
+        report_form = ReportForm( update_form, request.POST, request.FILES )
+        if not report_form.is_valid():
+            # some issue with our form input.  
+            raise InputValidationException(report_form.all_errors())
+            
+        report = report_form.save( request, is_confirmed=True )
         if not report:
             # some issue with our form input.  Does this need to be more detailed?
-            raise InputValidationException('General Service Error: bad input')
+            raise InputValidationException("General Service Error: Error in report creation")
         return( Report.objects.filter(pk=report.id) )
     
     def make_response(self,format,models = [],fields= None,status=200):
@@ -90,9 +94,8 @@ class MobileReportAPI(object):
             return( false )
         
         seed = '%s:%s:%s' % ( email,timestamp,key_entries[0].passcode )
-        m = md5.new( seed )
-        compare_nonce = binascii.b2a_base64(m.digest())
-        
+        m = hashlib.md5( seed )
+        compare_nonce = m.hexdigest()
         return( compare_nonce == nonce)
     
     @staticmethod
@@ -152,7 +155,10 @@ class RestCollection(Collection):
                     'possible_addresses': addrs }))
 
             except InputValidationException, e:
-                errors = ErrorDict({'info': [str(e)]})
+                err_list = []
+                for err in e.args:
+                    err_list.append(str(err))
+                errors = ErrorDict({'info': err_list })
                 error_code = 412
         else:
             error_code = 415
