@@ -68,7 +68,7 @@
 				</div>
 				{% endif %}
 			</div>
-			<br/>
+			<div id='report-body'>
 			<p>{{report.desc|linebreaks}}</p>
 			{% if report.photo  %}
                    <img align=center' src='/media/{{report.photo}}'>
@@ -102,9 +102,10 @@
 				</form>
 				{% endif %}	
 		{% endif %}
+		</div>
 	</div>
 	<div id="rightcol">
-     	<div id="{{ google.dom_id }}" style="width:400px;height:400px;"></div>
+     	<div id="{{ google.dom_id }}" ></div>
     	{% include "wards/_info_box.html" %}   	
     </div>
 </div>
