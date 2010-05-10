@@ -651,7 +651,7 @@ class ApiKey(models.Model):
     city = models.ForeignKey(City,null=True,blank=True)
     
     # what base template do they use?
-    template = models.CharField(max_length=100, default='widgets/900x600.html')
+    template = models.CharField(max_length=100, default='widgets/630x600.html')
     
     def __unicode__(self):
         return( str(self.organization) )

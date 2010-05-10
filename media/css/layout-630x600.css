@@ -6,7 +6,7 @@ body {
 }
 
 #page_container {
-	width: 950px;
+	width: 630px;
 	margin: 0px auto;
 }
 
@@ -18,81 +18,6 @@ body {
 .table-rank { width: 60px; }
 .table-intro { width: 140px; }
 .row-text { width: 470px; }
-
-#header {
-	width: 100%;
-	height: 80px;	
-	margin-top: 10px;
-}
-
-#header_left {
-	float: left;
-	width: 70%;
-	height: 60px;
-}
-
-#header_right {
-	float: right;
-	height: 60px;
-	width: 29%;
-}
-
-#top_menu {
-	text-align: right;
-	width: 100%;
-	padding: 0;
-	height: 50px;
-}
-
-
-
-#top_menu ul li {
-    float: left;
-    margin-left: 20px;
-	list-style-type: none;
-	padding: 1em;
-}
-
-#top_menu a {
-	color: #fff;
-	text-decoration: none;
-	font-weight: bold;
-}
-
-#top_menu a:hover {
-	padding-bottom: 3px;
-	border-bottom: 3px solid #fff;
-}
-
-#top_menu_br {
-	height: 50px;
-}
-
-#top_menu_bl {
-	height: 50px;
-}
-
-
-#top_menu_links {
-	float: left;
-	width: 700px;
-	text-align: left;
-	height: 50px;
-}
-
-#top_menu_links div {
-	float: right;
-	width: 100%;
-}
-
-#language {
-	padding-top: 1em;
-	padding-right: 1em;
-	width: 150px;
-	height: 50px;
-	float: right
-}
-
 
 #page_content_container {
 	min-height:550px;
@@ -116,7 +41,7 @@ body {
 	text-align: left;
 	margin: 10px auto;
 	min-height:550px; 
-	width: 750px;
+	width: 630px;
 }
 
 
@@ -135,13 +60,13 @@ body {
 
 #leftcol {
 	float: left;
-	width: 48%;
+	width: 52%;
 }
 
 
 #rightcol {
 	float: right;
-	width: 48%;
+	width: 45%;
 }
 
 #map_canvas {
@@ -161,7 +86,6 @@ label {
 	padding-top: 0px;
 	padding-bottom: 2px;
 }
-
 
 table.form td,th {
 	padding-top: 5px;
@@ -365,14 +289,6 @@ blockquote {
 }
 
 
-#footer {
-	font-size: 80%;
-	width: 100%;
-	height: 60px;
-	text-align: center;
-	padding: 5px;
-	clear:both;
-}
 
 #bugreport {
 }
@@ -424,5 +340,4 @@ display: inline;
 	text-align: center; 
 	background: #AAFBAF; } 
 #report-body { width: 100%; clear: both; }
-
 #report-body img { width: 100%; }
