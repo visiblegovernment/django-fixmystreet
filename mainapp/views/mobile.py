@@ -63,8 +63,7 @@ class MobileReportAPI(object):
             raise InputValidationException('Invalid Nonce for API Key')
  
         # we're good. 
-        update_form = ReportUpdateForm( request.POST  )   
-        report_form = ReportForm( update_form, request.POST, request.FILES )
+        report_form = ReportForm( request.POST, request.FILES )
         if not report_form.is_valid():
             # some issue with our form input.  
             raise InputValidationException(report_form.all_errors())

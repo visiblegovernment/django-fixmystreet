@@ -69,11 +69,12 @@ class ReportUpdateForm(forms.ModelForm):
 class ReportForm(forms.ModelForm):
     """
         ReportForm -- 
-        combine is_valid(), clean(), and save()
+         
+        combines is_valid(), clean(), and save()
         etc. for both an update form and a report form
 
-        (these are submitted at the same time when a 
-         report is initially created)
+        (information for both models is submitted at 
+         the same time when a report is initially created)
     """
 
     class Meta:
@@ -84,8 +85,8 @@ class ReportForm(forms.ModelForm):
     lat = forms.fields.CharField(widget=forms.widgets.HiddenInput)
     lon = forms.fields.CharField(widget=forms.widgets.HiddenInput)
 
-    def __init__(self,update_form,data=None,files=None,initial=None):
-        self.update_form = update_form
+    def __init__(self,data=None,files=None,initial=None):
+        self.update_form = ReportUpdateForm(data)
         super(ReportForm,self).__init__(data,files, initial=initial)
         
     def _get_pnt(self):
