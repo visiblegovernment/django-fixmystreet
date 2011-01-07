@@ -5,9 +5,15 @@
 <div id="page_content_container">
 
 	<div id="leftcol">
-	<h3>{% trans "Problems near" %} {{ward.name}}, {{ward.city.name}}</h3>
+		<div id="instructable">
+			<img src="/media/images/marker-icon.png" class='left'>
+			<h3>{% trans "To Report a New Problem" %}</h3>
+			<p>{% trans "Drag the indicated marker to the correct location on the map." %}</p>
 
-		<p>{% trans "To report a problem, simply drag the marker to the correct location on the map." %}</p>
+			<img src="/media/images/arrow-right.png" class="right">
+		</div>
+		<br/><br/>
+		<p><strong>{% trans "Past problems near" %} <span class='highlight'>{{ward.name}}, {{ward.city.name}}</span></strong>
 		<ol>
 	{% if reports %}
 		{% for report in reports %}
@@ -21,12 +27,12 @@
 			<p>{% trans "No problems have been reported yet." %}</p>
 	{% endif %}
 		</ol>
-
+		</p>
 	</div>
 
-	<div id="rightcol">	
-     <div id="{{ google.dom_id }}" style="width:400px;height:400px;"></div>
+	<div id="rightcol">
+     <div id="{{ google.dom_id }}" style="width:520px;height:400px;"></div>
  	{{google.body}}
- 	</div>  
-</div>  
+ 	</div>
+</div>
 {% endblock %}

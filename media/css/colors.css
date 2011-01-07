@@ -55,38 +55,12 @@
 	background: url(/media/images/stat_br.png) bottom right no-repeat;
 }
 
-
-.stat {
-	background: #666666 url(/media/images/stat_tl.png) no-repeat;
-}
-
-.stat .top-right {
-	background: url(/media/images/stat_tr.png) top right no-repeat;
-}
-
-.stat .bottom-left {
-	background: url(/media/images/stat_bl.png) bottom left no-repeat;
-}
-
-.stat .bottom-right {
-	background: url(/media/images/stat_br.png) bottom right no-repeat;
-}
-
-.stat .content {
-	background: none;
-}
-
-#footer {
-	color: #666666;
-}
-
 .note strong {
 	color:green;
 }
 
 #start_box {
-	background: #6396b0 url(/media/images/start_tl.png) no-repeat;
-	color: #ffffff;
+    color: #ffffff;
 }
 
 #start_box div {
@@ -103,12 +77,12 @@
 }
 
 a {
-	color: #6396b0;
+	color: #7e090c;
 }
-
+p {color:#B4B4B4;}
 
 .status-text {
-color:#666666;	
+color:#666666;
 }
 
 
@@ -123,7 +97,8 @@ color:#666666;
 	color: #f3865a;
 }
 #content_container h3 {
-	color: #6396b0;
+	color: #FFF;
+    text-shadow:0px 1px 0px #000;
 }
 
 #content_container p a {
@@ -143,3 +118,5 @@ th {
 
 
 
+
+.highlight {color:#FFF;}

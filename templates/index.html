@@ -3,9 +3,10 @@
 {% block css %}
 <style type="text/css" media="screen">
 	#supported_cities { font-size: 80%; }
-	#front-page  { text-align: center; min-height:500px; width: 100%; }
-	#status  { text-align: center; min-height:450px; width: 100%; }
+	#front-page  { text-align: center; width: 100%; }
+	#status  { text-align: center; min-height:150px; width: 100%; }
 	.block { text-align: left; }
+
 </style>
 {% endblock %}
 </style>
@@ -19,78 +20,78 @@
 		</div>
 	{% endif %}
   <div id="front-page">
-	<div id="intro_text">	
-	  <h3>{% trans "Report, view, or discuss local problems" %}</h3>
-	  <p>{% trans "(like graffiti, potholes, excessive garbage, or street lighting)" %}</p>
+	<div id="intro_text">
+	  <h1>{% trans "report/view/discuss" %}</h1>
+	  <p><span>{% trans "graffiti." %}</span>
+		<span class='alt'>{% trans "potholes." %}</span>
+		<span>{% trans "excessive" %}</span>
+		<span class='alt'>garbage.</span>
+		<span>{% trans "street" %}</span>
+		 <span class='alt'>lighting.</span></p>
 	</div>
-			
-	<div id="start_box"><div><div><div>
+
+	<div id='start_box'>
+		<p>{% trans "Enter a nearby postal code, or street name and city:" %}</p>
 	    <form name="lookup" action="/search/"   method="post">
-		<b>{% trans "Enter a nearby postal code, or street name and city:" %}</b>
-		<input type="text" name="q">
-		<input type="submit" name="submit" value="{% trans "Go" %}">
-		</form>		
-	</div></div></div></div>
 
-
-	<div id="supported_cities">
-		<div>
-		{% trans "Supported Cities" %}:
-		{% for city in cities %}
-			<b>{{ city.name }} {{city.province.abbrev}},</b>	
-		{% endfor %}
-			<a href="/about/add_city">{% trans "Add Your City" %}</a><br/>
-		</div>
+		<input id='search_box' type="text" name="q">
+		<input class='search_button' type="submit" name="submit" value="{% trans "Search" %}">
+		</form>
 	</div>
 
-	<div id="status" >
-		<div id=col1>
-			<div class='block'>
-				<h4>{% trans "How to report a Problem" %}</h4>
-			   <ol>
-				   <li>{% trans "Enter a nearby postal code, or street name and city" %}</li>
-   				   <li>{% trans "Locate the problem on a map of the area" %}</li>
-   				   <li>{% trans "Enter details of the problem" %}</li>
-   				   <li>{% trans "We send it to the city on your behalf" %}</li>
-				</ol>
-			</div>
-			<div class='block'>
-				<h4>{% trans "Stats" %}</h4>
-				<div id='stat-group'>
-					<div class='stat'><div class='top-right'><div class='bottom-left'><div class='bottom-right'><div class='content'>
-						<span>{{report_counts.recent_new}}</span><br/>{% trans "Reports Filed" %}
-					</div></div></div></div></div>
-					<div class='stat'><div class='top-right'><div class='bottom-left'><div class='bottom-right'><div class='content'>
-						<span>{{report_counts.recent_fixed}}</span><br/>{% trans "Reports Fixed" %}*
-					</div></div></div></div></div>
-					<div class='stat'><div class='top-right'><div class='bottom-left'><div class='bottom-right'><div class='content'>
-						<span>{{report_counts.recent_updated}}</span><br/>{% trans "Reports Updated" %}
-					</div></div></div></div></div>
-				</div>
-				<div class="fix-disclaimer"><p>*{% trans "As reported by fixmystreet.ca users." %}</p></div>
-			</div>
-		</div>
-		<div id=col2>
-		<div class='block'>
-			<h4>{% trans "Recent Photos" %}</h4>
-			<ul class='recent_photos'>
-			{% for report in reports_with_photos %}
-				<li><a href='/reports/{{report.id}}'><img src='{{report.photo.thumbnail.url }}' height=100 ></a></li>
-			{% endfor %}
-			</ul>
-		</div>
-		<br/>
-		<div class='block'>
-			<h4>{% trans "Recent Reports" %}</h4>
-			<ul>
-			{% for report in recent_reports %}
-				<li><a href='{{report.get_absolute_url}}'>{{report.title}}</a></li>
-			{% endfor %}
-			</ul>
-		</div>
+</div>
+</div>
+{% endblock %}
 
+{% block content_third %}
+<div id="status" >
+	<div id=col1>
+		<div class='block'>
+			<h4>{% trans "How to Report a Problem" %}</h4>
+		   <ol>
+			   <li>{% trans "Enter a nearby postal code, street name, or city" %}</li>
+			   <li>{% trans "Locate the problem on a map of the area" %}</li>
+			   <li>{% trans "Enter details of the problem" %}</li>
+			   <li>{% trans "We send it to the city on your behalf" %}</li>
+			</ol>
 		</div>
+	</div>
+	<div id=col2>
+	<div id='stat-group'>
+		<div class='stat'>
+			<span>{{report_counts.recent_new}}</span><br/>
+			{% trans "Reports Filed" %}
 		</div>
+		<div class='stat'>
+			<span>{{report_counts.recent_fixed}}</span><br/>{% trans "Reports Fixed" %}*
+		</div>
+		<div class='stat'>
+			<span>{{report_counts.recent_updated}}</span><br/>{% trans "Reports Updated" %}
+		</div>
+	</div>
+	<div class="fix-disclaimer"><p>*{% trans "As reported by fixmystreet.ca users." %}</p></div>
+
+<!--	<div class='block'>
+		<h4>{% trans "Recent Reports" %}</h4>
+		<ul>
+		{% for report in recent_reports %}
+			<li><a href='{{report.get_absolute_url}}'>{{report.title}}</a></li>
+		{% endfor %}
+		</ul>
+	</div>
+-->
+
+	</div>
 	</div>
 </div>
+
+<!--<div id="supported_cities">
+	<div>
+	{% trans "Supported Cities" %}:
+	{% for city in cities %}
+		<b>{{ city.name }} {{city.province.abbrev}},</b>
+	{% endfor %}
+		<a href="/about/add_city">{% trans "Add Your City" %}</a><br/>
+	</div>
+</div>-->
 {% endblock %}

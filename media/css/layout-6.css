@@ -1,3 +1,4 @@
+
 body {
 	background: white;
 	padding: 0;
@@ -22,30 +23,34 @@ body {
 
 #header {
 	width: 100%;
-	height: 80px;	
+	height: 80px;
 	margin-top: 10px;
 }
 
 #header_left {
 	float: left;
-	width: 70%;
+	width: 530px;
 	height: 60px;
+	padding-top:1.3em;
 }
 
 #header_right {
 	float: right;
 	height: 60px;
-	width: 29%;
+	width: 42%;
 }
 
 #page_content_container {
-	min-height:550px;
+	min-height:440px;
 	width: 100%;
+	margin-top:1.2em;
+	background: url('/media/images/map-background.png') 275px 0 no-repeat;
 }
 
 #leftcol {
 float: left;
-width: 49%;
+text-align:left;
+width: 45%;
 min-height:450px;
 }
 
@@ -79,13 +84,15 @@ width: 450px;
 padding: 5px;
 width: 100%;
 min-height: 300px;
+text-align:left;
 }
 
 
 #map_canvas {
 	margin: 0px auto;
-	width: 400px;
+	width: 520px;
 	height: 400px;
+	border:2px solid #717171;
 }
 
 #top_menu {
@@ -126,7 +133,7 @@ min-height: 300px;
 
 #top_menu_links {
 	float: left;
-	width: 700px;
+	width: 400px;
 	text-align: left;
 	height: 50px;
 }
@@ -140,7 +147,7 @@ min-height: 300px;
 	padding-top: 1em;
 	padding-right: 1em;
 	width: 150px;
-	height: 50px;
+	height: 40px;
 	float: right
 }
 
@@ -149,7 +156,7 @@ min-height: 300px;
 #content {
 	text-align: left;
 	margin: 10px auto;
-	min-height:550px; 
+	min-height:550px;
 	width: 930px;
 }
 
@@ -157,6 +164,7 @@ label {
 width: 85px;
 float: left;
 padding: 0px;
+padding-top:4px;
 }
 
 #photo_note {
@@ -194,7 +202,7 @@ table.form th
 	vertical-align: top;
 	text-align: right;
 	padding-right: 5px;
-} 
+}
 
 .checklist {
 margin-left: 105px;
@@ -217,15 +225,13 @@ text-align: right;
 }
 
 #intro_text {
-text-align: center;
+text-align: left;
 padding-top: 5px;
 }
 
 #start_box {
-width: 625px;
-text-align: center;
-margin-left: auto;
-margin-right: auto;
+text-align: left;
+margin-top:4em;
 }
 
 
@@ -255,11 +261,11 @@ margin: 0;
 width: 300px;
 }
 
-.fix-disclaimer { 
-float: left; 
-text-align: center;
+.fix-disclaimer {
+float: right;
 margin-top: 10px;
-font-size: 90%;
+padding-right:1em;
+font-size: 80%;
 }
 
 
@@ -274,14 +280,12 @@ margin-right: auto;
 
 #col2 {
 	float: right;
-	width: 48%;
-	min-height:450px;
+	width: 57%;
 }
 
 #col1 {
 float: left;
-width: 48%;
-min-height:450px;
+width: 43%;
 }
 
 .block {
@@ -303,18 +307,18 @@ padding: 3px;
 height: 115px;
 }
 
-#subscribe-form-bg { 
-	text-align: center; 
+#subscribe-form-bg {
+	text-align: center;
 }
 
-#subscribe-form { 
+#subscribe-form {
 	width: 600px;
 	margin-left: auto;
 	margin-right: auto;
-	text-align: center; 
+	text-align: center;
 }
 
-#subscribe-form form { 
+#subscribe-form form {
 	width: 400px;
 	margin-left: auto;
 	margin-right: auto;
@@ -324,33 +328,14 @@ height: 115px;
 }
 
 .stat {
-	width: 95px;
-	color: #fff;
-	height: 105px;
-	margin: 5px;
+	width: 160px;
+	color: #222;
+	height: 95px;
+	margin: 0.6em;
 	float: left;
-	font-size: 80%;
 	text-align: center;
 	vertical-align: middle;
-}
-
-.stat .bottom-left {
-	height: 105px;
-}
-
-.stat .bottom-right {
-	height: 105px;
-}
-
-.stat .content {
-	padding-top: 10px;
-	padding-right: 5px;
-	padding-left: 5px;
-}
-
-.stat span {
-font-size: 250%;
-font-weight: bold;
+	background: url('/media/images/metrics-back.gif') 0 0 no-repeat;
 }
 
 a {
@@ -389,10 +374,11 @@ margin-bottom: 0.8em;
 
 
 #footer {
-font-size: 80%;
-width: 100%;
+width:960px;
+margin: 0 auto;
+
 height: 60px;
-text-align: center;
+text-align: left;
 padding: 5px;
 }
 
@@ -402,8 +388,10 @@ padding: 5px;
 .note {
 font-weight:bold;
 font-size:9pt;
-background-color:#eee;
+background-color:#bee4be;
 padding:1.2em;
+color:#333;
+font-weight:normal;
 }
 
 .note strong {
@@ -415,7 +403,7 @@ padding:1.2em;
 }
 .subitem strong{
 font-weight:bold;
-font-color:green;	
+font-color:green;
 }
 
 
@@ -425,11 +413,23 @@ display: inline !important;
 margin: 2px !important;
 padding: 0 !important;
 list-item-type: none;
-display: inline; 
+display: inline;
 }
 
 .recent_photos li a { text-decoration: none; }
 
 #report-header { width: 100%; height: 7em;}
 #report-status { padding-top:10px; width: 80%; float: left;  height: 7em; }
-#report-subscribers { padding-top:10px; padding-bottom: 10px; width: 20%; float: right; text-align: center; background: #AAFBAF; } 
+#report-subscribers { padding-top:10px; padding-bottom: 10px; width: 20%; float: right; text-align: center; background: #AAFBAF; }
+
+
+
+#search_box {width:460px;padding:1em;color:#222;font-size:100%; border:0;}
+.search_button {background-color:;width:222px;height:56px;display:block;background: url("/media/images/search-off.png") no-repeat 0 0;border:0;text-indent: -9999px;margin-top:1.2em;}
+.search_button:hover {background: url("/media/images/search-hover.png") no-repeat 0 0;cursor: pointer;cursor: hand;}
+#content_third {padding-top:2em;}
+#content_middle {overflow:hidden;}
+#instructable {width:300px;text-align:left;}
+#instructable img {padding-right:1.5em;}
+.left {float:left;}
+.right {float:right;}

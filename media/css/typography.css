@@ -2,25 +2,41 @@
 /*** Headings ***/
 
 #content_container h1 {
-	font-size: 2.4em;
+	font-size: 6em;
 	letter-spacing: -0.03em;
 	font-weight: normal;
+	text-shadow:0px 1px 0px #000;
 }
+
+#intro_text h1 {
+	font-family: "League Gothic";
+	text-transform:uppercase;
+	color:#dcdcdc !important;
+
+}
+#intro_text p {margin-top:-1.2em;padding-left:0.5em;}
+#intro_text span {color:#bebebe;font-family: "League Gothic";text-transform:uppercase;font-size:2em;	text-shadow:0px 1px 0px #000;}
+#intro_text span.alt {color:#be0d12;}
+
+#start_box p {font-size:1.2em;padding-bottom:0.6em;}
+
 #content_container h2 {
 	font-size: 1.4em;
 	font-weight: bold;
 	margin: 2px 0;
 }
 #content_container h3 {
-	font-size: 150%;
-	font-weight: bold;
+	font-size: 100%;
+	font-weight: normal;
 	margin: 2px 0 7px 0;
+	text-transform:uppercase;
 }
 
 #content_container h4 {
 	font-size: 110%;
 	font-weight: bold;
 	margin: 4px 0 7px 0;
+	text-align:left;
 }
 
 th {
@@ -42,7 +58,7 @@ th {
 #content ul li {
 	line-height: 1.5em;
 	margin: 0 0  0 2em;
-	list-style-type: disc;	
+	list-style-type: disc;
 }
 
 #content p:hover a {
@@ -51,6 +67,7 @@ th {
 
 #faq p,ul {
 	margin-left: 2em;
+	text-align:left !important;
 }
 
 #faq ul li { margin-left:4em; }
@@ -65,10 +82,10 @@ ul.keyline_list li {
 }
 
 ul.circle_list li {
-	background: url(../images/common/blt_green_circle.gif) no-repeat 0px 0.45em;	
+	background: url(../images/common/blt_green_circle.gif) no-repeat 0px 0.45em;
 	padding-left: 16px;
 	margin: 0.2em 0;
-	font-size: 1.2em;	
+	font-size: 1.2em;
 	line-height: 1.6em;
 }
 
@@ -97,9 +114,12 @@ ul.info_links li {
 
 
 .status-text {
-color:silver;	
+color:silver;
 }
 
+
+.stat {color:#222;font-family: "League Gothic";text-transform:uppercase;font-size: 130%;line-height:1.0;padding-top:0.5em;}
+.stat span {font-size:3em;}
 
 blockquote {
 margin-left:3em;
@@ -108,4 +128,6 @@ border:1px solid silver;
 border-left:5px solid silver;
 margin-bottom:0.8em;
 }
-
+#content_middle {padding-top:2em;margin-top:2em;color:#b4b4b4;}
+#content_middle label {text-transform:uppercase;}
+#instructable {color:#b4b4b4;}
