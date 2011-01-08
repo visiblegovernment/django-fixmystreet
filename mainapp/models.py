@@ -454,44 +454,8 @@ class GoogleAddressLookup(object):
     
     """
     Simple Google Geocoder abstraction - supports UTF8
+    """
  
-    >>> doesnt_exist = GoogleAddressLookup("Foobar")
-    >>> doesnt_exist.resolve()
-    True
-    >>> doesnt_exist.exists()
-    False
-
-    # Create test matches
-    >>> single_match = GoogleAddressLookup("4691 Rue Garnier, Montreal Quebec")
-    
-    # Check existence
-    >>> single_match.resolve()
-    True
-    >>> single_match.exists()
-    True
-    >>> single_match.matches_multiple()
-    False
-    >>> single_match.lat(0)
-    '45.5320187'
-    >>> single_match.lon(0)
-    '-73.5789397'
-
-    # multiple matches
-    >>> multiple_matches = GoogleAddressLookup("Beaconsfield")
-    >>> multiple_matches.resolve()
-    True
-    >>> multiple_matches.matches_multiple()
-    True
-    >>> multiple_matches.get_match_options()
-    ['Beaconsfield, QC, Canada', 'Beaconsfield, Buckinghamshire, UK', 'Beaconsfield, St James, NB, Canada', 'Beaconsfield, Andover, NB, Canada', 'Beaconsfield, Norwich, ON, Canada', 'Beaconsfield, Annapolis, Subd. B, NS, Canada', 'Beaconsfield, Withernsea, East Riding of Yorkshire HU19 2, UK', 'Beaconsfield, Stirchley, Telford and Wrekin TF3 1, UK', 'Beaconsfield, Luton LU2 0, UK', 'Beaconsfield TAS, Australia']
-
-    >>> utf8_match = GoogleAddressLookup(u'4691 Rue de Br\xe9beuf Montreal Canada')
-    >>> utf8_match.resolve()
-    True
-    >>> utf8_match.exists()
-    True
-     """
-
     def __init__(self,address ):
         self.query_results = []
         self.match_coords = []

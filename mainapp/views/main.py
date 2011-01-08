@@ -44,19 +44,18 @@ def search_address(request):
     address_lookup = GoogleAddressLookup( address )
 
     if not address_lookup.resolve():
-        return index(request, _("Sorry, we couldn\'t retreive the coordinates of that location, please use the Back button on your browser and try something more specific or include the city name at the end of your search."))
+        return home(request, _("Sorry, we couldn\'t retreive the coordinates of that location, please use the Back button on your browser and try something more specific or include the city name at the end of your search."))
     
     if not address_lookup.exists():
-        return index( request, _("Sorry, we couldn\'t find the address you entered.  Please try again with another intersection, address or postal code, or add the name of the city to the end of the search."))
+        return home( request, _("Sorry, we couldn\'t find the address you entered.  Please try again with another intersection, address or postal code, or add the name of the city to the end of the search."))
 
     if address_lookup.matches_multiple() and not request.GET.has_key("index"):
         addrs = address_lookup.get_match_options() 
-        addr_list = "" 
+        disambiguate_list = {}
         for i in range(0,len(addrs)):
             link = "/search?q=" + urlquote(address) + "&index=" + str(i)
-            addr_list += "<li><a href='%s'>%s</a></li>" % ( link, addrs[i] )
-            addr_list += "</ul>"
-        return index(request,disambiguate = addr_list )
+            disambiguate_list[ link ] = addrs[i]
+        return home(request,disambiguate = disambiguate_list )
     
     # otherwise, we have a specific match
     match_index = 0
@@ -67,7 +66,7 @@ def search_address(request):
     pnt = fromstr(point_str, srid=4326)    
     wards = Ward.objects.filter(geom__contains=point_str)
     if (len(wards) == 0):
-        return( index(request, _("Sorry, we don't yet have that area in our database.  Please have your area councillor contact fixmystreet.ca.")))
+        return( home(request, _("Sorry, we don't yet have that area in our database.  Please have your area councillor contact fixmystreet.ca.")))
     
     reports = Report.objects.filter(is_confirmed = True,point__distance_lte=(pnt,D(km=4))).distance(pnt).order_by('distance')
     gmap = FixMyStreetMap(pnt,True,reports)

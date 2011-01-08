@@ -15,7 +15,11 @@
 	{% if disambiguate %}
 		<div id='error-msg'>
 			<p>{% trans "That address returned more than one result.  Please try again, or select an option below:"%}</p>
-			{{disambiguate|safe}}
+			<ul>
+			{% for link,address in disambiguate.items %}
+				<li><a href='{{link}}'>{{address}}</li>
+			{% endfor %}
+			</ul>
 		</div>
 	{% endif %}
   <div id="front-page">
