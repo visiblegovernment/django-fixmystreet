@@ -387,7 +387,7 @@ class ReportMarker(GMarker):
         img = "/media/images/marker/%s/marker%s.png" %( color, icon_number )
         name = 'letteredIcon%s' %( icon_number )      
         icon = GIcon(name,image=img,iconsize=(20,34))
-        GMarker.__init__(self,geom=(report.point.x,report.point.y), title=report.title, icon=icon)
+        GMarker.__init__(self,geom=(report.point.x,report.point.y), title=report.title.replace('"',"'"), icon=icon)
 
     def __unicode__(self):
         "The string representation is the JavaScript API call."
@@ -440,13 +440,11 @@ class CityMap(GoogleMap):
     
     def __init__(self,city):
         polygons = []
-        kml_url = 'http://localhost:8000/media/kml/' + city.name + '.kml'
-
         ward = Ward.objects.filter(city=city)[:1][0]
-        #for ward in Ward.objects.filter(city=city):
-        #    for poly in ward.geom:
-        #        polygons.append( GPolygon( poly ) )
-        GoogleMap.__init__(self,center=ward.geom.centroid,zoom=13,key=settings.GMAP_KEY, polygons=polygons, kml_urls=[kml_url],dom_id='map_canvas')
+        for ward in Ward.objects.filter(city=city):
+            for poly in ward.geom:
+                polygons.append( GPolygon( poly ) )
+        GoogleMap.__init__(self,center=ward.geom.centroid,zoom=13,key=settings.GMAP_KEY, polygons=polygons,dom_id='map_canvas')
     
 
 
