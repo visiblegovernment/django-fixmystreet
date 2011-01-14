@@ -4,6 +4,7 @@ from django.template import Context, RequestContext
 from django.db import connection
 from django.utils.translation import ugettext_lazy, ugettext as _
 import datetime
+from django.utils.http import urlquote
 
 def show_by_number( request, city_id, ward_no ):
     city= get_object_or_404(City, id=city_id)
