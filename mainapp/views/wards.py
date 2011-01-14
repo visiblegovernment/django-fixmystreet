@@ -4,7 +4,6 @@ from django.template import Context, RequestContext
 from django.db import connection
 from django.utils.translation import ugettext_lazy, ugettext as _
 import datetime
-from django.utils.http import urlquote
 
 def show_by_number( request, city_id, ward_no ):
     city= get_object_or_404(City, id=city_id)
@@ -31,7 +30,7 @@ def show( request, ward_id ):
     
     # do we want to show older reports?
     if Report.objects.filter(ward=ward,created_at__lte=date_range_start).count() > 1:
-        older_reports_link  = ward.get_absolute_url() + "?years_ago=%i" %( urlquote(address),match_index, years_ago + 1)
+        older_reports_link  = ward.get_absolute_url() + "?years_ago=%i" %( years_ago + 1)
     else:
         older_reports_link = None
 
