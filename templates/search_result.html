@@ -8,6 +8,10 @@
 	<h3>{% trans "Problems near" %} {{ward.name}}, {{ward.city.name}}</h3>
 
 		<p>{% trans "To report a problem, simply drag the marker to the correct location on the map." %}</p>
+		<p> 
+		{% trans "Nearby reports filed between" %} {{date_range_start|date:"N jS, Y"}} {% trans "and" %} {{date_range_end|date:"N jS, Y"}}
+		{% if older_reports_link %} (<a href="{{older_reports_link}}" %}>{% trans "See older reports" %}</a>){% endif %}:
+		</p>
 		<ol>
 	{% if reports %}
 		{% for report in reports %}
@@ -18,7 +22,7 @@
 			<p/>
 			<p>{% trans "Zoom out to see more reports nearby." %}</p>
 	{% else %}
-			<p>{% trans "No problems have been reported yet." %}</p>
+			<p>{% trans "No problems have been reported in this area." %}</p>
 	{% endif %}
 		</ol>
 

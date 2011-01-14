@@ -5,6 +5,7 @@ from django.template import Context, RequestContext
 from django.contrib.gis.measure import D 
 from django.contrib.gis.geos import *
 import settings
+import datetime
 from django.utils.translation import ugettext as _
 from django.utils.http import urlquote
 from django.utils.encoding import iri_to_uri
@@ -67,8 +68,25 @@ def search_address(request):
     wards = Ward.objects.filter(geom__contains=point_str)
     if (len(wards) == 0):
         return( home(request, _("Sorry, we don't yet have that area in our database.  Please have your area councillor contact fixmystreet.ca.")))
+    ward = wards[0]
     
-    reports = Report.objects.filter(is_confirmed = True,point__distance_lte=(pnt,D(km=4))).distance(pnt).order_by('distance')
+    # calculate date range for which to return reports
+    if request.GET.has_key('years_ago'):
+        years_ago = int(request.GET['years_ago'])
+    else:
+        years_ago = 0
+    yearoffset = datetime.timedelta(days = 365 * years_ago )
+    
+    date_range_end = datetime.datetime.now() - yearoffset 
+    date_range_start = date_range_end - datetime.timedelta(days =365)
+    
+    # do we want to show older reports?
+    if Report.objects.filter(ward=ward,created_at__lte=date_range_start).count() > 1:
+        older_reports_link  = "/search?q=%s;index=%i;years_ago=%i" %( urlquote(address),match_index, years_ago + 1)
+    else:
+        older_reports_link = None
+        
+    reports = Report.objects.filter(created_at__gte = date_range_start, created_at__lte = date_range_end, is_confirmed = True,point__distance_lte=(pnt,D(km=2))).distance(pnt).order_by('-created_at')
     gmap = FixMyStreetMap(pnt,True,reports)
         
     return render_to_response("search_result.html",
@@ -76,7 +94,10 @@ def search_address(request):
                  "pnt": pnt,
                  "enable_map": True,
                  "ward" : wards[0],
-                 "reports" : reports, },
+                 "reports" : reports,
+                 "date_range_start":  date_range_start,
+                 "date_range_end":  date_range_end,
+                 "older_reports_link": older_reports_link },
                  context_instance=RequestContext(request))
 
 def about(request):

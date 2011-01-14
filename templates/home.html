@@ -62,13 +62,13 @@
 				<h4>{% block stats_title %}{% endblock %}{% trans "Stats" %}</h4>
 				<div id='stat-group'>
 					<div class='stat'><div class='top-right'><div class='bottom-left'><div class='bottom-right'><div class='content'>
-						<span>{{report_counts.recent_new}}</span><br/>{% trans "Reports Filed" %}
+						<span>{{report_counts.recent_new}}</span><br/>{% trans "Reports Filed" %}<br/>{% trans "In the Last Year" %}
 					</div></div></div></div></div>
 					<div class='stat'><div class='top-right'><div class='bottom-left'><div class='bottom-right'><div class='content'>
-						<span>{{report_counts.recent_fixed}}</span><br/>{% trans "Reports Fixed" %}*
+						<span>{{report_counts.recent_fixed}}</span><br/>{% trans "Reports Fixed" %}* <br/>{% trans "In the Last Year" %}
 					</div></div></div></div></div>
 					<div class='stat'><div class='top-right'><div class='bottom-left'><div class='bottom-right'><div class='content'>
-						<span>{{report_counts.recent_updated}}</span><br/>{% trans "Reports Updated" %}
+						<span>{{report_counts.recent_updated}}</span><br/>{% trans "Reports Updated" %}<br/>{% trans "In the Last Year" %}
 					</div></div></div></div></div>
 				</div>
 				<div class="fix-disclaimer"><p>*{% trans "As reported by fixmystreet.ca users." %}</p></div>

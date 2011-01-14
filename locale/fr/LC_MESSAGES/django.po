@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-07-20 13:28-0400\n"
+"POT-Creation-Date: 2011-01-14 18:18-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,11 +16,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: mainapp/forms.py:11 mainapp/models.py:118 mainapp/models.py:166
+#: mainapp/forms.py:11 mainapp/models.py:220 mainapp/models.py:268
 msgid "Name"
 msgstr "Nom"
 
-#: mainapp/forms.py:14 mainapp/models.py:165
+#: mainapp/forms.py:14 mainapp/models.py:267
 msgid "Email"
 msgstr "Courriel"
 
@@ -28,23 +28,23 @@ msgstr "Courriel"
 msgid "Message"
 msgstr "Message"
 
-#: mainapp/models.py:93
+#: mainapp/models.py:195
 msgid "Subject"
 msgstr "Sujet"
 
-#: mainapp/models.py:116
+#: mainapp/models.py:218
 msgid "* Photo"
 msgstr "* Photo"
 
-#: mainapp/models.py:117 mainapp/models.py:160
+#: mainapp/models.py:219 mainapp/models.py:262
 msgid "Details"
 msgstr "Détails"
 
-#: mainapp/models.py:167
+#: mainapp/models.py:269
 msgid "Phone"
 msgstr "Téléphone"
 
-#: mainapp/views/main.py:41
+#: mainapp/views/main.py:48
 msgid ""
 "Sorry, we couldn't retreive the coordinates of that location, please use the "
 "Back button on your browser and try something more specific or include the "
@@ -55,7 +55,7 @@ msgstr ""
 "chose de plus spécifique ou inclure le nom de la ville à la fin de votre "
 "recherche."
 
-#: mainapp/views/main.py:49
+#: mainapp/views/main.py:51
 msgid ""
 "Sorry, we couldn't find the address you entered.  Please try again with "
 "another intersection, address or postal code, or add the name of the city to "
@@ -65,7 +65,7 @@ msgstr ""
 "vous plaît essayer de nouveau avec une autre intersection, adresse ou le "
 "code postal."
 
-#: mainapp/views/main.py:72
+#: mainapp/views/main.py:70
 msgid ""
 "Sorry, we don't yet have that area in our database.  Please have your area "
 "councillor contact fixmystreet.ca."
@@ -134,14 +134,14 @@ msgstr "En outre, Chris Taggart tiens à remercier:"
 #: templates/about.html:29
 msgid ""
 "Pierre Lewis, for his MTM conversion script. The script enabled conversion "
-"from the City's MTM projection to the Google-friendly WGS-84 format."
+"from Ottawa's MTM projection to the Google-friendly WGS-84 format."
 msgstr ""
 "Pierre Lewis, pour son script de conversion MTM. Le script a permis la "
 "conversion des projections MTM de la Ville au format WGS-84 mieux reconnu "
 "par Google."
 
 #: templates/base.html:5
-msgid "FixMyStreet Canada"
+msgid "FixMyStreet.ca"
 msgstr "FixMyStreet (réparer ma rue) Canada"
 
 #: templates/base.html:5
@@ -173,85 +173,89 @@ msgstr "Vous avez trouver un problème?"
 msgid "Tell us"
 msgstr "Laissez nous savoir"
 
-#: templates/index.html:17
+#: templates/home.html:17
 msgid ""
 "That address returned more than one result.  Please try again, or select an "
 "option below:"
 msgstr ""
 
-#: templates/index.html:23
+#: templates/home.html:27
 msgid "Report, view, or discuss local problems"
 msgstr "Signalez, examinez ou discutez des problèmes locaux"
 
-#: templates/index.html:24
+#: templates/home.html:28
 msgid "(like graffiti, potholes, excessive garbage, or street lighting)"
 msgstr ""
 "(comme les graffitis, les nids de poule, trop de déchets, ou l'éclairage de "
 "rue)"
 
-#: templates/index.html:29
+#: templates/home.html:33
 msgid "Enter a nearby postal code, or street name and city:"
 msgstr ""
 "Entrez un code postal à proximité, ou le nom de la rue et de la région:"
 
-#: templates/index.html:31
+#: templates/home.html:35
 msgid "Go"
 msgstr "Allez"
 
-#: templates/index.html:38
+#: templates/home.html:42
 msgid "Supported Cities"
 msgstr "Villes Incluses"
 
-#: templates/index.html:42
+#: templates/home.html:46
 msgid "Add Your City"
 msgstr "Ajoutez Votre Ville"
 
-#: templates/index.html:49
+#: templates/home.html:53
 msgid "How to report a Problem"
 msgstr "Signalez un Problème"
 
-#: templates/index.html:51
+#: templates/home.html:55
 msgid "Enter a nearby postal code, or street name and city"
 msgstr ""
 "Entrez un code postal à proximité, ou le nom de la rue et de la région:"
 
-#: templates/index.html:52
+#: templates/home.html:56
 msgid "Locate the problem on a map of the area"
 msgstr "Localisez le problème sur une carte de la région"
 
-#: templates/index.html:53
+#: templates/home.html:57
 msgid "Enter details of the problem"
 msgstr "Entrez les détails du problème"
 
-#: templates/index.html:54
-msgid "We send it to the City on your behalf"
+#: templates/home.html:58
+msgid "We send it to the city on your behalf"
 msgstr "Nous le rapporterons à la ville en votre nom"
 
-#: templates/index.html:58
+#: templates/home.html:62
 msgid "Stats"
 msgstr "Statistiques"
 
-#: templates/index.html:61
+#: templates/home.html:65
 msgid "Reports Filed"
 msgstr "Rapports "
 
-#: templates/index.html:64
+#: templates/home.html:65 templates/home.html.py:68 templates/home.html:71
+msgid "In the Last Year"
+msgstr "Dans la Dernière Année"
+
+#: templates/home.html:68
 msgid "Reports Fixed"
 msgstr "Rapports Résolus"
 
-#: templates/index.html:67
+#: templates/home.html:71
 msgid "Reports Updated"
 msgstr "Rapports Mis à Jour"
 
-#: templates/index.html:70 templates/cities/_report_count_table.html:28
+#: templates/home.html:74 templates/cities/_report_count_table.html:28
 msgid "As reported by fixmystreet.ca users."
 msgstr "Comme indiqué par les utilisateurs de fixmystreet.ca."
 
-#: templates/index.html:75
+#: templates/home.html:79
 msgid "Recent Photos"
 msgstr "Dernières Photos"
 
-#: templates/index.html:84
+#: templates/home.html:88
 msgid "Recent Reports"
 msgstr "Derniers Rapports"
 
@@ -267,17 +271,29 @@ msgstr ""
 "Pour signaler un problème, il suffit de faire glisser le marqueur à "
 "l'emplacement sur la carte."
 
-#: templates/search_result.html:15
-msgid "fixed"
-msgstr "r�solu"
+#: templates/search_result.html:12
+msgid "Nearby reports filed between"
+msgstr "Problèmes proche de ici déposés entre"
+
+#: templates/search_result.html:12 templates/wards/show.html:7
+msgid "and"
+msgstr "et"
+
+#: templates/search_result.html:13 templates/wards/show.html:8
+msgid "See older reports"
+msgstr "Voir les anciens rapports"
 
 #: templates/search_result.html:19
+msgid "fixed"
+msgstr "résolus"
+
+#: templates/search_result.html:23
 msgid "Zoom out to see more reports nearby."
 msgstr "Zoom en arrière pour voir d'autres rapports en proximité."
 
-#: templates/search_result.html:21
-msgid "No problems have been reported yet."
-msgstr "Aucun problème n'a été signalé pour le moment."
+#: templates/search_result.html:25
+msgid "No problems have been reported in this area."
+msgstr "Aucun problème n'a été signalé."
 
 #: templates/ajax/category_description.html:2 templates/reports/new.html:93
 msgid "Please Note"
@@ -310,6 +326,10 @@ msgstr "Résolu Récemment"
 #: templates/cities/_report_count_table.html:10
 msgid "Old Fixed"
 msgstr "Résolu"
+
+#: templates/cities/home.html:5
+msgid "Report, view, or discuss local problems in"
+msgstr "Signalez, examinez ou discutez des problèmes locaux"
 
 #: templates/cities/index.html:25
 msgid "Reports by City"
@@ -350,7 +370,7 @@ msgid ""
 "\n"
 "<p>\n"
 "\tPlease <strong>DO NOT</strong> report problems through this form.\n"
-"\tMessages go to the team behind FixMyStreet.ca, not to City Councillors.\n"
+"\tMessages go to the team behind FixMyStreet.ca, not to city councillors.\n"
 "</p>\n"
 "<p>\n"
 "\tTo report a problem, please follow the instructions <a href=\"/\">here</"
@@ -408,7 +428,7 @@ msgstr "Nouveau Rapport"
 msgid "* Optional"
 msgstr "* Facultatif"
 
-#: templates/reports/new.html:70 templates/reports/show.html:51
+#: templates/reports/new.html:70 templates/reports/show.html:52
 msgid "Category:"
 msgstr "Catégorie:"
 
@@ -441,81 +461,71 @@ msgstr ""
 msgid ""
 "Remember that FixMyStreet is primarily for reporting physical problems that "
 "can be fixed. If your problem is not appropriate for submission via this "
-"site remember that you can contact city officials directly at #311."
+"site please contact city officials directly."
 msgstr ""
 "Rappelez-vous que FixMyStreet est surtout pour signaler les problèmes "
 "physiques qui peuvent être résolus. Si votre problème n'est pas approprié "
 "pour ce site, rappelez-vous que vous pouvez contacter directement les "
 "fonctionnaires municipaux en appelant # 311."
 
-#: templates/reports/new.html:106 templates/reports/show.html:102
+#: templates/reports/new.html:106 templates/reports/show.html:100
 msgid "Submit"
 msgstr "Envoyez"
 
-#: templates/reports/show.html:4
-msgid "Problem Report"
-msgstr "Rapport d'un Problème"
-
-#: templates/reports/show.html:29 templates/reports/show.html.py:101
+#: templates/reports/show.html:31 templates/reports/show.html.py:99
 msgid "This problem has been fixed."
 msgstr "Ce problème a été résolu."
 
-#: templates/reports/show.html:33
+#: templates/reports/show.html:35
 msgid ""
-"Please check your email and click on the confirmation link to complete your "
-"submission. Your report will not be sent to the City's 311 Department or be "
-"visible to other visitors until you have done so."
+"<p>Please check your email for a message from fixmystreet.ca, which will "
+"include a confirmation link.  Complete your submission by clicking on it.</"
+"p><p>Your report will not be sent to city officials or be visible to other "
+"visitors until you have done so.</p>"
 msgstr ""
 "S'il vous plaît vérifier votre adresse courriel et cliquez sur le lien de "
 "confirmation pour compléter votresoumission. Votre rapport ne sera pas "
 "envoyé au département 311 de la Ville et ne sera pas visible aux autres "
 "visiteurs jusqu'à ce que vous l'avez fait."
 
-#: templates/reports/show.html:52
+#: templates/reports/show.html:53
 msgid "Filed by:"
 msgstr "Par:"
 
-#: templates/reports/show.html:55
-msgid "Sent to "
+#: templates/reports/show.html:56
+msgid "Sent to"
 msgstr "Envoyé à"
 
-#: templates/reports/show.html:55
-msgid "on"
-msgstr " le "
-
-#: templates/reports/show.html:58
-#, python-format
-msgid "This report will be sent to the city of %(city)s in the next 24 hrs."
+#: templates/reports/show.html:57
+msgid "On"
 msgstr ""
-"Ce rapport va être envoyer à la ville de %(city)s dans les prochaines 24 "
-"heures."
 
-#: templates/reports/show.html:66
+#: templates/reports/show.html:64
 msgid "Subscribers:"
 msgstr "Abonnés:"
 
-#: templates/reports/show.html:68 templates/reports/subscribers/new.html:12
+#: templates/reports/show.html:66 templates/reports/subscribers/new.html:12
 msgid "Subscribe"
 msgstr "Abonnez-vous"
 
-#: templates/reports/show.html:80
+#: templates/reports/show.html:78
 msgid "Offensive? Unsuitable? Tell us"
 msgstr "Offensif? Inappropriées? Dites-le-nous"
 
-#: templates/reports/show.html:84
+#: templates/reports/show.html:82
 msgid "Updates"
 msgstr "Mises à Jour"
 
-#: templates/reports/show.html:86
+#: templates/reports/show.html:84
 msgid "posted by"
 msgstr "signalé par"
 
-#: templates/reports/show.html:95
+#: templates/reports/show.html:93
 msgid "Provide an update"
 msgstr "Fournir une mise à jour"
 
-#: templates/reports/show.html:97
-msgid "Please note that updates are not sent to the City."
+#: templates/reports/show.html:95
+msgid "Please note that updates are not sent to city officials."
 msgstr ""
 "S'il vous plaît noter que les mises à jour ne sont pas envoyées à la Ville."
 
@@ -603,22 +613,35 @@ msgid "Ward"
 msgstr "Quartier"
 
 #: templates/wards/show.html:7
-msgid "All reports for"
-msgstr "Tous les Rapports pour"
+msgid "Reports filed between"
+msgstr "Rapports déposés entre"
 
-#: templates/wards/show.html:7
-msgid "ward"
-msgstr "quartier"
-
-#: templates/wards/show.html:11
+#: templates/wards/show.html:12
 msgid "No problems have been reported."
-msgstr "Aucun problème n'a été signalé pour le moment."
+msgstr "Aucun problème n'a été signalé."
 
-#: templates/wards/show.html:24
+#: templates/wards/show.html:25
 msgid "Note: fixmystreet.ca relies on users to report problems as fixed."
 msgstr ""
 "Note: fixmystreet.ca s'appuie sur les utilisateurs pour signaler les "
 "problèmes comme étant résolus."
+
+#~ msgid "Problem Report"
+#~ msgstr "Rapport d'un Problème"
+
+#~ msgid "on"
+#~ msgstr " le "
+
+#~ msgid "This report will be sent to the city of %(city)s in the next 24 hrs."
+#~ msgstr ""
+#~ "Ce rapport va être envoyer à la ville de %(city)s dans les prochaines 24 "
+#~ "heures."
+
+#~ msgid "All reports for"
+#~ msgstr "Tous les Rapports pour"
+
+#~ msgid "ward"
+#~ msgstr "quartier"
 
 #~ msgid "Sent to the city of"
 #~ msgstr "Envoyer à la ville de"

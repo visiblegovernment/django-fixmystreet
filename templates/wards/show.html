@@ -4,7 +4,8 @@
 {% block content %}
 	<div id="fullwidth">
 	<h3>{% trans "Reports for" %} {{ward.name}}, {{ward.city.name}} (Ward {{ward.number}})</h3>
-	<p>{% trans "All reports for" %} {{ward.city.name}}'s {{ward.name}} {% trans "ward" %}.</p>
+	<p>{% trans "Reports filed between" %} {{date_range_start|date:"N jS, Y"}} {% trans "and" %} {{date_range_end|date:"N jS, Y"}}. 
+		{% if older_reports_link %} (<a href="{{older_reports_link}}" %}>{% trans "See older reports" %}</a>){% endif %}</p>
 		<div id='leftcol'>
 			<ol>
 				{% if not reports %}

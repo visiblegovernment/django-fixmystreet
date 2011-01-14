@@ -555,8 +555,7 @@ class CityTotals(ReportCountQuery):
         self.sql = self.base_query 
         self.sql += """ from reports left join wards on reports.ward_id = wards.id left join cities on cities.id = wards.city_id 
         """ 
-        self.sql += ' where reports.is_confirmed = True and city_id = %d ' % city.id
-        print self.sql
+        self.sql += ' where reports.is_confirmed = True and wards.city_id = %d ' % city.id
         
 class CityWardsTotals(ReportCountQuery):
 
