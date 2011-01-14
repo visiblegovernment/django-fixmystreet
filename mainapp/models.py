@@ -75,6 +75,9 @@ class Councillor(models.Model):
     fax = models.CharField(max_length=20,blank=True, null=True)
     phone = models.CharField(max_length=20,blank=True, null=True)
 
+    def __unicode__(self):      
+        return self.first_name + " " + self.last_name
+
     class Meta:
         db_table = u'councillors'
    
