@@ -1,0 +1,5 @@
+{% extends "home.html" %}
+{% load i18n %}
+{% block stats_title %}{{city.name}}  {% endblock %}
+{% block all_reports_link %}{{city.get_absolute_url}}{% endblock %}
+{% block search_instructions %}{% trans "Report, view, or discuss local problems in" %} {{city.name}}{% endblock %}
