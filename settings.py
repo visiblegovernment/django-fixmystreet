@@ -12,7 +12,7 @@ logging.basicConfig(
     filename = '/tmp/fixmystreet.log',
     filemode = 'w'
 )
-        
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -55,6 +55,11 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.load_template_source',
 )
 
+# include request object in template to determine active page
+TEMPLATE_CONTEXT_PROCESSORS = (
+  'django.core.context_processors.request',
+)
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -87,7 +92,7 @@ INSTALLED_APPS = (
     'django.contrib.gis',
     'contrib.google_analytics',
     'contrib.transmeta',
-    'mainapp',
+    'mainapp','contrib.django_restapi','contrib.django-rest-interface',
 )
 
 
@@ -114,7 +119,7 @@ INSTALLED_APPS = (
 #SECRET_KEY=
 #GMAP_KEY=
 #
-#ADMIN_EMAIL = 
+#ADMIN_EMAIL =
 #ADMINS =
 #####################################################################################
 
@@ -133,3 +138,4 @@ except ImportError:
 
 
 MANAGERS = ADMINS
+MOBILE_SECURE_KEY = '3GPogooM3F6GVQittnenwyhAX1PTCSjbMFWobYFhp626ouyQNbCEOuOvuoE6'
