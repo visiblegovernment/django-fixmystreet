@@ -24,9 +24,9 @@ urlpatterns = patterns('',
 
 
 urlpatterns += patterns('mainapp.views.main',
-    (r'^$', 'index'),
-    (r'^search', 'search_address'),
-    (r'about/$', 'about')
+    (r'^$', 'index', {}, 'home_url_name'),
+    (r'^search', 'search_address', {}, 'home_url_name'),
+    (r'about/$', 'about', {}, 'about_url_name')
 )
 
 urlpatterns += patterns('mainapp.views.faq',
