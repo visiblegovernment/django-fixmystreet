@@ -17,6 +17,7 @@ from contrib.transmeta import TransMeta
 from contrib.stdimage import StdImageField
 import libxml2
 from django.utils.encoding import iri_to_uri
+from django.contrib.auth.models import User
       
 # from here: http://www.djangosnippets.org/snippets/630/        
 class CCEmailMessage(EmailMessage):
@@ -67,6 +68,7 @@ class City(models.Model):
         db_table = u'cities'
 
 class Councillor(models.Model):
+
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     
@@ -74,14 +76,16 @@ class Councillor(models.Model):
     email = models.EmailField(blank=True, null=True)
     fax = models.CharField(max_length=20,blank=True, null=True)
     phone = models.CharField(max_length=20,blank=True, null=True)
+    city = models.ForeignKey(City,null=True)
 
     def __unicode__(self):      
         return self.first_name + " " + self.last_name
 
     class Meta:
         db_table = u'councillors'
-   
+        
 class Ward(models.Model):
+    
     name = models.CharField(max_length=100)
     number = models.IntegerField()
     councillor = models.ForeignKey(Councillor)
@@ -91,6 +95,9 @@ class Ward(models.Model):
     
     def get_absolute_url(self):
         return "/wards/" + str(self.id)
+
+    def __unicode__(self):      
+        return self.city.name + " " + self.name
 
     # return a list of email addresses to send new problems in this ward to.
     def get_emails(self,report):
@@ -133,6 +140,9 @@ class ReportCategory(models.Model):
     hint = models.TextField(blank=True, null=True)
     category_class = models.ForeignKey(ReportCategoryClass)
   
+    def __unicode__(self):      
+        return self.category_class.name + ":" + self.name
+ 
     class Meta:
         db_table = u'report_categories'
         translate = ('name', 'hint', )
@@ -148,14 +158,15 @@ class ReportCategory(models.Model):
 # want councillors CC'd)
 
 class EmailRule(models.Model):
+    
     TO_COUNCILLOR = 0
     MATCHING_CATEGORY_CLASS = 1
     NOT_MATCHING_CATEGORY_CLASS = 2
     
     RuleChoices = [   
     (TO_COUNCILLOR, 'Send Reports to Councillor Email Address'),
-    (MATCHING_CATEGORY_CLASS, 'Send Reports Matching Category Class (eg. Parks) To This Email'),
-    (NOT_MATCHING_CATEGORY_CLASS, 'Send Reports Not Matching Category Class To This Email'), ]
+    (MATCHING_CATEGORY_CLASS, 'Send Reports Matching Category Group (eg. Parks) To This Email'),
+    (NOT_MATCHING_CATEGORY_CLASS, 'Send Reports Not Matching Category Group To This Email'), ]
     
     RuleBehavior = { TO_COUNCILLOR: emailrules.ToCouncillor,
                      MATCHING_CATEGORY_CLASS: emailrules.MatchingCategoryClass,
@@ -164,19 +175,29 @@ class EmailRule(models.Model):
     rule = models.IntegerField(choices=RuleChoices)
     
     # is this a 'to' email or a 'cc' email
-    is_cc = models.BooleanField(default=False)
+    is_cc = models.BooleanField(default=False,
+            help_text="Set to true to include address in 'cc' list"
+
+            )
 
     # the city this rule applies to 
     city = models.ForeignKey(City)    
     
     # filled in if this is a category class rule
-    category_class = models.ForeignKey(ReportCategoryClass,null=True, blank=True)
+    category_class = models.ForeignKey(ReportCategoryClass,null=True, blank=True,
+                          verbose_name = 'Category Group',
+                          help_text="Only set for 'Category Group' rule types."
+                          )
     
     # filled in if this is a category rule
-    category = models.ForeignKey(ReportCategory,null=True, blank=True)
+    #category = models.ForeignKey(ReportCategory,null=True, blank=True,
+    #                    help_text="Set to send all "
+    #                     )
     
     # filled in if an additional email address is required for the rule type
-    email = models.EmailField(blank=True, null=True)
+    email = models.EmailField(blank=True, null=True,
+                        help_text="Only set for 'Category Group' rule types."
+                        )
     
     def get_email(self,report):
         rule_behavior = EmailRule.RuleBehavior[ self.rule ]()
@@ -651,3 +672,11 @@ class PollingStation(models.Model):
     class Meta:
         db_table = u'polling_stations'
  
+ 
+class UserProfile(models.Model):
+    """
+       limit admin functionality  
+    """
+    user = models.ForeignKey(User, unique=True)
+    city = models.ForeignKey(City, null=True)
+    

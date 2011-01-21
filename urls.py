@@ -15,6 +15,10 @@ feeds = {
 
 admin.autodiscover()
 urlpatterns = patterns('',
+    (r'^admin/password_reset/$', 'django.contrib.auth.views.password_reset'),
+    (r'^password_reset/done/$', 'django.contrib.auth.views.password_reset_done'),
+    (r'^reset/(?P<uidb36>[-\w]+)/(?P<token>[-\w]+)/$', 'django.contrib.auth.views.password_reset_confirm'),
+    (r'^reset/done/$', 'django.contrib.auth.views.password_reset_complete'),
     (r'^admin/(.*)', admin.site.root),
     (r'^feeds/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
     (r'^i18n/', include('django.conf.urls.i18n')),

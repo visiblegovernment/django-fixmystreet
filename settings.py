@@ -91,6 +91,8 @@ INSTALLED_APPS = (
     'mainapp',
 )
 
+AUTH_PROFILE_MODULE = 'mainapp.UserProfile'
+
 
 #################################################################################
 # These variables Should be defined in the local settings file
