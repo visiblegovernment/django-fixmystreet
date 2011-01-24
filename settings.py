@@ -61,6 +61,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.locale.LocaleMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'mainapp.middleware.subdomains.SubdomainMiddleware',
+    'mainapp.middleware.SSLMiddleware.SSLRedirect',
 )
 
 
