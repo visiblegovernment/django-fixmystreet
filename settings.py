@@ -137,3 +137,9 @@ except ImportError:
 
 
 MANAGERS = ADMINS
+
+# Using django_testview from here (add 'TESTVIEW' to your local settings): 
+# https://github.com/visiblegovernment/django_testview
+
+if DEBUG and globals().has_key('TESTVIEW'):
+    INSTALLED_APPS += ('django_testview',)

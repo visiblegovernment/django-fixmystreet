@@ -22,10 +22,12 @@ urlpatterns = patterns('',
     (r'^admin/(.*)', admin.site.root,{'SSL':True}),
     (r'^feeds/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
     (r'^i18n/', include('django.conf.urls.i18n')),
+    (r'^$', include('mainapp.urls'))
 )
 
 
-urlpatterns += patterns('mainapp.views.main',
+
+urlpatterns = patterns('mainapp.views.main',
     (r'^$', 'home'),
     (r'^search', 'search_address'),
     (r'about/$', 'about')
@@ -39,7 +41,6 @@ urlpatterns += patterns('mainapp.views.faq',
 urlpatterns += patterns('mainapp.views.promotion',
     (r'^promotions/(\w+)$', 'show'),
 )
-
 
 urlpatterns += patterns('mainapp.views.wards',
     (r'^wards/(\d+)', 'show'),       
@@ -84,6 +85,11 @@ urlpatterns += patterns('mainapp.views.contact',
 urlpatterns += patterns('mainapp.views.ajax',
     (r'^ajax/categories/(\d+)', 'category_desc'),
 )
+
+if settings.DEBUG and 'TESTVIEW' in settings.get_all_members():
+    urlpatterns += patterns ('',
+    (r'^testview',include('django_testview.urls')))
+
 
 #The following is used to serve up local media files like images
 if settings.LOCAL_DEV:
