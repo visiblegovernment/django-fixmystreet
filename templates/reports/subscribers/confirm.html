@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block content %}
-<div id="fullwidth">
+<h2>{% trans "Subscribe Complete" %}</h2>
    <p>{% trans "You have subscribed to updates to" %}:</p> 
    <p><a href='{{subscriber.report.get_absolute_url}}'>{{subscriber.report.title}}</a>
-</div>
+	<br/><br/>
+	<a href="/">Return to FixMyStreet.ca</a>
 {% endblock %}

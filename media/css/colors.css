@@ -13,8 +13,19 @@
 }
 
 .is_fixed {
-    background-color: #ccffcc;
+    background-color: #b5d29c;
     border: solid 2px #009900;
+    color: #222222;
+}
+
+#report-subscribers {
+   background: #222222; 
+   border: solid 2px #b4b4b4;
+}
+.is_fixed p {
+    color: #222222;
+    text-align: left;
+    margin: 1em;
 }
 
 
@@ -26,8 +37,16 @@
 	background: #FFFFAA;
 }
 
+td.section {
+     	background-color: #000000;
+}
+
 .row-odd {
-	background: #eeeeee;
+	background: #222222;
+}
+
+.row-even {
+	background: #000000;
 }
 
 #photo_note {
@@ -55,66 +74,21 @@
 	background: url(/media/images/stat_br.png) bottom right no-repeat;
 }
 
-
-.stat {
-	background: #666666 url(/media/images/stat_tl.png) no-repeat;
-}
-
-.stat .top-right {
-	background: url(/media/images/stat_tr.png) top right no-repeat;
-}
-
-.stat .bottom-left {
-	background: url(/media/images/stat_bl.png) bottom left no-repeat;
-}
-
-.stat .bottom-right {
-	background: url(/media/images/stat_br.png) bottom right no-repeat;
-}
-
-.stat .content {
-	background: none;
-}
-
-#footer {
-	color: #666666;
-}
-
 .note strong {
 	color:green;
 }
 
-#start_box {
-	background: #6396b0 url(/media/images/start_tl.png) no-repeat;
-	color: #ffffff;
-}
-
-#start_box div {
-	background: url(/media/images/start_tr.png) top right no-repeat;
-}
-
-#start_box div div {
-	background: url(/media/images/start_bl.png) bottom left no-repeat;
-}
-
-#start_box div div div {
-	background: url(/media/images/start_br.png) bottom right no-repeat;
-	padding: 15px;
-}
-
 a {
-	color: #6396b0;
+	color: #7E090C;
 }
+p {color:#B4B4B4;}
 
+#content_third .fix-disclaimer p{color: #4c4c4c;}
 
 .status-text {
-color:#666666;	
+color:#666666;
 }
 
-
-#ward_box {
-	background-color: #aafbaf;
-}
 
 #content_container h1 {
 	color: #4a8797;
@@ -123,13 +97,18 @@ color:#666666;
 	color: #f3865a;
 }
 #content_container h3 {
-	color: #6396b0;
+	color: #FFF;
+    text-shadow:0px 1px 0px #000;
 }
 
-#content_container p a {
-	color: #4b8898;
+#content_middle a {
+	color: #be0d12;
 }
 
+#more-actions a {
+	color: #98b3cc;
+	font-weight: bold;
+}
 
 .ishate strong {
 color:red;
@@ -143,3 +122,5 @@ th {
 
 
 
+
+.highlight {color:#FFF;}

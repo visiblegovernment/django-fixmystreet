@@ -12,7 +12,7 @@ logging.basicConfig(
     filename = '/tmp/fixmystreet.log',
     filemode = 'w'
 )
-        
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -53,6 +53,11 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.load_template_source',
     'django.template.loaders.app_directories.load_template_source',
 #     'django.template.loaders.eggs.load_template_source',
+)
+
+# include request object in template to determine active page
+TEMPLATE_CONTEXT_PROCESSORS = (
+  'django.core.context_processors.request',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -118,7 +123,7 @@ AUTH_PROFILE_MODULE = 'mainapp.UserProfile'
 #SECRET_KEY=
 #GMAP_KEY=
 #
-#ADMIN_EMAIL = 
+#ADMIN_EMAIL =
 #ADMINS =
 #####################################################################################
 
@@ -135,8 +140,6 @@ except ImportError:
         import sys
         sys.stderr.write( "local_settings.py not set; using default settings\n" )
 
-
-MANAGERS = ADMINS
 
 # Using django_testview from here (add 'TESTVIEW' to your local settings): 
 # https://github.com/visiblegovernment/django_testview

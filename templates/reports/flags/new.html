@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block content %}
-
-<div id="page_content_container">
 <h2>{% trans "Flag an Offensive Report" %}</h2>
 <p>{% trans "You are reporting the following problem report for being abusive, containing personal information, or similar to another report:" %}</p>
 <blockquote>
@@ -12,6 +10,5 @@
 <form action="/reports/{{report.id}}/flags/" method="POST">
 <input type="submit" value="{% trans "Flag this Report" %}">
 </form>
-</div>
 
 {% endblock %}

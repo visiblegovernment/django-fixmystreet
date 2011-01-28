@@ -5,32 +5,36 @@
 <div id="page_content_container">
 
 	<div id="leftcol">
-	<h3>{% trans "Problems near" %} {{ward.name}}, {{ward.city.name}}</h3>
+		<div id="instructable">
+			<img src="/media/images/marker-icon.png" class='left'>
+			<h3>{% trans "To Report a New Problem" %}</h3>
+			<p>{% trans "Drag the indicated marker to the correct location on the map." %}</p>
 
-		<p>{% trans "To report a problem, simply drag the marker to the correct location on the map." %}</p>
-		<p> 
-		{% trans "Nearby reports filed between" %} {{date_range_start|date:"N jS, Y"}} {% trans "and" %} {{date_range_end|date:"N jS, Y"}}
-		{% if older_reports_link %} (<a href="{{older_reports_link}}" %}>{% trans "See older reports" %}</a>){% endif %}:
-		</p>
-		<ol>
+			<img src="/media/images/arrow-right.png" class="right">
+		</div>
+		<br/><br/>
+		<p><strong>{% trans "Nearby reports filed between" %} {{date_range_start|date:"N jS, Y"}} {% trans "and" %} {{date_range_end|date:"N jS, Y"}}
+		{% if older_reports_link %} (<a href="{{older_reports_link}}" %}>{% trans "See older reports" %}</a>){% endif %}:</strong>
 	{% if reports %}
+		<ol id='search_results'>
 		{% for report in reports %}
 			<li><a href="{{report.get_absolute_url}}"> {{report.title}} ({{report.distance.km|floatformat:2}} km)</a>
 			{% if report.is_fixed %}({% trans "fixed" %}){% endif %}
 			</li>
 		{% endfor %}
+		</ol>
 			<p/>
 			<p>{% trans "Zoom out to see more reports nearby." %}</p>
 	{% else %}
 			<p>{% trans "No problems have been reported in this area." %}</p>
 	{% endif %}
 		</ol>
-
+		</p>
 	</div>
 
-	<div id="rightcol">	
-     <div id="{{ google.dom_id }}" style="width:400px;height:400px;"></div>
+	<div id="rightcol">
+     <div id="{{ google.dom_id }}" style="width:520px;height:400px;"></div>
  	{{google.body}}
- 	</div>  
-</div>  
+ 	</div>
+</div>
 {% endblock %}

@@ -15,6 +15,13 @@ def new( request, report_id ):
             update.save()    
             # redirect after a POST       
             return( HttpResponseRedirect( '/reports/updates/create/' ) )
+        else:
+            print "update not valid"
+            for field in update_form:
+                if field.errors:
+                    print str(field)
+                    print field.errors
+                
     else:
         update_form = ReportUpdateForm()
         
@@ -55,7 +62,6 @@ def confirm( request, confirm_token ):
         update.report.is_confirmed = True
  
     update.report.save()
-    update.send_emails()
-        
+         
     # redirect to report    
     return( HttpResponseRedirect( update.report.get_absolute_url() ))

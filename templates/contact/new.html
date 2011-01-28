@@ -4,6 +4,7 @@
 {% block content %}
 
 <div id="page_content_container">
+<div id='contact_us_form'>
 <h2>{% trans "Contact Us" %}</h2>
 {% blocktrans %}
 <p>
@@ -21,12 +22,12 @@
 <tr>
 	<td></td>
 	<td>
-		<input type="submit" name="Submit" value="{% trans "Send" %}">
+		<input type="submit" name="Submit" class='big_button' value="{% trans "Send" %}">
 	</td>
 </tr>
 </table>
 </form>
-
+</div>
 </div>
 
 {% endblock %}

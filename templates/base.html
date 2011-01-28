@@ -1,63 +1,98 @@
-{% load i18n %}
-{% load googleanalytics_tags %}
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
+<style>
+#page_container {padding-left:1em;padding-right:1em;}
+#header_left {margin-top:2em;text-align:left;}
+.border {border:2px solid red;}
+#top_menu_links {clear:both;}
+#top_menu_links a {color:#303030;text-decoration:none;float:left;margin-left:0.5em;margin-right:0.5em;}
+#top_menu_links a:hover {color:#7e090c; border-bottom:1px solid #7e090c;padding-bottom:0.2em;}
+#top_menu_links a.active {color:#7e090c !important;font-weight:bold;border-bottom:1px solid #7e090c;padding-bottom:0.2em;}
+#content_middle {background-color:#222222;width:100%;}
+#content_third, #middle_container {width:960px; display:block;margin: 0 auto;}
+</style>
+
+	{% load i18n %}
+	{% load googleanalytics_tags %}
+	{% get_available_languages as LANGUAGES %}
+
 	<title>{% trans "FixMyStreet.ca" %} - {% block title %}{% trans "Home" %}{% endblock %}</title>
 	<link rel="stylesheet" type="text/css" href="/media/css/global.css" />
 	<link rel="stylesheet" type="text/css" href="/media/css/typography.css" />
 	<link rel="stylesheet" type="text/css" href="/media/css/layout-6.css" />
 	<link rel="stylesheet" type="text/css" href="/media/css/colors.css" />
 	{% block css %}{% endblock %}
-	{% block script %}{% endblock %}	
+	{% block script %}{% endblock %}
 	{% if google  %}
 	   {{ google.style }}
 	   {{ google.scripts }}
  	{% endif %}
 </head>
+
 	<body {% if google %}{{ google.onload }} {{ google.onunload }}{% endif %}>
 		<div id="content_container">
-			<div id="page_container">
-				<div id="header">
+			<div id="page_container" class="container_12">
+				<div id="header" class='grid_12'>
 					<div id="header_left">
-						<a href='/'><img src="/media/images/fixmystreetlogo.png"></a>
+						<a href='/'><img src="/media/images/fms-canada-logo.gif"></a>
 					</div>
 					<div id="header_right">
-						<a href='http://visiblegovernment.ca'><img src="/media/images/sitebyvg.png"></a>
+						<div id="language">
+							<form action="/i18n/setlang/" method="post">
+							<select name="language">
+								{% for lang in LANGUAGES %}
+								<option value="{{ lang.0 }}">{{ lang.1 }}</option>
+								{% endfor %}
+							</select>
+							<input type="submit" value="Go" />
+							</form>
+						</div>
+
+						{% load tags %}
+						{% url home_url_name as home %}
+						{% url cities_url_name as cities %}
+						{% url contact_url_name as contact %}
+						{% url about_url_name as about %}
+
+						<div id="top_menu_links"><div>
+						<ul>
+							<li><a class="{% fmsmenu_active request 'submit' %}" href="{{home}}" >{% trans "Submit a Report" %}</a></li>
+							<li><a class="{% fmsmenu_active request 'view' %}" href="{{cities}}">{% trans "View Reports" %}</a></li>
+							<li><a class="{% fmsmenu_active request about %}" href="{{about}}">{% trans "About" %}</a></li>
+							<li><a class="{% fmsmenu_active request contact %}" href="{{contact}}">{% trans "Contact Us" %}</a></li>
+						</ul>
+						</div>
 					</div>
 				</div>
-				<div id="top_menu"><div id='top_menu_tr'><div id='top_menu_bl'><div id='top_menu_br'>
-					<div id="top_menu_links"><div>
-					<ul>
-						<li><a href="/" >{% trans "Report a Problem" %}</a></li>
-						<li><a href={% block all_reports_link %}"/cities/"{% endblock %}>{% trans "All Reports" %}</a></li>
-						<li><a href="/contact/">{% trans "Contact" %}</a></li>
-						<li><a href="/about/">{% trans "About" %}</a></li>
-					</ul>
-					</div></div>
-					<div id="language">
-						<form action="/i18n/setlang/" method="post">
-						<select name="language">
-						{% for lang in LANGUAGES %}
-						<option value="{{ lang.0 }}">{{ lang.1 }}</option>
-						{% endfor %}
-						</select>
-						<input type="submit" value="Go" />
-						</form>
-					</div>
-				</div></div></div></div>
-				<div id="content">
+			</div> <!--end page_container -->
+			</div><!--end content_container -->
+
+				<div id="content_middle">
+					<div id='middle_container' class='container_12'>
+						<div class='grid_12'>
 					{% if error_msg %}
 						<div id="error-msg">{{error_msg}}</div>
-					{% endif %}				
+					{% endif %}
 					{% block content %}{% endblock %}
+						</div>
+					</div>
 				</div>
-				<div id="footer">
+
+				<div id="content_third" class='container_12'>
+					<div class='grid_12'>
+					{% block content_third %}{% endblock %}
+					</div>
+				</div>
+
+				<div id="footer" class="container_12">
+					<div class='grid_12'>
 					<a href="http://visiblegovernment.ca">VisibleGovernment.ca</a>  | {% trans "Promotions" %}: <a href="/promotions/OBC">OBC</a></p>
-					<div id='bugreport'>{% trans "Find a bug?" %} <a href="/contact/">{% trans "Tell us" %}</a>!</div>
+					</div>
 				</div>
-			</div><!--end page_container -->
-			</div><!-- end of content container -->
+
 		{% block endbody %}{% endblock %}
+
 		{% googleanalytics %}
 	</body>
 </html>

@@ -14,7 +14,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 	border: 0;
 	outline: 0;
 	/*font-weight: inherit;
-	font-style: inherit;	
+	font-style: inherit;
 	font-family: inherit; */
 	vertical-align: baseline;
 }
@@ -26,8 +26,8 @@ body {
 	background: silver;
 	font-size: 90%; /* equals 10px in most modern broswers, 1.2em = 12px, 2.8em = 28px*/
 	/** bc specific **/
-	font-family: "Lucida Sans", "Trebuchet MS", Helvetica, Arial, sans-serif;
-	color: #5a5a5a;	
+	font-family: Helvetica, "Lucida Sans", "Trebuchet MS", Helvetica, Arial, sans-serif;
+	color: #222;
 }
 ol, ul {
 	list-style: none;
@@ -55,11 +55,11 @@ caption, th, td {
 }
 a::-moz-selection {
 	background: #d9f0d9;
-	color: #68a12d;	
+	color: #68a12d;
 }
 a::selection {
 	background: #d9f0d9;
-	color: #68a12d;	
+	color: #68a12d;
 }
 
 

@@ -7,37 +7,51 @@ from django.contrib.gis.geos import *
 from fixmystreet import settings
 from django.utils.translation import ugettext as _
 
+def create_report( request, is_confirmed = False):
+    """
+        Helper method used by both internal and Open311 API.
+    """
+    pnt = fromstr("POINT(" + request.POST["lon"] + " " + request.POST["lat"] + ")", srid=4326)         
+    update_form = ReportUpdateForm( request.POST  )   
+    report_form = ReportForm( request.POST, request.FILES )
+        
+    # this is a lot more complicated than it has to be because of the information
+    # spread across two forms.
+        
+    if request.POST['category_id'] != "" and update_form.is_valid() and report_form.is_valid():
+        report = report_form.save( commit = False )
+        update = update_form.save(commit=False)
+        #these are in the form for 'update'
+        report.desc = update.desc
+        report.author = update.author
+        #this is in neither form
+        report.category_id = request.POST['category_id']
+        #this info is custom
+        report.point = pnt
+        report.ward = Ward.objects.get(geom__contains=pnt)
+        report.is_confirmed = is_confirmed
+        update.report = report
+        update.first_update = True
+        update.is_confirmed = is_confirmed
+        update.created_at = report.created_at
+        report.save()
+        report.reportupdate_set.add(update)
+        report.save()
+        return( report )
+    else:
+        return None
 
 def new( request ):
     category_error = None
 
     if request.method == "POST":
-        pnt = fromstr("POINT(" + request.POST["lon"] + " " + request.POST["lat"] + ")", srid=4326)         
-        f = request.POST.copy()
-        update_form = ReportUpdateForm( {'email':request.POST['email'], 'desc':request.POST['desc'],
-                                         'author':request.POST['author'], 'phone': request.POST['phone']})    
-        report_form = ReportForm({'title' : request.POST['title']}, request.FILES )
-        
-        # this is a lot more complicated than it has to be because of the infortmation
-        # spread across two records.
-        
-        if request.POST['category_id'] != "" and update_form.is_valid() and report_form.is_valid():
-            report = report_form.save( commit = False )
-            report.point = pnt
-            report.category_id = request.POST['category_id']
-            report.author = request.POST['author']
-            report.desc = request.POST['desc']
-            report.ward = Ward.objects.get(geom__contains=pnt)
-            report.save()
-            update = update_form.save(commit=False)
-            update.report = report
-            update.first_update = True
-            update.created_at = report.created_at
-            update.save()
-            return( HttpResponseRedirect( report.get_absolute_url() ))
-        
-         # other form errors are handled by the form objects.
-        if not request.POST['category_id']:
+        # TOFIX:category ID is checked for separately as it's not part of the report form
+        if request.POST['category_id']:
+            report = create_report(request)
+            if report:
+                return( HttpResponseRedirect( report.get_absolute_url() ))
+            # otherwise, there was an error with one of the forms.
+        else:
             category_error = _("Please select a category")
             
     else:

@@ -290,7 +290,12 @@ class ReportUpdate(models.Model):
     phone = models.CharField(max_length=255, verbose_name = ugettext_lazy("Phone") )
     first_update = models.BooleanField(default=False)
     
-    def send_emails(self):
+    def notify(self):
+        """
+        Tell whoever cares that there's been an update to this report.
+         -  If it's the first update, tell city officials
+         -  Anything after that, tell subscribers
+        """
         if self.first_update:
             self.notify_on_new()
         else:
@@ -342,6 +347,15 @@ class ReportUpdate(models.Model):
 
             
     def save(self):
+        # does this update require confirmation?
+        if not self.is_confirmed:
+            self.get_confirmation()
+        else:
+            self.notify()
+            
+            
+    def get_confirmation(self):
+        """ Send a confirmation email to the user. """        
         if not self.confirm_token or self.confirm_token == "":
             m = md5.new()
             m.update(self.email)
@@ -369,7 +383,7 @@ class ReportUpdate(models.Model):
 
 class ReportSubscriber(models.Model):
     """ 
-        Report Subscribers are notified when there's an update.
+        Report Subscribers are notified when there's an update to an existing report.
     """
     
     report = models.ForeignKey(Report)    
@@ -459,7 +473,7 @@ class WardMap(GoogleMap):
 
 class CityMap(GoogleMap):
     """
-        Show all wards in a city as overlays.
+        Show all wards in a city as overlays.  Used when debugging maps for new cities.
     """
     
     def __init__(self,city):

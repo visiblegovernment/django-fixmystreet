@@ -55,25 +55,25 @@ margin-left:1.5em;
 </style>
 <div id="page_content_container">
 	<div id="leftcol">
-	<h3>{% trans "Report a Problem" %}</h3>
-	
-	<form enctype="multipart/form-data" method="post" action="/reports/">
+	<h3>{% trans "Submitting a report" %}</h3>
+
+	<form enctype="multipart/form-data" method="post" action="/reports/" id='report_form'>
 		<input type="hidden" name="lat" id="lat" value="{{lat}}" />
 		<input type="hidden" name="lon" id="lon" value="{{lon}}" />
-		<table class='form'>		
-			{{ report_form.as_table }}			
+		<table class='form'>
+			{{ report_form.as_table }}
 			<tr>
 				<th></th>
 				<td id="photo_note">{% trans "* Optional" %}</td>
 			</tr>
-       		<tr>			
+       		<tr>
 				<th><label for="strCategory">{% trans "Category:" %}</label></th>
 				<td>{% if category_error %}
 						<ul class='errorlist'><li>{{category_error}}</li></ul>
 					{% endif %}
 					<select class='input' name="category_id" id='category_select'>
 					<option value="">{% trans "Select a Category" %}</option>
-					{% for category in categories  %} 
+					{% for category in categories  %}
 						{% ifchanged category.category_class.name %}
 							</optgroup><optgroup label='{{category.category_class.name}}'>
 						{% endifchanged %}
@@ -100,18 +100,16 @@ margin-left:1.5em;
 					<p/>
 					</div>
 				</td>
-			</tr>        	
+			</tr>
         	<tr>
         		<td></td>
-        		<td align="right"><input type="submit" value="{% trans "Submit" %}" /></td>
+        		<td align="right"><input type="submit" class='big_button' value="{% trans "Submit" %}" /></td>
         	</tr>
         </table>
-    	
     	</form>
-	
 	</div>
 	<div id="rightcol">
-     <div id="{{ google.dom_id }}" style="width:400px;height:400px;"></div>
+     <div id="{{ google.dom_id }}" style="width:520px;height:400px;"></div>
 	</div>
 </div>
 {% endblock %}

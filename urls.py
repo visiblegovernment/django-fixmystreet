@@ -22,15 +22,14 @@ urlpatterns = patterns('',
     (r'^admin/(.*)', admin.site.root,{'SSL':True}),
     (r'^feeds/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
     (r'^i18n/', include('django.conf.urls.i18n')),
-    (r'^$', include('mainapp.urls'))
 )
 
 
 
-urlpatterns = patterns('mainapp.views.main',
-    (r'^$', 'home'),
+urlpatterns += patterns('mainapp.views.main',
+    (r'^$', 'home', {}, 'home_url_name'),
     (r'^search', 'search_address'),
-    (r'about/$', 'about')
+    (r'about/$', 'about',{}, 'about_url_name')
 )
 
 urlpatterns += patterns('mainapp.views.faq',
@@ -50,7 +49,7 @@ urlpatterns += patterns('mainapp.views.wards',
 
 urlpatterns += patterns('',
     (r'^cities/(\d+)$', cities.show ),       
-    (r'^cities', cities.index),
+    (r'^cities', cities.index, {}, 'cities_url_name'),
 )
 
 urlpatterns += patterns( 'mainapp.views.reports.updates',
@@ -79,7 +78,7 @@ urlpatterns += patterns('mainapp.views.reports.main',
 
 urlpatterns += patterns('mainapp.views.contact',
     (r'^contact/thanks', 'thanks'),
-    (r'^contact', 'new'),
+    (r'^contact', 'new', {}, 'contact_url_name'),
 )
 
 urlpatterns += patterns('mainapp.views.ajax',

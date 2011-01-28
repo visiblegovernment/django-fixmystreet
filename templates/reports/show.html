@@ -51,12 +51,12 @@
 				<div id='report-status'>
 				{% trans "Category:" %}<b>{{report.category.name}}</b><br/>
 				{% trans "Filed by:" %}{{report.author}}<br/>				
-				<i>
+				
 				{% if report.sent_at %}
 					{% trans "Sent to" %}: {{report.email_sent_to}}<br/>
 					{% trans "On" %}: {{report.sent_at|date}}.
 				{% endif %}
-				</i>
+				
 				<br/>
 				</div>
 				{% if report.is_confirmed %}
@@ -68,7 +68,7 @@
 				</div>
 				{% endif %}
 			</div>
-			<br/>
+			<div id='report-body'>
 			<p>{{report.desc|linebreaks}}</p>
 			{% if report.photo  %}
                    <img align=center' src='/media/{{report.photo}}'>
@@ -81,10 +81,10 @@
 				{% if updates %}
 					<h3>{% trans "Updates" %}</h3>		
 					{% for update in updates %}
-						{% trans "posted by" %} {{update.author}}, {{update.created_at|date}}
-						<br/>
-						{{update.desc}}
 						<hr/>
+						<p><em>{% trans "Posted by" %} {{update.author}}, {{update.created_at|date}}</em>
+						</p>
+						{{update.desc}}
 					{% endfor %}
 				{% endif %}
 				{% if not report.is_fixed %}
@@ -97,14 +97,15 @@
 				<table class="form">
 					{{update_form.as_table}}					
 				<tr><td></td><td><input type="checkbox" id="is_fixed" name="is_fixed" value="1">{% trans "This problem has been fixed." %}</td></tr>
-				<tr><td></td><td><input type ="submit" value= "{% trans "Submit" %}"></td></td>
+				<tr><td></td><td><input type ="submit" value= "{% trans "Submit" %}" class='big_button'></td></td>
 				</table>
 				</form>
 				{% endif %}	
 		{% endif %}
+		</div>
 	</div>
 	<div id="rightcol">
-     	<div id="{{ google.dom_id }}" style="width:400px;height:400px;"></div>
+     	<div id="{{ google.dom_id }}" ></div>
     	{% include "wards/_info_box.html" %}   	
     </div>
 </div>
