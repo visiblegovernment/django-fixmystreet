@@ -30,7 +30,7 @@
 
 
 .errorlist {
-    color: #990000;
+	color: #fc3535;
 }
 
 .row-highlight {
@@ -102,7 +102,7 @@ color:#666666;
 }
 
 #content_middle a {
-	color: #be0d12;
+	color: #fc3535;
 }
 
 #more-actions a {

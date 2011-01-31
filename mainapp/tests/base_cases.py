@@ -6,9 +6,9 @@ import settings
 import re
 
 CREATE_PARAMS =  { 'title': 'A report from our API', 
-                     'lat': '45.4301269580000024',
-                     'lon': '-75.6824648380000014',
-                     'category_id': 5,
+                     'lat': '45.4043333270000034',
+                     'lon': '-75.6870889663999975',
+                     'category': 5,
                      'desc': 'The description',
                      'author': 'John Farmer',
                      'email': 'testcreator@hotmail.com',

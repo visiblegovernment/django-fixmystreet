@@ -7,13 +7,13 @@
 <script>
 function updateNotes() {
 	// updates entry notes
-	var el_id = $('#category_select').val();
+	var el_id = $('#id_category').val();
 	 $("#secondary_container").load("/ajax/categories/"+el_id, function(){
 	 });
 }
 
  $(document).ready(function() {
-	   $('#category_select').change(function() {
+	   $('#id_category').change(function() {
 			updateNotes();
 		   });
 
@@ -65,22 +65,6 @@ margin-left:1.5em;
 			<tr>
 				<th></th>
 				<td id="photo_note">{% trans "* Optional" %}</td>
-			</tr>
-       		<tr>
-				<th><label for="strCategory">{% trans "Category:" %}</label></th>
-				<td>{% if category_error %}
-						<ul class='errorlist'><li>{{category_error}}</li></ul>
-					{% endif %}
-					<select class='input' name="category_id" id='category_select'>
-					<option value="">{% trans "Select a Category" %}</option>
-					{% for category in categories  %}
-						{% ifchanged category.category_class.name %}
-							</optgroup><optgroup label='{{category.category_class.name}}'>
-						{% endifchanged %}
-						<option value="{{category.id}}">{{category.name}}</option>
-					{% endfor %}
-					</select>
-				</td>
 			</tr>
 			<tr>
 				<td></td>

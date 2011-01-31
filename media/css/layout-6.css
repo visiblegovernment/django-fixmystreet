@@ -189,6 +189,7 @@ table.form td input[type='submit'] {
 
 table.form td select {
 	width: 100%;
+	padding: 2px;
 }
 
 
