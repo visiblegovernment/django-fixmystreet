@@ -13,13 +13,18 @@ feeds = {
     'report_updates': LatestUpdatesByReport,
 }
 
+if settings.DEBUG:
+    SSL_ON = False
+else:
+    SSL_ON = True
+    
 admin.autodiscover()
 urlpatterns = patterns('',
-    (r'^admin/password_reset/$', 'django.contrib.auth.views.password_reset',{'SSL':True}),
+    (r'^admin/password_reset/$', 'django.contrib.auth.views.password_reset',{'SSL':SSL_ON}),
     (r'^password_reset/done/$', 'django.contrib.auth.views.password_reset_done'),
     (r'^reset/(?P<uidb36>[-\w]+)/(?P<token>[-\w]+)/$', 'django.contrib.auth.views.password_reset_confirm'),
     (r'^reset/done/$', 'django.contrib.auth.views.password_reset_complete'),
-    (r'^admin/(.*)', admin.site.root,{'SSL':True}),
+    (r'^admin/(.*)', admin.site.root,{'SSL':SSL_ON}),
     (r'^feeds/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
     (r'^i18n/', include('django.conf.urls.i18n')),
 )

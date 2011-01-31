@@ -134,7 +134,7 @@ text-align:left;
 
 #top_menu_links {
 	float: left;
-	width: 400px;
+	width: 100%;
 	text-align: left;
 	height: 50px;
 }
@@ -147,7 +147,7 @@ text-align:left;
 #language {
 	padding-top: 1em;
 	padding-right: 1em;
-	width: 400px;
+	width: 100%;
 	height: 40px;
 	text-align: right;
 	float: right
