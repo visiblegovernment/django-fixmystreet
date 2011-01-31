@@ -147,8 +147,9 @@ text-align:left;
 #language {
 	padding-top: 1em;
 	padding-right: 1em;
-	width: 150px;
+	width: 400px;
 	height: 40px;
+	text-align: right;
 	float: right
 }
 
