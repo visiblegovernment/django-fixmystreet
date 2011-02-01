@@ -50,9 +50,7 @@
 						</div>
 
 						{% load tags %}
-						{% url home_url_name as home %}
-						{% url cities_url_name as cities %}
-						{% url contact_url_name as contact %}
+  						{% url contact_url_name as contact %}
 						{% url about_url_name as about %}
 
 						<div id="top_menu_links"><div>
@@ -72,7 +70,7 @@
 					<div id='middle_container' class='container_12'>
 						<div class='grid_12'>
 					{% if error_msg %}
-						<div id="error-msg">{{error_msg}}</div>
+						<div id="error-msg"><p>{{error_msg}}</p></div>
 					{% endif %}
 					{% block content %}{% endblock %}
 						</div>

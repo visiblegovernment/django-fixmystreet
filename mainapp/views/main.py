@@ -21,15 +21,10 @@ def home(request, error_msg = None, disambiguate=None):
         matching_cities = City.objects.filter(name__iexact=request.subdomain)
         if matching_cities:
             return( city_home(request, matching_cities[0], error_msg, disambiguate ) )
-            
-    reports_with_photos = Report.objects.filter(is_confirmed=True).exclude(photo='').order_by("-created_at")[:3]
-    recent_reports = Report.objects.filter(is_confirmed=True).order_by("-created_at")[:5]
-        
+                    
     return render_to_response("home.html",
                 {"report_counts": ReportCountQuery('1 year'),
                  "cities": City.objects.all(),
-                 "reports_with_photos": reports_with_photos,
-                 "recent_reports": recent_reports , 
                  'error_msg': error_msg,
                  'disambiguate':disambiguate },
                 context_instance=RequestContext(request))    

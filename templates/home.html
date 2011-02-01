@@ -41,6 +41,16 @@
 			<input id='search_button' class='big_button' type="submit" name="submit" value="{% trans "Search" %}">
 		</form>
 	</div>
+	<div id="supported_cities">
+		{% trans "Supported Cities" %}:
+		<ul>
+		{% for city in cities %}
+			<li><a href='{{city.get_absolute_url}}'>{{city.name}},{{city.province.abbrev}}</a></li>
+		{% endfor %}
+			<li><a href="/about/add_city">{% trans "Add Your City" %}</a></li>
+		</ul>
+	</div>
+	
 
 </div>
 </div>
@@ -89,14 +99,4 @@
 	</div>
 	</div>
 </div>
-
-<!--<div id="supported_cities">
-	<div>
-	{% trans "Supported Cities" %}:
-	{% for city in cities %}
-		<b>{{ city.name }} {{city.province.abbrev}},</b>
-	{% endfor %}
-		<a href="/about/add_city">{% trans "Add Your City" %}</a><br/>
-	</div>
-</div>-->
 {% endblock %}

@@ -6,6 +6,7 @@ TEST_URLS = [
     ('/cities/1' , 'ward list'),
     ('/wards/3'  , 'show ward'),
     ('/search?q=slater street', 'ambigous search'),
+    ('/search?q=Moscow,Russia', 'failed search'),
     ('/search?q=somerset and empress,ottawa canada', 'search'),
     ('/reports/new?&lat=45.41958499972712&lon=-75.7028603553772','file new report'),
     ('/reports/114', 'unconfirmed report'),
