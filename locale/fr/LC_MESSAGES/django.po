@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-31 21:35-0500\n"
+"POT-Creation-Date: 2011-02-02 12:57-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -48,7 +48,7 @@ msgstr "Détails"
 msgid "Phone"
 msgstr "Téléphone"
 
-#: mainapp/views/main.py:48
+#: mainapp/views/main.py:43
 msgid ""
 "Sorry, we couldn't retreive the coordinates of that location, please use the "
 "Back button on your browser and try something more specific or include the "
@@ -59,8 +59,7 @@ msgstr ""
 "chose de plus spécifique ou inclure le nom de la ville à la fin de votre "
 "recherche."
 
-#: mainapp/views/main.py:51
-#, fuzzy
+#: mainapp/views/main.py:46
 msgid ""
 "Sorry, we couldn't find the address you entered. Please try again with "
 "another intersection, address or postal code, or add the name of the city to "
@@ -68,15 +67,14 @@ msgid ""
 msgstr ""
 "Désolé, nous n'avons pas pu trouver l'adresse que vous avez entrée. S'il "
 "vous plaît essayer de nouveau avec une autre intersection, adresse ou le "
-"code postal."
+"code postal, ou ajouter le nom de la ville."
 
-#: mainapp/views/main.py:70
-#, fuzzy
+#: mainapp/views/main.py:65
 msgid ""
 "Sorry, we don't yet have that area in our database. Please have your area "
 "councillor contact fixmystreet.ca."
 msgstr ""
-"Désolé, nous n'avons pas ce domaine dans notre base de données. S'il vous "
+"Désolé, nous n'avons pas cette région dans notre base de données. S'il vous "
 "plaît demander à votre échevin municipal qu'il contacte fixmystreet.ca."
 
 #: mainapp/views/reports/subscribers.py:18
@@ -87,7 +85,7 @@ msgstr "Vous vous avez déjà abonné aux mises à jour de ce rapport."
 msgid "You have unsubscribed from updates to:"
 msgstr "Vous vous avez désabonné des mises à jour de:"
 
-#: templates/about.html:4 templates/about.html.py:9 templates/base.html:62
+#: templates/about.html:4 templates/about.html.py:9 templates/base.html:60
 #: templates/faq/show.html:3 templates/faq/show.html.py:7
 msgid "About"
 msgstr "À Propos"
@@ -150,21 +148,19 @@ msgstr "FixMyStreet (réparer ma rue) Canada"
 msgid "Home"
 msgstr "Page d'accueil"
 
-#: templates/base.html:60
-#, fuzzy
+#: templates/base.html:58
 msgid "Submit a Report"
-msgstr "Abonnez-vous aux Mises à Jour d'un Rapport"
+msgstr "Soumettre un Rapport"
 
-#: templates/base.html:61
-#, fuzzy
+#: templates/base.html:59
 msgid "View Reports"
-msgstr "Nouveau Rapport"
+msgstr "Voyer Rapports"
 
-#: templates/base.html:63 templates/contact/new.html:8
+#: templates/base.html:61 templates/contact/new.html:8
 msgid "Contact Us"
 msgstr "Contactez Nous"
 
-#: templates/base.html:90
+#: templates/base.html:88
 msgid "Promotions"
 msgstr "Promotions"
 
@@ -176,23 +172,23 @@ msgstr ""
 
 #: templates/home.html:28
 msgid "report/view/discuss"
-msgstr ""
+msgstr "rapporter/voir/discuté"
 
 #: templates/home.html:29
 msgid "graffiti."
-msgstr ""
+msgstr "graffiti."
 
 #: templates/home.html:30
 msgid "potholes."
-msgstr ""
+msgstr "nid de poules."
 
 #: templates/home.html:31
 msgid "excessive"
-msgstr ""
+msgstr "excessif"
 
 #: templates/home.html:33
 msgid "street"
-msgstr ""
+msgstr "rue"
 
 #: templates/home.html:39
 msgid "Enter a nearby postal code, or street name and city:"
@@ -201,66 +197,62 @@ msgstr ""
 
 #: templates/home.html:41
 msgid "Search"
-msgstr ""
+msgstr "Rechercher"
 
-#: templates/home.html:53
-#, fuzzy
-msgid "How to Report a Problem"
-msgstr "Signalez un Problème"
-
-#: templates/home.html:55
-#, fuzzy
-msgid "Enter a nearby postal code, street name, or city"
-msgstr ""
-"Entrez un code postal à proximité, ou le nom de la rue et de la région:"
-
-#: templates/home.html:56
-msgid "Locate the problem on a map of the area"
-msgstr "Localisez le problème sur une carte de la région"
-
-#: templates/home.html:57
-msgid "Enter details of the problem"
-msgstr "Entrez les détails du problème"
-
-#: templates/home.html:58
-msgid "We send it to the city on your behalf"
-msgstr "Nous le rapporterons à la ville en votre nom"
-
-#: templates/home.html:66
-msgid "Reports Filed"
-msgstr "Rapports "
-
-#: templates/home.html:70
-msgid "Reports Fixed"
-msgstr "Rapports Résolus"
-
-#: templates/home.html:74
-msgid "Reports Updated"
-msgstr "Rapports Mis à Jour"
-
-#: templates/home.html:77 templates/cities/_report_count_table.html:28
-msgid "As reported by fixmystreet.ca users."
-msgstr "Comme indiqué par les utilisateurs de fixmystreet.ca."
-
-#: templates/home.html:80
-msgid "Recent Reports"
-msgstr "Derniers Rapports"
-
-#: templates/home.html:95
+#: templates/home.html:45
 msgid "Supported Cities"
 msgstr "Villes Incluses"
 
-#: templates/home.html:99
+#: templates/home.html:50
 msgid "Add Your City"
 msgstr "Ajoutez Votre Ville"
 
+#: templates/home.html:63
+msgid "How to Report a Problem"
+msgstr "Signalez un Problème"
+
+#: templates/home.html:65
+msgid "Enter a nearby postal code, street name, or city"
+msgstr ""
+"Entrez un code postal à proximité, le nom de la rue ou le nom de la ville:"
+
+#: templates/home.html:66
+msgid "Locate the problem on a map of the area"
+msgstr "Localisez le problème sur une carte de la région"
+
+#: templates/home.html:67
+msgid "Enter details of the problem"
+msgstr "Entrez les détails du problème"
+
+#: templates/home.html:68
+msgid "We send it to the city on your behalf"
+msgstr "Nous le rapporterons à la ville en votre nom"
+
+#: templates/home.html:76
+msgid "Reports Filed"
+msgstr "Rapports "
+
+#: templates/home.html:80
+msgid "Reports Fixed"
+msgstr "Rapports Résolus"
+
+#: templates/home.html:84
+msgid "Reports Updated"
+msgstr "Rapports Mis à Jour"
+
+#: templates/home.html:87 templates/cities/_report_count_table.html:28
+msgid "As reported by fixmystreet.ca users."
+msgstr "Comme indiqué par les utilisateurs de fixmystreet.ca."
+
+#: templates/home.html:90
+msgid "Recent Reports"
+msgstr "Derniers Rapports"
+
 #: templates/search_result.html:10
-#, fuzzy
 msgid "To Report a New Problem"
 msgstr "Signalez un Problème"
 
 #: templates/search_result.html:11
-#, fuzzy
 msgid "Drag the indicated marker to the correct location on the map."
 msgstr ""
 "Pour signaler un problème, il suffit de faire glisser le marqueur à "
@@ -291,14 +283,12 @@ msgid "No problems have been reported in this area."
 msgstr "Aucun problème n'a été signalé."
 
 #: templates/admin/base_site.html:4
-#, fuzzy
 msgid "FixMyStreet.ca Admin"
-msgstr "FixMyStreet (réparer ma rue) Canada"
+msgstr "FixMyStreet.ca Administrateur"
 
 #: templates/admin/base_site.html:15
-#, fuzzy
 msgid "FixMyStreet.ca Administration"
-msgstr "FixMyStreet (réparer ma rue) Canada"
+msgstr "FixMyStreet.ca Administration"
 
 #: templates/admin/login.html:19
 msgid "Username:"
@@ -442,9 +432,8 @@ msgid "New Report"
 msgstr "Nouveau Rapport"
 
 #: templates/reports/new.html:58
-#, fuzzy
 msgid "Submitting a report"
-msgstr "Abonnez-vous aux Mises à Jour d'un Rapport"
+msgstr "Envoyé un rapport"
 
 #: templates/reports/new.html:67
 msgid "* Optional"
@@ -516,7 +505,7 @@ msgstr "Envoyé à"
 
 #: templates/reports/show.html:57
 msgid "On"
-msgstr ""
+msgstr "Sur"
 
 #: templates/reports/show.html:64
 msgid "Subscribers:"
@@ -535,9 +524,8 @@ msgid "Updates"
 msgstr "Mises à Jour"
 
 #: templates/reports/show.html:85
-#, fuzzy
 msgid "Posted by"
-msgstr "signalé par"
+msgstr "Signalé par"
 
 #: templates/reports/show.html:93
 msgid "Provide an update"
@@ -577,16 +565,14 @@ msgstr ""
 "que possible.</p>\n"
 
 #: templates/reports/subscribers/confirm.html:4
-#, fuzzy
 msgid "Subscribe Complete"
-msgstr "Abonnez-vous"
+msgstr "Abonnement Complet"
 
 #: templates/reports/subscribers/confirm.html:5
 msgid "You have subscribed to updates to"
 msgstr "Vous vous avez abonné aux mises à jour de"
 
 #: templates/reports/subscribers/create.html:5
-#: templates/reports/updates/create.html:7
 msgid ""
 "\n"
 "<h2>Nearly Done! Now check your email...</h2>\n"
@@ -603,6 +589,21 @@ msgid ""
 "<p>(Don't worry — we'll hang on to your alert while you're checking your "
 "email.)</p>\n"
 msgstr ""
+"\n"
+"<h2>Presque Fini! Maintenant vérifions votre courriel...</h2>\n"
+"\n"
+"<p>La confirmation par courriel pourait prendre quelques minute à arriver, s."
+"v.p. soyer patient.</p>\n"
+"\n"
+"<p>Si vous utilisez un logiciel de courriel sur le Web ou un logiciel pour "
+"filter les courriels indésirables, s.v.p. vérifier vos dossiers de courriel "
+"spam.\n"
+"Vous devez maintenant cliquer sur le lien dans le courriel que nous venons "
+"de vous envoyer – si vous ne le faite pas, votre alerte ne sera pas activée."
+"</p>\n"
+"\n"
+"<p>(Ne vous inquiétez pas - nous nous rappellerons de votre alerte pendant "
+"que vous vérifier votre courriel.)</p>\n"
 
 #: templates/reports/subscribers/new.html:3
 msgid "Subscribe to a Report"
@@ -619,6 +620,39 @@ msgstr "Entrez votre adresse courriel pour vous abonner aux mises à jour:"
 #: templates/reports/updates/create.html:4
 msgid "Update Created"
 msgstr "Mise à Jour"
+
+#: templates/reports/updates/create.html:7
+msgid ""
+"\n"
+"<h2>Nearly Done! Now check your email...</h2>\n"
+"\n"
+"<p>The confirmation email may take a few minutes to arrive — please be "
+"patient.</p>\n"
+"\n"
+"<p>If you use web-based email or have 'junk mail' filters, you may wish to "
+"check your bulk/spam mail folders: sometimes, our messages are marked that "
+"way.\n"
+"You must now click the link in the email we've just sent you — if you do "
+"not, your update will not be activated.</p>\n"
+"\n"
+"<p>(Don't worry — we'll hang on to your update while you're checking your "
+"email.)</p>\n"
+msgstr ""
+"\n"
+"<h2>Presque Fini! Maintenant vérifions votre courriel...</h2>\n"
+"\n"
+"<p>La confirmation par courriel pourait prendre quelques minute à arriver, s."
+"v.p. soyer patient.</p>\n"
+"\n"
+"<p>Si vous utilisez un logiciel de courriel sur le Web ou un logiciel pour "
+"filter les courriels indésirables, s.v.p. vérifier vos dossiers de courriel "
+"spam.\n"
+"Vous devez maintenant cliquer sur le lien dans le courriel que nous venons "
+"de vous envoyer – si vous ne le faite pas, votre mise à jour ne sera pas activée."
+"</p>\n"
+"\n"
+"<p>(Ne vous inquiétez pas - nous nous rappellerons de votre mise à jour pendant "
+"que vous vérifier votre courriel.)</p>\n"
 
 #: templates/wards/_info_box.html:6
 msgid "Councillor"
