@@ -52,11 +52,12 @@
 						{% load tags %}
   						{% url contact_url_name as contact %}
 						{% url about_url_name as about %}
+						{% url cities_url_name as cities_link %}
 
 						<div id="top_menu_links"><div>
 						<ul>
 							<li><a class="{% fmsmenu_active request 'submit' %}" href="{{home}}" >{% trans "Submit a Report" %}</a></li>
-							<li><a class="{% fmsmenu_active request 'view' %}" href="{{cities}}">{% trans "View Reports" %}</a></li>
+							<li><a class="{% fmsmenu_active request 'view' %}" href="{{cities_link}}">{% trans "View Reports" %}</a></li>
 							<li><a class="{% fmsmenu_active request about %}" href="{{about}}">{% trans "About" %}</a></li>
 							<li><a class="{% fmsmenu_active request contact %}" href="{{contact}}">{% trans "Contact Us" %}</a></li>
 						</ul>
