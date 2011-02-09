@@ -38,7 +38,7 @@
 }
 
 td.section {
-     	background-color: #434343;
+     	background-color:#000000;
 }
 
 .row-odd {
@@ -46,7 +46,7 @@ td.section {
 }
 
 .row-even {
-	background: #000000;
+	background: #434343;
 }
 
 #photo_note {
