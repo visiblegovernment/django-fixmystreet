@@ -514,6 +514,9 @@ class GoogleAddressLookup(object):
         
     def matches_multiple(self):
         return len(self.query_results) > 1 
+    
+    def len(self):
+        return len(self.query_results)
         
     def lat(self, index ):
         coord = self.query_results[index] 

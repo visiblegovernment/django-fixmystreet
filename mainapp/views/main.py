@@ -1,5 +1,5 @@
 from django.shortcuts import render_to_response, get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from mainapp.models import Report, ReportUpdate, Ward, FixMyStreetMap, ReportCountQuery, City, FaqEntry, GoogleAddressLookup
 from mainapp import search
 from django.template import Context, RequestContext
@@ -57,6 +57,7 @@ def search_address(request):
     match_index = 0
     if request.GET.has_key("index"):
         match_index = int(request.GET["index"])
+        if match_index > address_lookup.len(): raise Http404
             
     point_str = "POINT(" + address_lookup.lon(match_index) + " " + address_lookup.lat(match_index) + ")"
     pnt = fromstr(point_str, srid=4326)
