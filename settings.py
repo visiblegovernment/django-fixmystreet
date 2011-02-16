@@ -58,6 +58,7 @@ TEMPLATE_LOADERS = (
 # include request object in template to determine active page
 TEMPLATE_CONTEXT_PROCESSORS = (
   'django.core.context_processors.request',
+  'django.core.context_processors.auth',
 )
 
 MIDDLEWARE_CLASSES = (
