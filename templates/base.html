@@ -71,7 +71,9 @@
 					<div id='middle_container' class='container_12'>
 						<div class='grid_12'>
 					{% if error_msg %}
-						<div id="error-msg"><p>{{error_msg}}</p></div>
+						<div id="error-msg">
+						<p>{{error_msg}}</p>
+						</div>
 					{% endif %}
 					{% block content %}{% endblock %}
 						</div>

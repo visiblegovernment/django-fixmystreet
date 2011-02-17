@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% block script %}
+{% include "_search.js" %}
+{% endblock %}
 {% block css %}
 <style type="text/css" media="screen">
 	#supported_cities { font-size: 80%; }
@@ -11,18 +14,13 @@
 {% endblock %}
 </style>
 {% block content %}
-
+<div id='search-error'>
+{% if search_error %}
+<div id='error-msg'>{{search_error}}</div>
+{% endif %}
+</div>
 <div id="page_content_container">
-	{% if disambiguate %}
-		<div id='error-msg'>
-			<p>{% trans "That address returned more than one result.  Please try again, or select an option below:"%}</p>
-			 <ul>
-				{% for link,address in disambiguate.items %}
-				<li><a href='{{link}}'>{{address}}</a></li>
-				{% endfor %}
-			</ul>
-		</div>
-	{% endif %}
+  <div id='disambiguate'></div>
   <div id="front-page">
 	<div id="intro_text">
 	  <h1>{% trans "report/view/discuss" %}</h1>
@@ -35,11 +33,18 @@
 	</div>
 
 	<div id='start_box'>
-	    <form name="lookup" action="/search/"   method="post">
+	   <form onsubmit="return do_search()" >	
 		<p>{% trans "Enter a nearby postal code, or street name and city:" %}</p>
-			<input id='search_box' type="text" name="q">
-			<input id='search_button' class='big_button' type="submit" name="submit" value="{% trans "Search" %}">
+			<input id='search_box' type="text" name="q"
+		    {% if location %}value="{{location}}"{% endif %}
+			>
+			<input id='search_button' class='big_button' type="button" name="submit" onclick="do_search()" value="{% trans "Search" %}">
 		</form>
+		{% if location %}
+		<div id='searching-progress'>
+		<h2 class="hide-on-load bluegreen"><img src="/images/ajax-loader-bluegreen.gif" width="16" height="16" alt="progress spinner" />&nbsp;searching...</h2>
+		</div>
+		{% endif %}
 	</div>
 	<div id="supported_cities">
 		{% trans "Supported Cities" %}:

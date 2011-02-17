@@ -172,45 +172,45 @@ class TestSearch(BaseCase):
     fixtures = ['test_report_basecases.json']
     
     base_url = '/search'
-    
-    def test_success(self):
-        query = 'bank and slater, Ottawa'
-        response = self.c.get(self._url(query), follow=True)
-        self.assertEquals( response.status_code, 200 )
-        self.assertEquals( response.template[0].name, 'search_result.html')
+ 
+    # now done in javascript
+#    def test_success(self):
+#        query = 'bank and slater, Ottawa'
+#        response = self.c.get(self._url(query), follow=True)
+#        self.assertEquals( response.status_code, 200 )
+#        self.assertEquals( response.template[0].name, 'search_result.html')
 
-    def test_doesnt_resolve(self):
-        query = 'nowhere anywhere'
-        error = "Sorry, we couldn't find the address you entered."
-        response = self._get_error_response(query)
-        self.assertEquals( response.context['error_msg'].startswith(error),True)
+#    def test_doesnt_resolve(self):
+#        query = 'nowhere anywhere'
+#        error = "Sorry, we couldn't find the address you entered."
+#        response = self._get_error_response(query)
+#        self.assertContains( response,error)
         
-    def test_ambigous(self):
-        query = 'slater street'
-        error = "That address returned more than one result."
-        response = self._get_error_response(query)
-        self.assertNotEquals( response.context['disambiguate'], None )
-        self.assertNotEquals(response.content.find(error),-1)
+#    def test_ambigous(self):
+#        query = 'slater street'
+#        error = "That address returned more than one result."
+#        response = self._get_error_response(query)
+#        self.assertContains(response, error )
         
         # find the link for Ottawa
-        ottawa_link = None
-        for link,address in response.context['disambiguate'].items():
-            if address.find('Ottawa') != -1:
-                ottawa_link = link
-
-        self.assertNotEquals(ottawa_link,None)
+#        ottawa_link = None
+#        for link,address in response.context['disambiguate'].items():
+#            if address.find('Ottawa') != -1:
+#                ottawa_link = link
+#
+#        self.assertNotEquals(ottawa_link,None)
+#        
+#        # follow it to make sure it works
+#        response = self.c.get(ottawa_link, follow=True)
+#        self.assertEquals( response.status_code, 200 )
+#        self.assertEquals( response.template[0].name, 'search_result.html')
         
-        # follow it to make sure it works
-        response = self.c.get(ottawa_link, follow=True)
-        self.assertEquals( response.status_code, 200 )
-        self.assertEquals( response.template[0].name, 'search_result.html')
-        
-        
-    def test_not_in_db(self):
-        query = 'moscow, russia'
-        error = "Sorry, we don't yet have that area in our database."
-        response = self._get_error_response(query)
-        self.assertEquals( response.context['error_msg'].startswith(error),True)
+ 
+#    def test_not_in_db(self):
+#        query = 'moscow, russia'
+#        error = "Sorry, we don't yet have that area in our database."
+#        response = self._get_error_response(query)
+#        self.assertEquals( response.context['error_msg'].startswith(error),True)
     
     
     def _get_error_response(self,query):

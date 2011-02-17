@@ -15,8 +15,9 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy, ugettext as _
 from contrib.transmeta import TransMeta
 from contrib.stdimage import StdImageField
-import libxml2
 from django.utils.encoding import iri_to_uri
+from django.contrib.gis.geos import fromstr
+from django.http import Http404
 from django.contrib.auth.models import User
       
 # from here: http://www.djangosnippets.org/snippets/630/        
@@ -486,54 +487,6 @@ class CityMap(GoogleMap):
     
 
 
-class GoogleAddressLookup(object):
-    
-    """
-    Simple Google Geocoder abstraction - supports UTF8
-    """
- 
-    def __init__(self,address ):
-        self.query_results = []
-        self.match_coords = []
-        self.xpathContext = None
-        self.url = iri_to_uri(u'http://maps.google.ca/maps/geo?q=%s&output=xml&key=%s&oe=utf-8' % (address, settings.GMAP_KEY) )
-    
-    def resolve(self):
-        try:
-            resp = urllib.urlopen(self.url).read()
-            doc = libxml2.parseDoc(resp)
-            self.xpathContext = doc.xpathNewContext()
-            self.xpathContext.xpathRegisterNs('google', 'http://earth.google.com/kml/2.0')
-            self.query_results = self.xpathContext.xpathEval("//google:coordinates")
-            return( True )
-        except:
-            return( False )
-        
-    def exists(self):
-        return len(self.query_results) != 0 
-        
-    def matches_multiple(self):
-        return len(self.query_results) > 1 
-    
-    def len(self):
-        return len(self.query_results)
-        
-    def lat(self, index ):
-        coord = self.query_results[index] 
-        coord_pair = coord.content.split(',')
-        return( coord_pair[1] ) 
-        
-    def lon(self, index ):
-        coord = self.query_results[index] 
-        coord_pair = coord.content.split(',')
-        return( coord_pair[0] ) 
-                        
-    def get_match_options(self):
-        addr_list = []
-        addr_nodes = self.xpathContext.xpathEval("//google:address")
-        for i in range(0,len(addr_nodes)):
-            addr_list.append(addr_nodes[i].content) 
-        return ( addr_list )
     
 class SqlQuery(object):
     """
@@ -696,4 +649,21 @@ class UserProfile(models.Model):
     """
     user = models.ForeignKey(User, unique=True)
     city = models.ForeignKey(City, null=True)
+    
+    
+class DictToPoint():
+    
+    def __init__(self, dict ):
+        if not dict.has_key('lat') or not dict.has_key('lon'):
+            raise Http404
+        self.lat = dict['lat']
+        self.lon = dict['lon']
+        
+    def __unicode__(self):
+        return ("POINT(" + self.lon + " " + self.lat + ")" )
+    
+    def pnt(self, srid = None ):
+        pntstr = self.__unicode__()
+        return( fromstr( pntstr, srid=4326) )
+    
     
