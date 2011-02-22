@@ -16,7 +16,6 @@ def new( request, report_id ):
             # redirect after a POST       
             return( HttpResponseRedirect( '/reports/updates/create/' ) )
         else:
-            print "update not valid"
             for field in update_form:
                 if field.errors:
                     print str(field)
@@ -44,7 +43,6 @@ def confirm( request, confirm_token ):
         return( HttpResponseRedirect( update.report.get_absolute_url() ))
     
     # is the update fixed?
-    
     if update.is_fixed:
         update.report.is_fixed = True
         update.report.fixed_at = update.created_at

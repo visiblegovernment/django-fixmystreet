@@ -67,7 +67,7 @@ class CreateReport(BaseCase):
         response = self.c.post(update_url,UPDATE_PARAMS, follow=True)
         self.assertEquals( response.status_code, 200 )
         self.assertEquals( ReportUpdate.objects.filter(report=report).count(),2)
-  
+        self.assertEquals( ReportUpdate.objects.filter( report=report, is_confirmed=True).count(),1)
         # we should have sent another confirmation link
         self.assertEquals(len(mail.outbox), 3)
         self.assertEquals(mail.outbox[2].to, [u'testupdater@hotmail.com'])
@@ -76,7 +76,8 @@ class CreateReport(BaseCase):
         confirm_url = self._get_confirm_url(mail.outbox[2])
         response = self.c.get(confirm_url, follow=True)
         self.assertEquals( response.status_code, 200 )
-        
+        self.assertEquals( ReportUpdate.objects.filter( report=report, is_confirmed=True).count(),2)
+        self.assertContains(response, UPDATE_PARAMS['desc'])
         #make sure the creator of the report gets an update.
         self.assertEquals(len(mail.outbox), 4)
         self.assertEquals(mail.outbox[3].to, [u'testcreator@hotmail.com'])

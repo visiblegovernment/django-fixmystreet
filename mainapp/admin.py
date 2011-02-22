@@ -57,7 +57,7 @@ admin.site.register(Councillor,CouncillorAdmin)
 
 
 class WardAdmin(admin.ModelAdmin):
-    list_display = ('city','name',)
+    list_display = ('city','number','name',)
     list_display_links = ('name',)
     ordering       = ['city', 'number']
     exclude = ['city','geom']

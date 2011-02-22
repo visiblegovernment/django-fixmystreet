@@ -353,6 +353,7 @@ class ReportUpdate(models.Model):
             self.get_confirmation()
         else:
             self.notify()
+        super(ReportUpdate,self).save()
             
             
     def get_confirmation(self):
