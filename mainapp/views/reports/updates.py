@@ -15,11 +15,6 @@ def new( request, report_id ):
             update.save()    
             # redirect after a POST       
             return( HttpResponseRedirect( '/reports/updates/create/' ) )
-        else:
-            for field in update_form:
-                if field.errors:
-                    print str(field)
-                    print field.errors
                 
     else:
         update_form = ReportUpdateForm()
