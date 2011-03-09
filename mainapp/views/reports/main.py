@@ -24,11 +24,16 @@ def new( request ):
         report_form = ReportForm(initial={ 'lat': request.GET['lat'],
                                            'lon': request.GET['lon'] } )
 
-    
+    ward=None
+    wards = Ward.objects.filter(geom__contains=pnt)[:1]
+    if wards:
+        ward = wards[0]
+
     return render_to_response("reports/new.html",
                 { "google": FixMyStreetMap(pnt, True),
                   "report_form": report_form,
-                  "update_form": report_form.update_form },
+                  "update_form": report_form.update_form,
+                  'ward':ward },
                 context_instance=RequestContext(request))
     
         

@@ -40,11 +40,6 @@
 			>
 			<input id='search_button' class='big_button' type="button" name="submit" onclick="do_search()" value="{% trans "Search" %}">
 		</form>
-		{% if location %}
-		<div id='searching-progress'>
-		<h2 class="hide-on-load bluegreen"><img src="/images/ajax-loader-bluegreen.gif" width="16" height="16" alt="progress spinner" />&nbsp;searching...</h2>
-		</div>
-		{% endif %}
 	</div>
 	<div id="supported_cities">
 		{% trans "Supported Cities" %}:

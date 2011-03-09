@@ -91,6 +91,9 @@ class SuperUserRuleForm(forms.ModelForm):
 
 class EmailRuleAdmin(admin.ModelAdmin):
 
+    change_list_template = 'admin/mainapp/emailrules/change_list.html'
+
+
     def queryset(self,request):
         if request.user.is_superuser:
             return( super(EmailRuleAdmin,self).queryset(request) )
@@ -109,5 +112,14 @@ class EmailRuleAdmin(admin.ModelAdmin):
             return( SuperUserRuleForm )
         else:
             return( CityAdminRuleForm )
+        
+    def changelist_view(self, request, extra_context=None):
+        if not request.user.is_superuser:
+            profile = request.user.get_profile()
+            if extra_context == None:
+                extra_context = {}
+            extra_context['city'] = profile.city
+        return(super(EmailRuleAdmin,self).changelist_view(request,extra_context))
+
 
 admin.site.register(EmailRule,EmailRuleAdmin)

@@ -94,6 +94,14 @@ margin-left:1.5em;
 	</div>
 	<div id="rightcol">
      <div id="{{ google.dom_id }}" style="width:520px;height:400px;"></div>
+     <div id='report-destination'>
+     <b>{% trans "Where will my report be sent?" %}</b>
+     <ul>
+		{% for rule in ward.get_rule_descriptions %}
+  		<li>{{rule}}</li>
+		{% endfor %}
+	</ul>   	
+	</div>
 	</div>
 </div>
 {% endblock %}

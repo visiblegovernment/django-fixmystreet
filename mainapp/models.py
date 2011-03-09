@@ -65,6 +65,11 @@ class City(models.Model):
     def get_absolute_url(self):
         return "/cities/" + str(self.id)
 
+    def get_rule_descriptions(self):
+        rules = EmailRule.objects.filter(city=self)
+        describer = emailrules.EmailRulesDesciber(rules,self)
+        return( describer.values() )
+
     class Meta:
         db_table = u'cities'
 
@@ -84,6 +89,8 @@ class Councillor(models.Model):
 
     class Meta:
         db_table = u'councillors'
+
+
         
 class Ward(models.Model):
     
@@ -118,6 +125,12 @@ class Ward(models.Model):
                    cc_emails.append(rule_email)
         return( to_emails,cc_emails )
 
+    
+    def get_rule_descriptions(self):
+        rules = EmailRule.objects.filter(city=self.city)
+        describer = emailrules.EmailRulesDesciber(rules,self.city, self)
+        return( describer.values() )
+            
 
     class Meta:
         db_table = u'wards'
@@ -200,6 +213,17 @@ class EmailRule(models.Model):
                         help_text="Only set for 'Category Group' rule types."
                         )
     
+    def label(self):
+        rule_behavior = EmailRule.RuleBehavior[ self.rule ]()
+        return( rule_behavior.report_group(self) )
+    
+    def value(self, ward = None):
+        rule_behavior = EmailRule.RuleBehavior[ self.rule ]()
+        if ward:
+            return( rule_behavior.value_for_ward(self,ward) )
+        else:
+            return( rule_behavior.value_for_city(self))
+        
     def get_email(self,report):
         rule_behavior = EmailRule.RuleBehavior[ self.rule ]()
         return( rule_behavior.get_email(report,self))

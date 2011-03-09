@@ -70,9 +70,17 @@ function do_search()
     return true;
 }
 
-{% if location %}
+
 jQuery(document).ready(function($) 
 {
+
+	$("#search_box").keyup(function(event){
+  		if(event.keyCode == 13){
+    	$("#search_button").click();
+  		}
+	});
+
+{% if location %}
    
     function find_nearby_reports()
     {
@@ -82,7 +90,8 @@ jQuery(document).ready(function($)
     }
 
     find_nearby_reports();
-});
 {% endif %}
+
+});
 //]]>
 </script>

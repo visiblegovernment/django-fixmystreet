@@ -154,7 +154,6 @@ text-align:left;
 }
 
 
-
 #content {
 	text-align: left;
 	margin: 10px auto;
@@ -351,6 +350,19 @@ overflow: hidden;
 padding-right: 5px;
 }
 
+#report-destination {
+	padding: 10px;
+	text-align:left;
+}
+
+#report-destination ul {
+	margin-left: 20px;
+	margin-top: 5px;
+}
+
+#report-destination ul li {
+	list-style-type: disc;
+}
 
 blockquote {
 margin-left: 3em !important;

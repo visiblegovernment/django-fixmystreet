@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-02 12:57-0500\n"
+"POT-Creation-Date: 2011-03-09 18:25-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,11 +16,46 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: mainapp/forms.py:13 mainapp/models.py:241 mainapp/models.py:289
+#: mainapp/emailrules.py:18 mainapp/emailrules.py:104
+msgid "All reports"
+msgstr "Tous les rapports"
+
+#: mainapp/emailrules.py:24
+msgid "the councillor's email address"
+msgstr "Qui peut voir mon adresse courriel?"
+
+#: mainapp/emailrules.py:37
+#, python-format
+msgid "'%s' reports"
+msgstr "'%s' rapports"
+
+#: mainapp/emailrules.py:56
+#, python-format
+msgid "non-'%s' reports"
+msgstr "non-'%s' rapports"
+
+#: mainapp/emailrules.py:75
+#, python-format
+msgid "%s will be "
+msgstr "%s seront "
+
+#: mainapp/emailrules.py:77
+msgid "sent to:"
+msgstr "envoyé à:"
+
+#: mainapp/emailrules.py:81
+msgid " and "
+msgstr " et "
+
+#: mainapp/emailrules.py:84
+msgid "cc'd to:"
+msgstr "cc'd à:"
+
+#: mainapp/forms.py:13 mainapp/models.py:266 mainapp/models.py:314
 msgid "Name"
 msgstr "Nom"
 
-#: mainapp/forms.py:16 mainapp/models.py:288
+#: mainapp/forms.py:16 mainapp/models.py:313
 msgid "Email"
 msgstr "Courriel"
 
@@ -32,44 +67,23 @@ msgstr "Message"
 msgid "Select a Category"
 msgstr "Choisissez une Catégorie"
 
-#: mainapp/models.py:216
+#: mainapp/models.py:241
 msgid "Subject"
 msgstr "Sujet"
 
-#: mainapp/models.py:239
+#: mainapp/models.py:264
 msgid "* Photo"
 msgstr "* Photo"
 
-#: mainapp/models.py:240 mainapp/models.py:283
+#: mainapp/models.py:265 mainapp/models.py:308
 msgid "Details"
 msgstr "Détails"
 
-#: mainapp/models.py:290
+#: mainapp/models.py:315
 msgid "Phone"
 msgstr "Téléphone"
 
-#: mainapp/views/main.py:43
-msgid ""
-"Sorry, we couldn't retreive the coordinates of that location, please use the "
-"Back button on your browser and try something more specific or include the "
-"city name at the end of your search."
-msgstr ""
-"Désolé, nous n'avons pas pu retrouver les coordonnées de cet endroit, s'il "
-"vous plaît cliquer sur le bouton de votre navigateur et essayez quelque "
-"chose de plus spécifique ou inclure le nom de la ville à la fin de votre "
-"recherche."
-
-#: mainapp/views/main.py:46
-msgid ""
-"Sorry, we couldn't find the address you entered. Please try again with "
-"another intersection, address or postal code, or add the name of the city to "
-"the end of the search."
-msgstr ""
-"Désolé, nous n'avons pas pu trouver l'adresse que vous avez entrée. S'il "
-"vous plaît essayer de nouveau avec une autre intersection, adresse ou le "
-"code postal, ou ajouter le nom de la ville."
-
-#: mainapp/views/main.py:65
+#: mainapp/views/main.py:51
 msgid ""
 "Sorry, we don't yet have that area in our database. Please have your area "
 "councillor contact fixmystreet.ca."
@@ -85,7 +99,7 @@ msgstr "Vous vous avez déjà abonné aux mises à jour de ce rapport."
 msgid "You have unsubscribed from updates to:"
 msgstr "Vous vous avez désabonné des mises à jour de:"
 
-#: templates/about.html:4 templates/about.html.py:9 templates/base.html:60
+#: templates/about.html:4 templates/about.html.py:9 templates/base.html:61
 #: templates/faq/show.html:3 templates/faq/show.html.py:7
 msgid "About"
 msgstr "À Propos"
@@ -148,49 +162,43 @@ msgstr "FixMyStreet (réparer ma rue) Canada"
 msgid "Home"
 msgstr "Page d'accueil"
 
-#: templates/base.html:58
+#: templates/base.html:59
 msgid "Submit a Report"
 msgstr "Soumettre un Rapport"
 
-#: templates/base.html:59
+#: templates/base.html:60
 msgid "View Reports"
 msgstr "Voyer Rapports"
 
-#: templates/base.html:61 templates/contact/new.html:8
+#: templates/base.html:62 templates/contact/new.html:8
 msgid "Contact Us"
 msgstr "Contactez Nous"
 
-#: templates/base.html:88
+#: templates/base.html:91
 msgid "Promotions"
 msgstr "Promotions"
 
-#: templates/home.html:18
-msgid ""
-"That address returned more than one result.  Please try again, or select an "
-"option below:"
-msgstr ""
-
-#: templates/home.html:28
+#: templates/home.html:26
 msgid "report/view/discuss"
 msgstr "rapporter/voir/discuté"
 
-#: templates/home.html:29
+#: templates/home.html:27
 msgid "graffiti."
 msgstr "graffiti."
 
-#: templates/home.html:30
+#: templates/home.html:28
 msgid "potholes."
 msgstr "nid de poules."
 
-#: templates/home.html:31
+#: templates/home.html:29
 msgid "excessive"
 msgstr "excessif"
 
-#: templates/home.html:33
+#: templates/home.html:31
 msgid "street"
 msgstr "rue"
 
-#: templates/home.html:39
+#: templates/home.html:37
 msgid "Enter a nearby postal code, or street name and city:"
 msgstr ""
 "Entrez un code postal à proximité, ou le nom de la rue et de la région:"
@@ -475,6 +483,10 @@ msgstr ""
 msgid "Submit"
 msgstr "Envoyez"
 
+#: templates/reports/new.html:98
+msgid "Where will my report be sent?"
+msgstr "Où en rapport soit envoyé?"
+
 #: templates/reports/show.html:31 templates/reports/show.html.py:99
 msgid "This problem has been fixed."
 msgstr "Ce problème a été résolu."
@@ -648,11 +660,11 @@ msgstr ""
 "filter les courriels indésirables, s.v.p. vérifier vos dossiers de courriel "
 "spam.\n"
 "Vous devez maintenant cliquer sur le lien dans le courriel que nous venons "
-"de vous envoyer – si vous ne le faite pas, votre mise à jour ne sera pas activée."
-"</p>\n"
+"de vous envoyer – si vous ne le faite pas, votre mise à jour ne sera pas "
+"activée.</p>\n"
 "\n"
-"<p>(Ne vous inquiétez pas - nous nous rappellerons de votre mise à jour pendant "
-"que vous vérifier votre courriel.)</p>\n"
+"<p>(Ne vous inquiétez pas - nous nous rappellerons de votre mise à jour "
+"pendant que vous vérifier votre courriel.)</p>\n"
 
 #: templates/wards/_info_box.html:6
 msgid "Councillor"
@@ -675,6 +687,25 @@ msgid "Note: fixmystreet.ca relies on users to report problems as fixed."
 msgstr ""
 "Note: fixmystreet.ca s'appuie sur les utilisateurs pour signaler les "
 "problèmes comme étant résolus."
+
+#~ msgid ""
+#~ "Sorry, we couldn't retreive the coordinates of that location, please use "
+#~ "the Back button on your browser and try something more specific or "
+#~ "include the city name at the end of your search."
+#~ msgstr ""
+#~ "Désolé, nous n'avons pas pu retrouver les coordonnées de cet endroit, "
+#~ "s'il vous plaît cliquer sur le bouton de votre navigateur et essayez "
+#~ "quelque chose de plus spécifique ou inclure le nom de la ville à la fin "
+#~ "de votre recherche."
+
+#~ msgid ""
+#~ "Sorry, we couldn't find the address you entered. Please try again with "
+#~ "another intersection, address or postal code, or add the name of the city "
+#~ "to the end of the search."
+#~ msgstr ""
+#~ "Désolé, nous n'avons pas pu trouver l'adresse que vous avez entrée. S'il "
+#~ "vous plaît essayer de nouveau avec une autre intersection, adresse ou le "
+#~ "code postal, ou ajouter le nom de la ville."
 
 #~ msgid "Please select a category"
 #~ msgstr "S'il vous plaît choisir une catégorie"
@@ -808,9 +839,6 @@ msgstr ""
 #~ "et nous nous réservons le droit de supprimer toutles problèmes ou les "
 #~ "mises à jour que nous considérons comme étant inappropriés une fois "
 #~ "averti par un utilisateur du site."
-
-#~ msgid "Who gets to see my email address?"
-#~ msgstr "Qui peut voir mon adresse courriel?"
 
 #~ msgid ""
 #~ "If you submit a problem, we pass on your contact details, and details of "
