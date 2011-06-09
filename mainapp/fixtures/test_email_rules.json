@@ -22,10 +22,8 @@
         "pk": 7, 
         "model": "mainapp.councillor", 
         "fields": {
-            "phone": "514-513-0999", 
             "first_name": "Angus", 
             "last_name": "Arthur-Doyle", 
-            "fax": null, 
             "email": "councillor_email@testward1.com"
         }
     }, 
