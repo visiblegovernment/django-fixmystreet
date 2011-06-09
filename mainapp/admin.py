@@ -20,106 +20,73 @@ class FaqEntryAdmin(admin.ModelAdmin):
     list_display = ('q', 'order')
 
 admin.site.register(FaqEntry, FaqEntryAdmin)
-
-class CityAdminCouncillorForm(forms.ModelForm):
-    class Meta:
-        model = Councillor
-        exclude = ['city','fax','phone']
-
-class SuperUserCouncillorForm(forms.ModelForm):
-    class Meta:
-        model = Councillor
-
+    
 class CouncillorAdmin(admin.ModelAdmin):
+    ''' only show councillors from cities this user has access to '''
     list_display = ('last_name', 'first_name', 'email')
-
+    
     def queryset(self,request):
         if request.user.is_superuser:
             return( super(CouncillorAdmin,self).queryset(request) )
-        profile = request.user.get_profile()
-        qs = self.model._default_manager.filter(city=profile.city)
+        profile = request.user.get_profile()        
+        qs = self.model._default_manager.filter(city__in=profile.cities.all())
         return(qs)
-    
-    def get_form(self, request, obj=None, **kwargs):
-        if request.user.is_superuser:
-            return( SuperUserCouncillorForm )
-        else:
-            return( CityAdminCouncillorForm )
-        
-    def save_model(self, request, obj, form, change):
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if not request.user.is_superuser:
-            profile = request.user.get_profile()
-            obj.city = profile.city
-        return( super(CouncillorAdmin,self).save_model(request,obj,form,change))
-            
+            if db_field.name == "city":
+                profile = request.user.get_profile()
+                kwargs["queryset"] = profile.cities.all()
+        return super(CouncillorAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
     
+            
 admin.site.register(Councillor,CouncillorAdmin)
 
 
 class WardAdmin(admin.ModelAdmin):
+    ''' only show wards from cities this user has access to '''
+
     list_display = ('city','number','name',)
     list_display_links = ('name',)
     ordering       = ['city', 'number']
-    exclude = ['city','geom']
+    exclude = ['geom']
     
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if not request.user.is_superuser:
+            profile = request.user.get_profile()
             if db_field.name == "councillor":
-                profile = request.user.get_profile()
-                kwargs["queryset"] = Councillor.objects.filter(city=profile.city)
+                kwargs["queryset"] = Councillor.objects.filter(city__in=profile.cities.all())
+            if db_field.name == "city":
+                kwargs["queryset"] = profile.cities.all()
         return super(WardAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
         
     def queryset(self,request):
         if request.user.is_superuser:
             return( super(WardAdmin,self).queryset(request) )
         profile = request.user.get_profile()
-        qs = self.model._default_manager.filter(city=profile.city)
+        qs = self.model._default_manager.filter(city__in=profile.cities.all())
         return(qs)
-    
     
 admin.site.register(Ward,WardAdmin)
 
-class CityAdminRuleForm(forms.ModelForm):
-    class Meta:
-        model = EmailRule
-        exclude = ['city',]
-   
-
-class SuperUserRuleForm(forms.ModelForm):
-    class Meta:
-        model = EmailRule
-
 class EmailRuleAdmin(admin.ModelAdmin):
+    ''' only show email rules from cities this user has access to '''
 
     change_list_template = 'admin/mainapp/emailrules/change_list.html'
-
 
     def queryset(self,request):
         if request.user.is_superuser:
             return( super(EmailRuleAdmin,self).queryset(request) )
         profile = request.user.get_profile()
-        qs = self.model._default_manager.filter(city=profile.city)
+        qs = self.model._default_manager.filter(city__in=profile.cities.all())
         return(qs)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if not request.user.is_superuser:
+            if db_field.name == "city":
+                profile = request.user.get_profile()
+                kwargs["queryset"] = profile.cities.all()
+        return super(EmailRuleAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
     
-    def save_model(self, request, obj, form, change):
-        if not request.user.is_superuser:
-            profile = request.user.get_profile()
-            obj.city = profile.city
-        return( super(EmailRuleAdmin,self).save_model(request,obj,form,change))
-
-    def get_form(self, request, obj=None, **kwargs):
-        if request.user.is_superuser:
-            return( SuperUserRuleForm )
-        else:
-            return( CityAdminRuleForm )
-        
-    def changelist_view(self, request, extra_context=None):
-        if not request.user.is_superuser:
-            profile = request.user.get_profile()
-            if extra_context == None:
-                extra_context = {}
-            extra_context['city'] = profile.city
-        return(super(EmailRuleAdmin,self).changelist_view(request,extra_context))
-
 
 admin.site.register(EmailRule,EmailRuleAdmin)

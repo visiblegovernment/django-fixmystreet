@@ -80,8 +80,6 @@ class Councillor(models.Model):
     
     # this email addr. is used to send reports to if there is no 311 email for the city.
     email = models.EmailField(blank=True, null=True)
-    fax = models.CharField(max_length=20,blank=True, null=True)
-    phone = models.CharField(max_length=20,blank=True, null=True)
     city = models.ForeignKey(City,null=True)
 
     def __unicode__(self):      
@@ -669,11 +667,17 @@ class PollingStation(models.Model):
  
  
 class UserProfile(models.Model):
-    """
-       limit admin functionality  
-    """
     user = models.ForeignKey(User, unique=True)
-    city = models.ForeignKey(City, null=True)
+    
+    # if user is a 'city admin' (is_staff=True),
+    # this field lists all cities the user 
+    # can edit through the admin 
+    # panel.  
+    
+    cities = models.ManyToManyField(City, null=True)
+    
+    def __unicode__(self):
+        return self.user.username
     
     
 class DictToPoint():

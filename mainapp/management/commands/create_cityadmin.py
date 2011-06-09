@@ -22,4 +22,7 @@ class Command(BaseCommand):
         city_admin = Group.objects.get(name='CityAdmins')
         user.groups.add(city_admin)
         user.save()
-        UserProfile(user=user,city=city).save()
+        profile = UserProfile(user=user)
+        profile.save()
+        profile.cities.add(city)
+        profile.save()
