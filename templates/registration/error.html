@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block css %}
+<style type="text/css" media="screen">
+	div#social-error { text-align: center; }
+	p#social-error-details { padding: 1em 0em; color: #ffffff; }
+</style>
+{% endblock %}
+{% block title %}{% trans "Login Error" %}{% endblock %}
+{% block content %}
+<div id='social-error'>
+	<p>Sorry, but we could not complete your login.</p>
+    <p>Details:</p>
+    <p id="social-error-details">{{ social_error }}</p>
+    <p>Please try again.</p> 
+</div>
+{% endblock %}

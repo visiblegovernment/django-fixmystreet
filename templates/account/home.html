@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block css %}
+<style type="text/css" media="screen">
+	div#profile-menu { text-align: right; padding-right: 20px; padding-bottom: 1.5em; }
+</style>
+{% endblock %}
+{% block title %}My Reports{% endblock %}
+
+{% block content %}
+<div id='profile-menu'>
+<ul>
+	<li><a href='/accounts/edit/'>Edit Profile</a></li>
+</ul>
+</div>
+<h2>My Reports</h2> 
+<table class='myreports'>
+	<tr>
+		<th>Report</th>
+		<th>Status</th>
+		<th>Date Filed</th>
+		<th>Days Open</th>
+		<th>My Role</th>
+	</tr>
+	{% for report in allreports %}
+	{% ifchanged report.is_fixed %}
+	<tr>
+		<td colspan="5" class='section'>
+		{% if report.is_fixed %}Fixed{% else %}Open{% endif %} Reports
+		</td>
+	</tr>
+	{% endifchanged %}
+	<tr class={% cycle 'row-even','row-odd' %}>
+		<td>
+			<a href='{{report.get_absolute_url}}'>{{report.title}}</a>
+		</td>
+		<td>
+			{% if report.is_fixed %}Fixed{% else %}Open{% endif %}
+		</td>
+
+		<td>
+			{{report.sent_at|date:"Y-m-d"}}
+		</td>
+		<td>
+			{{report.days_open}}
+		</td>
+		<td>
+			{% if report.is_reporter %}Reporter
+			{% else %}
+				{% if report.is_updater %}Updater
+				{% else %}Subscriber{% endif %}
+			{% endif %}
+		</td>
+	</tr>
+	{% endfor %}
+	
+</table>	
+
+{% endblock %}
