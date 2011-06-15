@@ -6,6 +6,7 @@ from mainapp.models import Report,ReportUpdate,ReportSubscriber,City, \
 import settings
 import re
 
+
 CREATE_PARAMS =  { 'title': 'A report from our API', 
                      'lat': '45.4043333270000034',
                      'lon': '-75.6870889663999975',
@@ -163,6 +164,17 @@ class FlagReport(BaseCase):
         self.assertEquals(len(mail.outbox), 1)
         self.assertEquals(mail.outbox[0].to, [settings.ADMIN_EMAIL])
  
+    def _get_error_response(self,query):
+        " check we always end up on the home page "
+        response = self.c.get(self._url(query), follow=True)
+        self.assertEquals( response.status_code, 200 )
+        self.assertEquals( response.template[0].name, 'home.html')
+        return response
+    
+    def _url(self,query_str):
+        return( self.base_url + "?q=" + query_str )
+    
+
 
 class ChangeCategorySet(BaseCase):  
     
@@ -179,3 +191,4 @@ class ChangeCategorySet(BaseCase):
         
         response = self.c.get('/reports/new?&lat=45.4169416715279&lon=-75.70075750350952')
         self.assertContains(response,category_title)      
+    

@@ -9,7 +9,7 @@
 {% block content %}
 <div id='profile-form'>
 	<h3>{% trans "Editing Profile For" %} {{user.first_name}} {{user.last_name}}</h3>
-	<form action="/accounts/edit/" method="POST">
+	<form action="/accounts/edit/" method="POST">{% csrf_token %}
 	<table class='form'>
 	{{form.as_table}}
 	<tr>

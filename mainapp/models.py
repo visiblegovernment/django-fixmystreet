@@ -18,7 +18,8 @@ from contrib.stdimage import StdImageField
 from django.utils.encoding import iri_to_uri
 from django.contrib.gis.geos import fromstr
 from django.http import Http404
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,Group,Permission
+from registration.models import RegistrationProfile 
       
 # from here: http://www.djangosnippets.org/snippets/630/        
 class CCEmailMessage(EmailMessage):
@@ -450,6 +451,7 @@ class ReportSubscriber(models.Model):
             m.update(self.email)
             m.update(str(time.time()))
             self.confirm_token = m.hexdigest()
+        if not self.is_confirmed:
             confirm_url = settings.SITE_URL + "/reports/subscribers/confirm/" + self.confirm_token
             message = render_to_string("emails/subscribe/message.txt", 
                     { 'confirm_url': confirm_url, 'subscriber': self })
@@ -702,12 +704,86 @@ class UserProfile(models.Model):
     
     cities = models.ManyToManyField(City, null=True)
     
+    # fields for 'non-admin' users:
+    phone = models.CharField(max_length=255, verbose_name = ugettext_lazy("Phone"), null=True )
+    
+    
     def __unicode__(self):
         return self.user.username
+
+    
+class FMSUserManager(models.Manager):   
+    '''
+    FMSUser and FMSUserManager integrate
+    with django-social-auth and django-registration
+    '''     
+    def create_user(self, username, email, password=None):
+        user = RegistrationProfile.objects.create_inactive_user(username,password,email,send_email=False)
+
+        if user:
+            UserProfile.objects.get_or_create(user=user)
+            return FMSUser.objects.get(username=user.username)
+        else:
+             return( None )
+     
+class FMSUser(User):
+    '''
+    FMSUser and FMSUserManager integrate
+    with django-social-auth and django-registration
+    '''     
+    class Meta:
+        proxy = True
+
+    objects = FMSUserManager()
+    
+
+class CityAdminManager(models.Manager):    
+    PERMISSION_NAMES = [ 'Can change ward', 
+                     'Can add email rule',
+                     'Can change email rule',
+                     'Can delete email rule',
+                     'Can add councillor',
+                     'Can change councillor',
+                     'Can delete councillor' ]
+
+    GROUP_NAME = 'CityAdmins'
+    
+    def get_group(self):
+        if Group.objects.filter(name=self.GROUP_NAME).exists():
+            return Group.objects.get(name=self.GROUP_NAME)
+        else:
+            group = Group.objects.create(name=self.GROUP_NAME)        
+            for name in self.PERMISSION_NAMES:
+                permission = Permission.objects.get(name=name)
+                group.permissions.add(permission)
+            group.save()
+            return group
     
     
+    def create_user(self, username, email, city, password=None):
+        group = self.get_group()
+        user = User.objects.create_user(username, email, password )
+        user.is_staff = True
+        user.groups.add(group)
+        user.save()
+        profile = UserProfile(user=user)
+        profile.save()
+        profile.cities.add(city)
+        profile.save()
+        return user
+        
+class CityAdmin(User):
+    '''
+        An admin user who can edit ward data for a city.
+    '''     
+    class Meta:
+        proxy = True
+
+    objects = CityAdminManager()
+    
+        
 class DictToPoint():
-    
+    ''' Helper class '''
     def __init__(self, dict, exceptclass = Http404 ):
         if exceptclass and not dict.has_key('lat') or not dict.has_key('lon'):
             raise exceptclass

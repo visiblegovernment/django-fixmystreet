@@ -38,8 +38,20 @@
 						<a href='/'><img src="/media/images/fms-canada-logo.gif"></a>
 					</div>
 					<div id="header_right">
+						<div id='account-signin'>
+							<ul>
+								{% if user.is_authenticated %}
+								<li><a href='{% url account_home %}'>My Account</a></li>
+								<li><a href='{% url auth_logout %}'>Sign Out</a></li>
+								{% else %}
+								<li><a href='{% url auth_login %}'>Sign In</a></li>
+								<li><a href='{% url registration_register %}'>Create Account</a></li>
+								{% endif %}
+							</ul>
+				
+						</div>
 						<div id="language">
-							<form action="/i18n/setlang/" method="post">
+							<form action="/i18n/setlang/" method="post">{% csrf_token %}
 							<select name="language">
 								{% for lang in LANGUAGES %}
 								<option value="{{ lang.0 }}">{{ lang.1 }}</option>
