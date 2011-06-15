@@ -4,7 +4,7 @@
 {% block content %}
 <div id='account-form'>
 	<h3>{% trans "Login" %}</h3>
-	<form action="/accounts/login/" method="POST">
+	<form action="/accounts/login/" method="POST">{% csrf_token %}
 	<table class='form'>
 	{{form.as_table}}
 	<tr>

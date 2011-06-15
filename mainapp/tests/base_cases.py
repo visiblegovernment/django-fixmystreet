@@ -5,6 +5,7 @@ from mainapp.models import Report,ReportUpdate,ReportSubscriber
 import settings
 import re
 
+
 CREATE_PARAMS =  { 'title': 'A report from our API', 
                      'lat': '45.4043333270000034',
                      'lon': '-75.6870889663999975',
@@ -223,4 +224,7 @@ class TestSearch(BaseCase):
     
     def _url(self,query_str):
         return( self.base_url + "?q=" + query_str )
+    
+
+
           

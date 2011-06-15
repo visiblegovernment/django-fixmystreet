@@ -35,7 +35,7 @@ function html_for_multiple_matches(array)
 function html_for_no_results()
 {
    	var html =	"<div id='error-msg'>";
-   	html += '<p>{% trans "Sorry, we couldn\'t find the address you entered. Please try again with another intersection, address or postal code, or add the name of the city to the end of the search."%}</p>';
+   	html += "<p>{% trans "Sorry, we couldn\'t find the address you entered. Please try again with another intersection, address or postal code, or add the name of the city to the end of the search."%}</p>";
     html += '</div>'
     jQuery("#search-error").html(html).fadeIn(1000);
 }        
@@ -43,6 +43,7 @@ function html_for_no_results()
  
 function handle_google_geocode_response(geodata)
 {
+
     if ((geodata.Status.code == 200) && (geodata.Placemark.length > 0 ))
     {
       	if ( geodata.Placemark.length  > 1)
@@ -73,7 +74,6 @@ function do_search()
 
 jQuery(document).ready(function($) 
 {
-
 	$("#search_box").keyup(function(event){
   		if(event.keyCode == 13){
     	$("#search_button").click();

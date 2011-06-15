@@ -4,7 +4,15 @@ from django.http import HttpResponseRedirect
 from django.contrib import admin
 from mainapp.feeds import LatestReports, LatestReportsByCity, LatestReportsByWard, LatestUpdatesByReport
 from mainapp.models import City
+from social_auth.views import auth as social_auth
+from social_auth.views import disconnect as social_disconnect
+from registration.views import register
+from mainapp.forms import FMSNewRegistrationForm,FMSAuthenticationForm
+from mainapp.views.account import SUPPORTED_SOCIAL_PROVIDERS
+from django.contrib.auth import views as auth_views
+
 import mainapp.views.cities as cities
+
 
 feeds = {
     'reports': LatestReports,
@@ -13,10 +21,7 @@ feeds = {
     'report_updates': LatestUpdatesByReport,
 }
 
-if settings.DEBUG:
-    SSL_ON = False
-else:
-    SSL_ON = True
+SSL_ON = not settings.DEBUG
     
 admin.autodiscover()
 urlpatterns = patterns('',
@@ -24,12 +29,13 @@ urlpatterns = patterns('',
     (r'^password_reset/done/$', 'django.contrib.auth.views.password_reset_done'),
     (r'^reset/(?P<uidb36>[-\w]+)/(?P<token>[-\w]+)/$', 'django.contrib.auth.views.password_reset_confirm'),
     (r'^reset/done/$', 'django.contrib.auth.views.password_reset_complete'),
-    (r'^admin/(.*)', admin.site.root,{'SSL':SSL_ON}),
+    (r'^admin/', admin.site.urls,{'SSL':SSL_ON}),
     (r'^feeds/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
     (r'^i18n/', include('django.conf.urls.i18n')),
+    url(r'^login/(?P<backend>[^/]+)/$', social_auth, name='begin'),
+    url(r'^disconnect/(?P<backend>[^/]+)/$', social_disconnect, name='socialdisconnect'),
+
 )
-
-
 
 urlpatterns += patterns('mainapp.views.main',
     (r'^$', 'home', {}, 'home_url_name'),
@@ -48,8 +54,7 @@ urlpatterns += patterns('mainapp.views.promotion',
 
 urlpatterns += patterns('mainapp.views.wards',
     (r'^wards/(\d+)', 'show'),       
-    (r'^cities/(\d+)/wards/(\d+)', 'show_by_number'),       
-    
+    (r'^cities/(\d+)/wards/(\d+)', 'show_by_number'),           
 )
 
 urlpatterns += patterns('',
@@ -90,7 +95,28 @@ urlpatterns += patterns('mainapp.views.ajax',
     (r'^ajax/categories/(\d+)', 'category_desc'),
 )
 
-if settings.DEBUG and 'TESTVIEW' in settings.get_all_members():
+
+urlpatterns += patterns('',
+ url('^accounts/register/$', register, {'form_class': FMSNewRegistrationForm,
+                                        'extra_context': 
+                                            { 'providers': SUPPORTED_SOCIAL_PROVIDERS } },name='registration_register'),
+ url('^accounts/login/$',  auth_views.login, {'template_name':'registration/login.html',
+                     'authentication_form':FMSAuthenticationForm,
+                     'extra_context': 
+                     { 'providers': SUPPORTED_SOCIAL_PROVIDERS }}, name='auth_login'), 
+ url(r'^accounts/logout/$',  auth_views.logout,
+                           {'next_page': '/'}, name='auth_logout' ),
+ (r'^accounts/', include('registration.urls'))
+)
+ 
+urlpatterns += patterns('mainapp.views.account',
+    url(r'^accounts/home/', 'home',name='account_home'),
+    url(r'^accounts/edit/', 'edit',name='account_edit'),
+    (r'^accounts/login/error/$', 'error'),
+    url(r'^accounts/complete/(?P<backend>[^/]+)/$', 'socialauth_complete', name='socialauth_complete'),
+)
+
+if settings.DEBUG and 'TESTVIEW' in settings.__members__:
     urlpatterns += patterns ('',
     (r'^testview',include('django_testview.urls')))
 

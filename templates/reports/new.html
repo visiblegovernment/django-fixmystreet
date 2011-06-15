@@ -57,7 +57,7 @@ margin-left:1.5em;
 	<div id="leftcol">
 	<h3>{% trans "Submitting a report" %}</h3>
 
-	<form enctype="multipart/form-data" method="post" action="/reports/" id='report_form'>
+	<form enctype="multipart/form-data" method="post" action="/reports/" id='report_form'>	{% csrf_token %}	
 		<input type="hidden" name="lat" id="lat" value="{{lat}}" />
 		<input type="hidden" name="lon" id="lon" value="{{lon}}" />
 		<table class='form'>

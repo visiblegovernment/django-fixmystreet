@@ -29,10 +29,8 @@
         "pk": 1, 
         "model": "mainapp.councillor", 
         "fields": {
-            "phone": "514-513-0999", 
             "first_name": "Angus", 
             "last_name": "Arthur-Doyle", 
-            "fax": null, 
             "email": "example_a@yahoo.ca"
         }
     }, 
@@ -40,10 +38,8 @@
         "pk": 2, 
         "model": "mainapp.councillor", 
         "fields": {
-            "phone": "514-513-0999", 
             "first_name": "Bob", 
             "last_name": "Barley", 
-            "fax": null, 
             "email": "example_b@yahoo.ca"
         }
     }, 
@@ -51,10 +47,8 @@
         "pk": 3, 
         "model": "mainapp.councillor", 
         "fields": {
-            "phone": "514-513-0999", 
             "first_name": "Carol ", 
             "last_name": "Cumberland", 
-            "fax": null, 
             "email": "example_c@yahoo.ca"
         }
     }, 
@@ -62,10 +56,8 @@
         "pk": 4, 
         "model": "mainapp.councillor", 
         "fields": {
-            "phone": "514-513-0999", 
             "first_name": "David ", 
             "last_name": "Dodds", 
-            "fax": null, 
             "email": "example_d@yahoo.ca"
         }
     }, 
@@ -73,10 +65,8 @@
         "pk": 5, 
         "model": "mainapp.councillor", 
         "fields": {
-            "phone": "514-513-0999", 
             "first_name": "Edward", 
             "last_name": " Eldridge", 
-            "fax": null, 
             "email": "example_e@yahoo.ca"
         }
     }, 
@@ -85,10 +75,8 @@
         "pk": 6, 
         "model": "mainapp.councillor", 
         "fields": {
-            "phone": "514-513-0999", 
             "first_name": "Fred ", 
             "last_name": "Flanahan", 
-            "fax": null, 
             "email": "example_f@yahoo.ca"
         }
     }, 

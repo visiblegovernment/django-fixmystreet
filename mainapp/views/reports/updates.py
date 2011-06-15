@@ -12,9 +12,13 @@ def new( request, report_id ):
             update = update_form.save(commit=False)
             update.is_fixed = request.POST.has_key('is_fixed')
             update.report=report
+            update.is_confirmed = request.user.is_authenticated()
             update.save()    
-            # redirect after a POST       
-            return( HttpResponseRedirect( '/reports/updates/create/' ) )
+            # redirect after a POST
+            if request.user.is_authenticated():
+                return( HttpResponseRedirect( report.get_absolute_url() ) )
+            else:       
+                return( HttpResponseRedirect( '/reports/updates/create/' ) )
                 
     else:
         update_form = ReportUpdateForm()
