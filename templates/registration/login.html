@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Login" %}{% endblock %}
+{% block content %}
+<div id='account-form'>
+	<h3>{% trans "Login" %}</h3>
+	<form action="/accounts/login/" method="POST">
+	<table class='form'>
+	{{form.as_table}}
+	<tr>
+	<td></td>
+	<td>
+		<a href={% url auth_password_reset %}>{% trans "Forgot?" %}</a>
+	</td>
+	</tr>
+	<tr>
+	<td></td>
+	<td>
+		<input type="submit" name="Submit" class='big_button' value="{% trans "Login" %}">
+	</td>
+	</tr>
+	</table>
+	</form>
+	<p>{% trans "Don't have an account?" %} <a href={% url registration_register %}>{% trans "Create one." %}</a></p>
+</div>
+<div>
+<div id='social-list'>
+	<p>{% trans "Or, log in using:" %}</p>
+	<ul>
+		{% for social in providers %}
+			<li>
+			<a rel="nofollow" href="{% url begin social.key %}">
+			<span class='social-logo-show' txt="{{social.name}}" style="background-position: 0pt {{social.logo_offset}}px;"/>
+			</a>
+			</li>
+		{% endfor %}
+	</ul>
+</div>
+</div>
+{% endblock %}
+
