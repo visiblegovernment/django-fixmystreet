@@ -58,14 +58,21 @@ SSL = 'SSL'
 class SSLRedirect:
     def process_view(self, request, view_func, view_args, view_kwargs):
         if SSL in view_kwargs:
-            secure = view_kwargs[SSL]
+            # FMS modification: open311 requires SSL only on 
+            # post for 'requests' url.  
+            # In that case, SSL is set as ['POST'],
+            # instead of True/False
+            if getattr(view_kwargs[SSL],'__iter__',False):
+                secure = request.method in view_kwargs[SSL]
+            else:
+                secure = view_kwargs[SSL]
+
             del view_kwargs[SSL]
         else:
             secure = False
 
-        if not settings.DEBUG and (
-           not secure == request.is_secure()):
-                return self._redirect(request, secure)
+        if not settings.DEBUG and secure and not request.is_secure():
+            return self._redirect(request, secure)
 
     def _redirect(self, request, secure):
         protocol = secure and "https" or "http"
@@ -77,5 +84,5 @@ class SSLRedirect:
             raise RuntimeError, \
 """Django can't perform a SSL redirect while maintaining POST data.
 Please structure your views so that redirects only occur during GETs."""
-
+        
         return HttpResponseRedirect(newurl)

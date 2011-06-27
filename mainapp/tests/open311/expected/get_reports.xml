@@ -1,0 +1,60 @@
+<service_requests>
+	<request>
+		<service_request_id>4</service_request_id>
+		<status>closed</status>
+        <title>Fixed in 16 Days</title>
+		<service_code>5</service_code>
+		<service_name>Grafitti: Graffiti On City Property</service_name>
+		<description>Parks!</description>
+		<requested_datetime>2009-02-04T15:11:49</requested_datetime>
+		<updated_datetime>2009-02-09T19:35:16</updated_datetime>
+		<lon>-75.682464838</lon>
+		<lat>45.430126958</lat>
+		<address>Dalhousie, Oglo</address>
+	</request>
+	<request>
+		<service_request_id>3</service_request_id>
+		<status>closed</status>
+        <title>Fixed in Two Days</title>
+		<service_code>1</service_code>
+		<service_name>Parks: Broken or Damaged Equipment/Play Structures</service_name>
+		<description>Here's a description with a lot of 'escapes' in it.
+
+And linebreaks!</description>
+		<requested_datetime>2009-02-03T16:47:06</requested_datetime>
+		<updated_datetime>2009-02-03T16:47:06</updated_datetime>
+		<lon>-75.682464838</lon>
+		<lat>45.430126958</lat>
+		<address>Caldaver, Oglo</address>
+	</request>
+	<request>
+		<service_request_id>2</service_request_id>
+		<status>open</status>
+        <title>Unfixed 2</title>
+		<service_code>1</service_code>
+		<service_name>Parks: Broken or Damaged Equipment/Play Structures</service_name>
+		<description>Here's a description with a lot of 'escapes' in it.
+
+And linebreaks!</description>
+		<requested_datetime>2009-02-02T16:47:06</requested_datetime>
+		<updated_datetime>2010-02-02T16:47:06</updated_datetime>
+		<lon>-75.6965517998</lon>
+		<lat>45.418741558</lat>
+		<address>Caldaver, Oglo</address>
+	</request>
+	<request>
+		<service_request_id>1</service_request_id>
+		<status>open</status>
+        <title>Unfixed 1</title>
+		<service_code>5</service_code>
+		<service_name>Grafitti: Graffiti On City Property</service_name>
+		<description>Here's a description with a lot of 'escapes' in it.
+
+And linebreaks!</description>
+		<requested_datetime>2009-02-01T16:47:06</requested_datetime>
+		<updated_datetime>2010-02-01T16:47:06</updated_datetime>
+		<lon>-75.6965517998</lon>
+		<lat>45.418741558</lat>
+		<address>Caldaver, Oglo</address>
+	</request>
+</service_requests>

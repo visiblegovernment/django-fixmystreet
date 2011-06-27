@@ -10,7 +10,7 @@ from registration.views import register
 from mainapp.forms import FMSNewRegistrationForm,FMSAuthenticationForm
 from mainapp.views.account import SUPPORTED_SOCIAL_PROVIDERS
 from django.contrib.auth import views as auth_views
-
+from mainapp.views.mobile import open311v2 
 import mainapp.views.cities as cities
 
 
@@ -98,23 +98,29 @@ urlpatterns += patterns('mainapp.views.ajax',
 
 
 urlpatterns += patterns('',
- url('^accounts/register/$', register, {'form_class': FMSNewRegistrationForm,
-                                        'extra_context': 
-                                            { 'providers': SUPPORTED_SOCIAL_PROVIDERS } },name='registration_register'),
- url('^accounts/login/$',  auth_views.login, {'template_name':'registration/login.html',
-                     'authentication_form':FMSAuthenticationForm,
-                     'extra_context': 
+ url('^accounts/register/$', register, { 'form_class': FMSNewRegistrationForm,
+                                         'extra_context': 
+                                    { 'providers': SUPPORTED_SOCIAL_PROVIDERS } },name='registration_register'),
+ url('^accounts/login/$',  auth_views.login, {'SSL':SSL_ON, 
+                                              'template_name':'registration/login.html',
+                                              'authentication_form':FMSAuthenticationForm,
+                                              'extra_context': 
                      { 'providers': SUPPORTED_SOCIAL_PROVIDERS }}, name='auth_login'), 
  url(r'^accounts/logout/$',  auth_views.logout,
-                           {'next_page': '/'}, name='auth_logout' ),
- (r'^accounts/', include('registration.urls'))
+                           {'SSL':SSL_ON,
+                            'next_page': '/'}, name='auth_logout' ),
+ (r'^accounts/', include('registration.urls') )
 )
  
 urlpatterns += patterns('mainapp.views.account',
-    url(r'^accounts/home/', 'home',name='account_home'),
-    url(r'^accounts/edit/', 'edit',name='account_edit'),
+    url(r'^accounts/home/', 'home',{ 'SSL':SSL_ON },  name='account_home'),
+    url(r'^accounts/edit/', 'edit', {'SSL':SSL_ON }, name='account_edit'),
     (r'^accounts/login/error/$', 'error'),
     url(r'^accounts/complete/(?P<backend>[^/]+)/$', 'socialauth_complete', name='socialauth_complete'),
+)
+
+urlpatterns += patterns('',
+    (r'^open311/v2/', open311v2.xml.urls ),
 )
 
 if settings.DEBUG and 'TESTVIEW' in settings.__members__:

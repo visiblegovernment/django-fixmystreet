@@ -1,0 +1,182 @@
+<services>
+    <service>
+        <service_code>20</service_code>
+        <service_name>Branches Blocking Signs or Intersection</service_name>
+        <description>If possible, please specify whether the tree causing the problem is on private property or city property.</description>
+        <metadata>false</metadata>
+        <type>realtime</type>
+        <keywords></keywords>
+        <group>Trees</group>
+    </service>
+    <service>
+        <service_code>19</service_code>
+        <service_name>Bent/Damaged/Missing Street Signs</service_name>
+        <description>Please try to be as detailed as possible in describing the location of the problem.</description>
+        <metadata>false</metadata>
+        <type>realtime</type>
+        <keywords></keywords>
+        <group>Traffic Signals</group>
+    </service>
+    <service>
+        <service_code>18</service_code>
+        <service_name>Faded/Damaged/Missing Pavement Markings</service_name>
+        <description>Please try to be as detailed as possible in describing the location of the problem. For example, &quot;the yellow sign with black bars across it; the solid yellow line on the pavement&quot;.</description>
+        <metadata>false</metadata>
+        <type>realtime</type>
+        <keywords></keywords>
+        <group>Traffic Signals</group>
+    </service>
+    <service>
+        <service_code>17</service_code>
+        <service_name>Street Lights Out or Malfunctioning</service_name>
+        <description>Please try to be as detailed as possible in describing the location of the problem. For example, &quot;the 4th street light along Trail Side Circle, east of Valin Street&quot;.</description>
+        <metadata>false</metadata>
+        <type>realtime</type>
+        <keywords></keywords>
+        <group>Traffic Signals</group>
+    </service>
+    <service>
+        <service_code>16</service_code>
+        <service_name>Debris/Litter in Bus Shelter</service_name>
+        <description>Please be as detailed as possible in describing the location of the problem. For example, the 3rd catch basin along Laurier Avenue W, east of Elgin Street; the curb in front of 110 Laurier Ave W on the north side of the road; bus shelter 1234 on Innes Road).</description>
+        <metadata>false</metadata>
+        <type>realtime</type>
+        <keywords></keywords>
+        <group>Roads/Sidewalks/Pathways</group>
+    </service>
+    <service>
+        <service_code>15</service_code>
+        <service_name>Bus Shelter Damaged</service_name>
+        <description>Please be as detailed as possible in describing the location of the problem. For example, the 3rd catch basin along Laurier Avenue W, east of Elgin Street; the curb in front of 110 Laurier Ave W on the north side of the road; bus shelter 1234 on Innes Road). </description>
+        <metadata>false</metadata>
+        <type>realtime</type>
+        <keywords></keywords>
+        <group>Roads/Sidewalks/Pathways</group>
+    </service>
+    <service>
+        <service_code>13</service_code>
+        <service_name>Damaged Guardrails</service_name>
+        <description>Please be as detailed as possible in describing the location of the problem. For example, the 3rd catch basin along Laurier Avenue W, east of Elgin Street; the curb in front of 110 Laurier Ave W on the north side of the road; bus shelter 1234 on Innes Road).</description>
+        <metadata>false</metadata>
+        <type>realtime</type>
+        <keywords></keywords>
+        <group>Roads/Sidewalks/Pathways</group>
+    </service>
+    <service>
+        <service_code>11</service_code>
+        <service_name>Debris or Litter on Road/Sidewalk/Pathway</service_name>
+        <description>Please be as detailed as possible in describing the location of the problem. For example, the 3rd catch basin along Laurier Avenue W, east of Elgin Street; the curb in front of 110 Laurier Ave W on the north side of the road; bus shelter 1234 on Innes Road).</description>
+        <metadata>false</metadata>
+        <type>realtime</type>
+        <keywords></keywords>
+        <group>Roads/Sidewalks/Pathways</group>
+    </service>
+    <service>
+        <service_code>9</service_code>
+        <service_name>Pothole</service_name>
+        <description>Please be as detailed as possible in describing the location of the problem. For example, the 3rd catch basin along Laurier Avenue W, east of Elgin Street; the curb in front of 110 Laurier Ave W on the north side of the road; bus shelter 1234 on Innes Road).</description>
+        <metadata>false</metadata>
+        <type>realtime</type>
+        <keywords></keywords>
+        <group>Roads/Sidewalks/Pathways</group>
+    </service>
+    <service>
+        <service_code>7</service_code>
+        <service_name>Graffiti  on Utility Boxes/Transformers/Mailboxes, etc..</service_name>
+        <description>Please note as much information regarding the location and type of graffiti as you can. If it is found on a utility box, what colour is the box? (green, brown, red, etc...), does it indicate the company that owns it? (Rogers, Bell, Canada Post, Hydro), and which side of the street is it on.</description>
+        <metadata>false</metadata>
+        <type>realtime</type>
+        <keywords></keywords>
+        <group>Grafitti</group>
+    </service>
+    <service>
+        <service_code>5</service_code>
+        <service_name>Graffiti On City Property</service_name>
+        <description>Please note as much information regarding the location and type of graffiti as you can. </description>
+        <metadata>false</metadata>
+        <type>realtime</type>
+        <keywords></keywords>
+        <group>Grafitti</group>
+    </service>
+    <service>
+        <service_code>1</service_code>
+        <service_name>Broken or Damaged Equipment/Play Structures</service_name>
+        <description>Please provide the location within the park where the problem is located (e.g. near the play structure; along the pathway that runs from the south end of the park to the neighbouring school; beside the water fountain near the east parking lot). Please provide the name or address of the park if possible.</description>
+        <metadata>false</metadata>
+        <type>realtime</type>
+        <keywords></keywords>
+        <group>Parks</group>
+    </service>
+    <service>
+        <service_code>3</service_code>
+        <service_name>Lights Malfunctioning in Park</service_name>
+        <description>Please provide the location within the park where the problem is located (e.g. near the play structure; along the pathway that runs from the south end of the park to the neighbouring school; beside the water fountain near the east parking lot). Please provide the name or address of the park if possible.</description>
+        <metadata>false</metadata>
+        <type>realtime</type>
+        <keywords></keywords>
+        <group>Parks</group>
+    </service>
+    <service>
+        <service_code>14</service_code>
+        <service_name>Full or Overflowing Garbage Cans</service_name>
+        <description>Please be as detailed as possible in describing the location of the problem. For example, the 3rd catch basin along Laurier Avenue W, east of Elgin Street; the curb in front of 110 Laurier Ave W on the north side of the road; bus shelter 1234 on Innes Road).</description>
+        <metadata>false</metadata>
+        <type>realtime</type>
+        <keywords></keywords>
+        <group>Roads/Sidewalks/Pathways</group>
+    </service>
+    <service>
+        <service_code>12</service_code>
+        <service_name>Blocked or Damaged Culvert</service_name>
+        <description>Please be as detailed as possible in describing the location of the problem. For example, the 3rd catch basin along Laurier Avenue W, east of Elgin Street; the curb in front of 110 Laurier Ave W on the north side of the road; bus shelter 1234 on Innes Road). </description>
+        <metadata>false</metadata>
+        <type>realtime</type>
+        <keywords></keywords>
+        <group>Roads/Sidewalks/Pathways</group>
+    </service>
+    <service>
+        <service_code>10</service_code>
+        <service_name>Damaged Curb</service_name>
+        <description>Please be as detailed as possible in describing the location of the problem. For example, the 3rd catch basin along Laurier Avenue W, east of Elgin Street; the curb in front of 110 Laurier Ave W on the north side of the road; bus shelter 1234 on Innes Road).</description>
+        <metadata>false</metadata>
+        <type>realtime</type>
+        <keywords></keywords>
+        <group>Roads/Sidewalks/Pathways</group>
+    </service>
+    <service>
+        <service_code>8</service_code>
+        <service_name>Blocked or damaged Catch basin / Manhole</service_name>
+        <description>Please be as detailed as possible in describing the location of the problem. For example, the 3rd catch basin along Laurier Avenue W, east of Elgin Street; the curb in front of 110 Laurier Ave W on the north side of the road; bus shelter 1234 on Innes Road). Indicating the shape of the catch basin or manhole cover will be very helpful.</description>
+        <metadata>false</metadata>
+        <type>realtime</type>
+        <keywords></keywords>
+        <group>Roads/Sidewalks/Pathways</group>
+    </service>
+    <service>
+        <service_code>6</service_code>
+        <service_name>Graffiti on Private Property</service_name>
+        <description>Please note as much information regarding the location and type of graffiti as you can. For example, if it is found on a utility box, what colour is the box? (green, brown, red, etc...), does it indicate the company that owns it? (Rogers, Bell, Canada Post, Hydro), and which side of the street is it on.</description>
+        <metadata>false</metadata>
+        <type>realtime</type>
+        <keywords></keywords>
+        <group>Grafitti</group>
+    </service>
+    <service>
+        <service_code>4</service_code>
+        <service_name>Debris or Litter in Park</service_name>
+        <description>Please provide the location within the park where the problem is located (e.g. near the play structure; along the pathway that runs from the south end of the park to the neighbouring school; beside the water fountain near the east parking lot). Please provide the name or address of the park if possible.</description>
+        <metadata>false</metadata>
+        <type>realtime</type>
+        <keywords></keywords>
+        <group>Parks</group>
+    </service>
+    <service>
+        <service_code>2</service_code>
+        <service_name>Full or Overflowing Garbage Cans </service_name>
+        <description>Please provide the location within the park where the problem is located (e.g. near the play structure; along the pathway that runs from the south end of the park to the neighbouring school; beside the water fountain near the east parking lot). Please provide the name or address of the park if possible.</description>
+        <metadata>false</metadata>
+        <type>realtime</type>
+        <keywords></keywords>
+        <group>Parks</group>
+    </service>
+</services>

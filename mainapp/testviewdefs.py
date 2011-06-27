@@ -24,4 +24,4 @@ TEST_URLS = [
     ('/about', 'about') 
     ]
 
-FIXTURES = [ 'testview_report_fixtures.json' ]
+FIXTURES = [] # [ 'testview_report_fixtures.json' ]

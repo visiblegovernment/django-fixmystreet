@@ -12,6 +12,7 @@ from registration.models import RegistrationProfile
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.sites.models import Site
+from django.utils.encoding import force_unicode
 
 class ContactForm(forms.Form):
     name = forms.CharField(max_length=100,
@@ -124,6 +125,7 @@ class ReportForm(forms.ModelForm):
         else:
             d2p = DictToPoint(initial,exceptclass=None)
         
+<<<<<<< HEAD:mainapp/forms.py
         self.pnt = d2p.pnt()
         self.ward = d2p.ward()    
         self.update_form = ReportUpdateForm(data)
@@ -133,13 +135,34 @@ class ReportForm(forms.ModelForm):
     def clean(self):
         if not self.ward:
             raise forms.ValidationError("lat/lon not supported")
+=======
+    def _get_pnt(self):        
+        lat = self.cleaned_data.get("lat")
+        lon = self.cleaned_data.get("lon")
+        pnt = fromstr("POINT(" + lon + " " + lat + ")", srid=4326)
+        return(pnt)
+    
+    def _get_ward(self):
+        pnt = self._get_pnt()
+        try:
+            ward = Ward.objects.get(geom__contains=pnt)
+            return(ward)
+        except:
+            return( None )
+    
+    def clean(self):
+        if self.cleaned_data.has_key('lat') and self.cleaned_data.has_key('lon'):
+            ward = self._get_ward()
+            if not ward:
+                raise forms.ValidationError("lat/lon not supported")
+>>>>>>> support open311v2 API:mainapp/forms.py
 
         # Always return the full collection of cleaned data.
         return self.cleaned_data
 
     def is_valid(self):
-        update_valid = self.update_form.is_valid()
         report_valid = super(ReportForm,self).is_valid()
+        update_valid = self.update_form.is_valid()
         return( update_valid and report_valid )
     
     def save(self, is_confirmed = False):
@@ -165,12 +188,13 @@ class ReportForm(forms.ModelForm):
     
     def all_errors(self):
         "returns errors for both report and update forms"
-        errors = ErrorDict()
+        errors = {}
         for key,value in self.errors.items():
-            errors[key] = value
+            errors[key] = value.as_text()[2:] 
+
         # add errors from the update form to the end.
         for key,value in self.update_form.errors.items():
-            errors[key] = value
+            errors[key] = value.as_text()[2:] 
             
         return( errors )
     

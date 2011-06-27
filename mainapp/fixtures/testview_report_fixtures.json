@@ -3,7 +3,7 @@
         "pk": 114, 
         "model": "mainapp.report", 
         "fields": {
-            "category": 9, 
+            "category": 5, 
             "is_hate": false, 
             "sent_at": null, 
             "is_confirmed": false, 

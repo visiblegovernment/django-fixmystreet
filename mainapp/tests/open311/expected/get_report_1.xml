@@ -1,0 +1,17 @@
+<service_requests>
+	<request>
+		<service_request_id>1</service_request_id>
+		<status>open</status>
+        <title>Unfixed 1</title>
+		<service_code>5</service_code>
+		<service_name>Grafitti: Graffiti On City Property</service_name>
+		<description>Here's a description with a lot of 'escapes' in it.
+
+And linebreaks!</description>
+		<requested_datetime>2009-02-01T16:47:06</requested_datetime>
+		<updated_datetime>2010-02-01T16:47:06</updated_datetime>
+		<lon>-75.6965517998</lon>
+		<lat>45.418741558</lat>
+		<address>Caldaver, Oglo</address>
+	</request>
+</service_requests>

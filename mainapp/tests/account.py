@@ -21,7 +21,7 @@ class TestAccountHome(TestCase):
         c = Client()
         r = c.login(username='user1',password='user1')
         self.assertEqual(r,True)
-        r = c.get('/accounts/home/')
+        r = c.get('/accounts/home/',follow=True)
         self.assertEqual(r.status_code,200)
         self.assertEqual(len(r.context['allreports']),4)
         # check report 2
@@ -55,7 +55,7 @@ class TestAccountHome(TestCase):
         c = Client()
         r = c.login(username='user2',password='user2')
         self.assertEqual(r,True)
-        r = c.get('/accounts/home/')
+        r = c.get('/accounts/home/',follow=True)
         self.assertEqual(r.status_code,200)
 
         self.assertEqual(len(r.context['allreports']),2)
@@ -238,7 +238,7 @@ class TestRegistration(TestCase):
     
     def test_socialuth_registration_w_email(self):
         ''' As above, but user has email field set --
-            should show up user maodel, and registraton form.
+            should show up user model, and registraton form.
         '''
         # starting conditions
         self.assertEquals(User.objects.filter(email=EMAIL).count(),0)
@@ -303,7 +303,7 @@ class TestRegistration(TestCase):
         self.assertContains(response,PHONE)
         
         # test submitting an updated phone #
-        response = c.post( '/accounts/edit/', data={ 'phone': UPDATE_PHONE }, follow=True)
+        response = c.post( '/accounts/edit/', data={ 'phone': UPDATE_PHONE }, follow=True, **{ "wsgi.url_scheme" : "https" })
         self.assertEquals(response.status_code, 200 )
         self.assertEquals(response.templates[0].name, 'account/home.html')
         self.assertEquals(UserProfile.objects.filter(user__first_name=FNAME,phone=UPDATE_PHONE).count(),1)
@@ -363,7 +363,7 @@ class TestRegistration(TestCase):
             user = User.objects.get(first_name=FNAME)        
             post_data[ 'username' ] = user.username
         
-        response = c.post( '/accounts/register/', data=post_data, follow=True)
+        response = c.post( '/accounts/register/', data=post_data, follow=True, **{ "wsgi.url_scheme" : "https" })
         self.assertEquals(response.status_code, 200 )
         self.assertEquals(response.templates[0].name, dest)
 
