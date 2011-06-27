@@ -104,7 +104,7 @@ class Ward(models.Model):
         return "/wards/" + str(self.id)
 
     def __unicode__(self):      
-        return self.city.name + " " + self.name
+        return self.name + ", " + self.city.name  
 
     # return a list of email addresses to send new problems in this ward to.
     def get_emails(self,report):

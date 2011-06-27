@@ -43,8 +43,7 @@ def home( request ):
     subscriberQ = Q(reportsubscriber__email=email,reportsubscriber__is_confirmed=True)
     updaterQ = Q(reportupdate__email=email,reportupdate__is_confirmed=True)
     allreports = Report.objects.filter(subscriberQ | updaterQ).order_by('is_fixed','created_at').extra(select=SortedDict([('is_reporter','select case when bool_or(report_updates.first_update) then true else false end from report_updates where report_updates.email=%s and report_updates.is_confirmed=true and report_updates.report_id=reports.id'), 
-                                                                                        ('is_updater','select case when count(report_updates.id) > 0 then true else false end from report_updates where report_updates.report_id=reports.id and report_updates.first_update=false and report_updates.email=%s and report_updates.is_confirmed=true'),
-                                                                                        ('days_open','case when reports.is_fixed then date(reports.fixed_at) - date(reports.created_at) else CURRENT_DATE - date(reports.created_at) end')]), select_params=( email, email )).distinct()
+                                                                                        ('is_updater','select case when count(report_updates.id) > 0 then true else false end from report_updates where report_updates.report_id=reports.id and report_updates.first_update=false and report_updates.email=%s and report_updates.is_confirmed=true'),                                                                                        ('days_open','case when reports.is_fixed then date(reports.fixed_at) - date(reports.created_at) else CURRENT_DATE - date(reports.created_at) end')]), select_params=( email, email )).distinct()
     return render_to_response("account/home.html",
                 {"profile": request.user.get_profile(),
                  'allreports':allreports },
