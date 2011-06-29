@@ -22,6 +22,9 @@ def home(request, location = None, error_msg =None):
         matching_cities = City.objects.filter(name__iexact=request.subdomain)
         if matching_cities:
             return( city_home(request, matching_cities[0], error_msg, disambiguate ) )
+
+    if request.GET.has_key('q'):
+        location = request.GET["q"]
                     
     return render_to_response("home.html",
                 {"report_counts": ReportCountQuery('1 year'),
