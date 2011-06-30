@@ -10,8 +10,11 @@ from django.utils.translation import ugettext as _
 
 
 def new( request ):
+    
+    d2p = DictToPoint( request.REQUEST )
+    pnt = d2p.pnt()
+     
     if request.method == "POST":
-        pnt = DictToPoint( request.POST ).pnt()
         report_form = ReportForm( request.POST, request.FILES )
         # this checks update is_valid too
         if report_form.is_valid():
@@ -20,20 +23,14 @@ def new( request ):
             if report:
                 return( HttpResponseRedirect( report.get_absolute_url() ))
     else:
-        pnt = DictToPoint( request.GET ).pnt()
         report_form = ReportForm(initial={ 'lat': request.GET['lat'],
                                            'lon': request.GET['lon'] } )
-
-    ward=None
-    wards = Ward.objects.filter(geom__contains=pnt)[:1]
-    if wards:
-        ward = wards[0]
 
     return render_to_response("reports/new.html",
                 { "google": FixMyStreetMap(pnt, True),
                   "report_form": report_form,
                   "update_form": report_form.update_form,
-                  'ward':ward },
+                  'ward': report_form.ward },
                 context_instance=RequestContext(request))
     
         

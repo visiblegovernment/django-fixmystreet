@@ -1,4 +1,4 @@
-from fixmystreet.mainapp.models import UserProfile,EmailRule,Ward,ReportCategory,City, ReportCategoryClass, FaqEntry, Councillor
+from fixmystreet.mainapp.models import UserProfile,EmailRule,Ward,ReportCategory,City, ReportCategoryClass, FaqEntry, Councillor,ReportCategorySet
 from django.contrib import admin
 from contrib.transmeta import canonical_fieldname
 from django import forms
@@ -15,6 +15,11 @@ class ReportCategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'hint')
 
 admin.site.register(ReportCategory, ReportCategoryAdmin)
+
+class ReportCategorySetAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
+admin.site.register(ReportCategorySet, ReportCategorySetAdmin)
 
 class FaqEntryAdmin(admin.ModelAdmin):
     list_display = ('q', 'order')

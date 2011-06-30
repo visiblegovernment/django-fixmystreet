@@ -1,7 +1,8 @@
 from django.test import TestCase
 from django.test.client import Client
 from django.core import mail
-from mainapp.models import Report,ReportUpdate,ReportSubscriber
+from mainapp.models import Report,ReportUpdate,ReportSubscriber,City, \
+    ReportCategory, ReportCategorySet, ReportCategoryClass
 import settings
 import re
 
@@ -162,65 +163,19 @@ class FlagReport(BaseCase):
         self.assertEquals(len(mail.outbox), 1)
         self.assertEquals(mail.outbox[0].to, [settings.ADMIN_EMAIL])
  
- 
-"""
-    Test searching 
-"""
 
-class TestSearch(BaseCase): 
-
+class ChangeCategorySet(BaseCase):  
     
-    fixtures = ['test_report_basecases.json']
-    
-    base_url = '/search'
- 
-    # now done in javascript
-#    def test_success(self):
-#        query = 'bank and slater, Ottawa'
-#        response = self.c.get(self._url(query), follow=True)
-#        self.assertEquals( response.status_code, 200 )
-#        self.assertEquals( response.template[0].name, 'search_result.html')
-
-#    def test_doesnt_resolve(self):
-#        query = 'nowhere anywhere'
-#        error = "Sorry, we couldn't find the address you entered."
-#        response = self._get_error_response(query)
-#        self.assertContains( response,error)
+    def test(self):
+        city = City.objects.get(name='Oglo')
+        category_title = 'A brand new category'
+        category_class = ReportCategoryClass.objects.get(name_en='Parks')
+        newcategory = ReportCategory.objects.create(name_en=category_title,category_class=category_class)
+        newset = ReportCategorySet.objects.create(name='newset')
+        newset.categories.add(newcategory)
+        newset.save()
+        city.category_set = newset
+        city.save()
         
-#    def test_ambigous(self):
-#        query = 'slater street'
-#        error = "That address returned more than one result."
-#        response = self._get_error_response(query)
-#        self.assertContains(response, error )
-        
-        # find the link for Ottawa
-#        ottawa_link = None
-#        for link,address in response.context['disambiguate'].items():
-#            if address.find('Ottawa') != -1:
-#                ottawa_link = link
-#
-#        self.assertNotEquals(ottawa_link,None)
-#        
-#        # follow it to make sure it works
-#        response = self.c.get(ottawa_link, follow=True)
-#        self.assertEquals( response.status_code, 200 )
-#        self.assertEquals( response.template[0].name, 'search_result.html')
-        
- 
-#    def test_not_in_db(self):
-#        query = 'moscow, russia'
-#        error = "Sorry, we don't yet have that area in our database."
-#        response = self._get_error_response(query)
-#        self.assertEquals( response.context['error_msg'].startswith(error),True)
-    
-    
-    def _get_error_response(self,query):
-        " check we always end up on the home page "
-        response = self.c.get(self._url(query), follow=True)
-        self.assertEquals( response.status_code, 200 )
-        self.assertEquals( response.template[0].name, 'home.html')
-        return response
-    
-    def _url(self,query_str):
-        return( self.base_url + "?q=" + query_str )
-          
+        response = self.c.get('/reports/new?&lat=45.4169416715279&lon=-75.70075750350952')
+        self.assertContains(response,category_title)      

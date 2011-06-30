@@ -2,7 +2,7 @@ from django import forms
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from fixmystreet import settings
-from mainapp.models import Ward, Report, ReportUpdate, ReportCategoryClass,ReportCategory,ReportSubscriber
+from mainapp.models import Ward, Report, ReportUpdate, ReportCategoryClass,ReportCategory,ReportSubscriber,DictToPoint
 from django.utils.translation import ugettext_lazy
 from django.contrib.gis.geos import fromstr
 from django.forms.util import ErrorDict
@@ -41,17 +41,24 @@ class ReportSubscriberForm(forms.ModelForm):
     
 class CategoryChoiceField(forms.fields.ChoiceField):
     
-    def __init__(self, required=True, widget=None, label=None,
+    def __init__(self, ward=None,required=True, widget=None, label=None,
                  initial=None, help_text=None, *args, **kwargs):
         # assemble the opt groups.
         choices = []
         choices.append( ('', ugettext_lazy("Select a Category")) )
-        catclasses = ReportCategoryClass.objects.all()
-        for catclass in catclasses:
-            categories = catclass.reportcategory_set.all()
-            values = []
-            for category in categories:
-                values.append((category.pk, category.name ))
+        if ward:
+            categories = ward.city.get_categories()
+            categories = categories.order_by('category_class')
+        else:
+            categories = []
+            
+        groups = {}
+        for category in categories:
+            catclass = str(category.category_class)
+            if not groups.has_key(catclass):
+                groups[catclass] = []
+            groups[catclass].append((category.pk, category.name ))
+        for catclass, values in groups.items():
             choices.append((catclass,values))
         super(CategoryChoiceField,self).__init__(choices,required,widget,label,initial,help_text,args,kwargs)
 
@@ -84,31 +91,24 @@ class ReportForm(forms.ModelForm):
         model = Report
         fields = ('lat','lon','title', 'category', 'photo')
 
-    category = CategoryChoiceField()
+#    category = CategoryChoiceField()
     lat = forms.fields.CharField(widget=forms.widgets.HiddenInput)
     lon = forms.fields.CharField(widget=forms.widgets.HiddenInput)
 
     def __init__(self,data=None,files=None,initial=None):
+        if data:
+            d2p = DictToPoint(data,exceptclass=None)
+        else:
+            d2p = DictToPoint(initial,exceptclass=None)
+        
+        self.pnt = d2p.pnt()
+        self.ward = d2p.ward()    
         self.update_form = ReportUpdateForm(data)
         super(ReportForm,self).__init__(data,files, initial=initial)
-        
-    def _get_pnt(self):
-        lat = self.cleaned_data.get("lat")
-        lon = self.cleaned_data.get("lon")
-        pnt = fromstr("POINT(" + lon + " " + lat + ")", srid=4326)
-        return(pnt)
-    
-    def _get_ward(self):
-        pnt = self._get_pnt()
-        try:
-            ward = Ward.objects.get(geom__contains=pnt)
-            return(ward)
-        except:
-            return( None )
+        self.fields['category'] = CategoryChoiceField(self.ward)
     
     def clean(self):
-        ward = self._get_ward()
-        if not ward:
+        if not self.ward:
             raise forms.ValidationError("lat/lon not supported")
 
         # Always return the full collection of cleaned data.
@@ -128,8 +128,8 @@ class ReportForm(forms.ModelForm):
         report.author = update.author
         
         #this info is custom
-        report.point = self._get_pnt()
-        report.ward = self._get_ward()
+        report.point = self.pnt
+        report.ward = self.ward
         report.is_confirmed = is_confirmed
         update.report = report
         update.first_update = True

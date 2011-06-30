@@ -43,7 +43,40 @@ class CCEmailMessage(EmailMessage):
             msg['Cc'] = ', '.join(self.cc)
         return msg
 
-         
+class ReportCategoryClass(models.Model):
+    __metaclass__ = TransMeta
+
+    name = models.CharField(max_length=100)
+
+    def __unicode__(self):      
+        return self.name
+
+    class Meta:
+        db_table = u'report_category_classes'
+        translate = ('name', )
+    
+class ReportCategory(models.Model):
+    __metaclass__ = TransMeta
+
+    name = models.CharField(max_length=100)
+    hint = models.TextField(blank=True, null=True)
+    category_class = models.ForeignKey(ReportCategoryClass)
+  
+    def __unicode__(self):      
+        return self.category_class.name + ":" + self.name
+ 
+    class Meta:
+        db_table = u'report_categories'
+        translate = ('name', 'hint', )
+
+class ReportCategorySet(models.Model):
+    ''' A category group for a particular city '''
+    name = models.CharField(max_length=100)
+    categories = models.ManyToManyField(ReportCategory)
+
+    def __unicode__(self):      
+        return self.name
+                 
 class Province(models.Model):
     name = models.CharField(max_length=100)
     abbrev = models.CharField(max_length=3)
@@ -56,11 +89,19 @@ class City(models.Model):
     name = models.CharField(max_length=100)
     # the city's 311 email, if it has one.
     email = models.EmailField(blank=True, null=True)    
-
+    category_set = models.ForeignKey(ReportCategorySet, null=True, blank=True)
     objects = models.GeoManager()
 
     def __unicode__(self):      
         return self.name
+    
+    def get_categories(self):
+        if self.category_set:
+            return self.category_set.categories
+        else:
+            # the 'Default' group is defined in fixtures/initial_data
+            default = ReportCategorySet.objects.get(name='Default')
+            return default.categories
     
     def get_absolute_url(self):
         return "/cities/" + str(self.id)
@@ -94,7 +135,7 @@ class Ward(models.Model):
     
     name = models.CharField(max_length=100)
     number = models.IntegerField()
-    councillor = models.ForeignKey(Councillor)
+    councillor = models.ForeignKey(Councillor,null=True,blank=True)
     city = models.ForeignKey(City)
     geom = models.MultiPolygonField( null=True)
     objects = models.GeoManager()
@@ -133,31 +174,6 @@ class Ward(models.Model):
     class Meta:
         db_table = u'wards'
 
-class ReportCategoryClass(models.Model):
-    __metaclass__ = TransMeta
-
-    name = models.CharField(max_length=100)
-
-    def __unicode__(self):      
-        return self.name
-
-    class Meta:
-        db_table = u'report_category_classes'
-        translate = ('name', )
-    
-class ReportCategory(models.Model):
-    __metaclass__ = TransMeta
-
-    name = models.CharField(max_length=100)
-    hint = models.TextField(blank=True, null=True)
-    category_class = models.ForeignKey(ReportCategoryClass)
-  
-    def __unicode__(self):      
-        return self.category_class.name + ":" + self.name
- 
-    class Meta:
-        db_table = u'report_categories'
-        translate = ('name', 'hint', )
     
             
 # Override where to send a report for a given city.        
@@ -682,17 +698,35 @@ class UserProfile(models.Model):
     
 class DictToPoint():
     
-    def __init__(self, dict ):
-        if not dict.has_key('lat') or not dict.has_key('lon'):
-            raise Http404
-        self.lat = dict['lat']
-        self.lon = dict['lon']
+    def __init__(self, dict, exceptclass = Http404 ):
+        if exceptclass and not dict.has_key('lat') or not dict.has_key('lon'):
+            raise exceptclass
+        
+        self.lat = dict.get('lat',None)
+        self.lon = dict.get('lon',None)
+        self._pnt = None
         
     def __unicode__(self):
         return ("POINT(" + self.lon + " " + self.lat + ")" )
     
     def pnt(self, srid = None ):
+        if self._pnt:
+            return self._pnt
+        if not self.lat or not self.lon:
+            return None
         pntstr = self.__unicode__()
-        return( fromstr( pntstr, srid=4326) )
+        self._pnt = fromstr( pntstr, srid=4326) 
+        return self._pnt
+    
+    def ward(self):
+        pnt = self.pnt()
+        if not pnt:
+            return None
+        wards = Ward.objects.filter(geom__contains=pnt)[:1]
+        if wards:
+            return(wards[0])
+        else:
+            return(None)
+
     
     
