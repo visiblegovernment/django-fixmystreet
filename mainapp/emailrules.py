@@ -23,6 +23,23 @@ class ToCouncillor(EmailRuleBehaviour):
     def value_for_city(self,email_rule):
         return(_("the councillor's email address"))
     
+class ToWard(EmailRuleBehaviour):
+
+    def get_email(self, report, email_rule):
+        return( report.ward.councillor.email )
+
+    def describe(self, email_rule ):
+        return("Send Reports to Email Address for Ward")
+
+    def report_group(self, email_rule):
+        return(_("All reports"))
+    
+    def value_for_ward(self, email_rule, ward):
+        return( ward.email )
+
+    def value_for_city(self,email_rule):
+        return(_("the 311 email address for that neighborhood"))
+    
 class MatchingCategoryClass(EmailRuleBehaviour):
     def get_email(self,report, email_rule):
         if report.category.category_class == email_rule.category_class:

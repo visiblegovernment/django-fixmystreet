@@ -119,7 +119,8 @@ class Councillor(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     
-    # this email addr. is used to send reports to if there is no 311 email for the city.
+    # this email addr. is the destination for reports
+    # if the 'Councillor' email rule is enabled
     email = models.EmailField(blank=True, null=True)
     city = models.ForeignKey(City,null=True)
 
@@ -140,6 +141,10 @@ class Ward(models.Model):
     geom = models.MultiPolygonField( null=True)
     objects = models.GeoManager()
     
+    # this email addr. is the destination for reports
+    # if the 'Ward' email rule is enabled
+    email = models.EmailField(blank=True, null=True)
+
     def get_absolute_url(self):
         return "/wards/" + str(self.id)
 
@@ -190,15 +195,18 @@ class EmailRule(models.Model):
     TO_COUNCILLOR = 0
     MATCHING_CATEGORY_CLASS = 1
     NOT_MATCHING_CATEGORY_CLASS = 2
+    TO_WARD = 3
     
     RuleChoices = [   
     (TO_COUNCILLOR, 'Send Reports to Councillor Email Address'),
     (MATCHING_CATEGORY_CLASS, 'Send Reports Matching Category Group (eg. Parks) To This Email'),
-    (NOT_MATCHING_CATEGORY_CLASS, 'Send Reports Not Matching Category Group To This Email'), ]
+    (NOT_MATCHING_CATEGORY_CLASS, 'Send Reports Not Matching Category Group To This Email'), 
+    (TO_WARD, 'Send Reports to Ward Email Address'),]
     
     RuleBehavior = { TO_COUNCILLOR: emailrules.ToCouncillor,
                      MATCHING_CATEGORY_CLASS: emailrules.MatchingCategoryClass,
-                     NOT_MATCHING_CATEGORY_CLASS: emailrules.NotMatchingCategoryClass }
+                     NOT_MATCHING_CATEGORY_CLASS: emailrules.NotMatchingCategoryClass,
+                     TO_WARD: emailrules.ToWard }
     
     rule = models.IntegerField(choices=RuleChoices)
     
@@ -673,6 +681,7 @@ class PollingStation(models.Model):
     polling stations, which have to be combined into wards.
     """
     number = models.IntegerField()
+    station_name = models.CharField(max_length=100, null=True)
     ward_number = models.IntegerField()
     city = models.ForeignKey(City)
     geom = models.MultiPolygonField( null=True)
