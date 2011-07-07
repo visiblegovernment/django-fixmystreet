@@ -315,7 +315,7 @@ height: 115px;
 }
 
 .stat {
-	width: 150px;
+	width: 155px;
 	color: #222;
 	height: 95px;
 	margin: 0.6em;
@@ -324,6 +324,35 @@ height: 115px;
 	vertical-align: middle;
 	background: url('/media/images/metrics-back.gif') 0 0 no-repeat;
 }
+
+#city-top-problems {
+	width: 55%;
+	float: left;
+}
+
+#city-stat-group {
+	width: 40%;
+	float: right;
+}
+
+#city-stat-group .stat {
+	margin: .4em 0.4em;
+	border: 2px dotted #b4b4b4;
+	height: 48px;
+	font-family:Helvetica,"Lucida Sans","Trebuchet MS",Helvetica,Arial,sans-serif;
+	width: 100px;
+	color: #b4b4b4;
+	background: #222222;
+}
+
+#city-stat-group .number {
+	font-size: 1em;
+}
+
+#city-stat-group .text {
+	font-size: .5em;
+}
+
 
 a {
 text-decoration: underline;

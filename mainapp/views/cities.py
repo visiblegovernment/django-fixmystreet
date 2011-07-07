@@ -23,6 +23,7 @@ def show( request, city_id ):
                 {"city":city,
                  "google": google,
                  'top_problems': top_problems,
+                 'city_totals' : CityTotals( '10 years',city),
                  "report_counts": CityWardsTotals(city) },
                  context_instance=RequestContext(request))
 

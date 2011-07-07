@@ -6,8 +6,24 @@
 <div id="page_content_container">
 	<div id="fullwidth">
 	<h3>{% trans "Reports for" %} {{city.name}}</h3>
+	<div id='city-header'>
+	<div id='city-stat-group'>
+		<p><b>{% trans "City Stats" %}</b></p>
+		<div class='stat'>
+			<span class='number'>{{city_totals.recent_new}}</span><br/>
+			<span class='text'>{% trans "Reports Filed" %}<br/></span>
+		</div>
+		<div class='stat'>
+			<span  class='number'>{{city_totals.recent_fixed}}</span><br/>
+			<span class='text'>{% trans "Reports Fixed" %}*<br/></span>
+		</div>
+		<div class='stat'>
+			<span class='number'>{{city_totals.recent_updated}}</span><br/>
+			<span class='text'>{% trans "Reports Updated" %}</span><br/>
+		</div>
+	</div>	
 	{% if top_problems %}
-	<div id="city_top_problems">
+	<div id="city-top-problems">
 		<p><b>{% trans "Top Problems" %}</b></p>
 		<table>
 			<tr>
@@ -26,6 +42,8 @@
 		<br/>
 	</div>
 	{% endif %}
+	</div>
+	<br/ style="clear:both">
 	<div id="city_all_problems">
 		<p><b>{% trans "Reports by Ward" %}</b></p>
 		{% include "cities/_report_count_table.html" %}		

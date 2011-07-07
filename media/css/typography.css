@@ -126,7 +126,8 @@ color:silver;
 
 .stat {color:#222;font-family: "League Gothic";text-transform:uppercase;font-size: 130%;line-height:1.0;padding-top:0.5em;}
 .stat .number {font-size:2em;}
-.stat .text {font-size:1em;}
+.stat .text {font-size:.7em;}
+.stat .qualifier {font-size:.5em;}
 
 blockquote {
 margin-left:3em;

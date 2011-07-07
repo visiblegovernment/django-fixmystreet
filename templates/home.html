@@ -73,15 +73,18 @@
 	<div id='stat-group'>
 		<div class='stat'>
 			<span class='number'>{{report_counts.recent_new}}</span><br/>
-			<span class='text'>{% trans "Reports Filed" %}</span>
+			<span class='text'>{% trans "Reports Filed" %}<br/></span>
+			<span class='qualifier'>{% trans "In the Last Year" %}</span>
 		</div>
 		<div class='stat'>
 			<span  class='number'>{{report_counts.recent_fixed}}</span><br/>
-			<span class='text'>{% trans "Reports Fixed" %}*</span>
+			<span class='text'>{% trans "Reports Fixed" %}*<br/></span>
+			<span class='qualifier'>{% trans "In the Last Year" %}</span>
 		</div>
 		<div class='stat'>
 			<span class='number'>{{report_counts.recent_updated}}</span><br/>
-			<span class='text'>{% trans "Reports Updated" %}</span>
+			<span class='text'>{% trans "Reports Updated" %}</span><br/>
+			<span class='qualifier'>{% trans "In the Last Year" %}</span>
 		</div>
 	</div>
 	<div class="fix-disclaimer"><p>*{% trans "As reported by fixmystreet.ca users." %}</p></div>
