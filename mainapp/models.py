@@ -286,6 +286,7 @@ class Report(models.Model):
     photo = StdImageField(upload_to="photos", blank=True, verbose_name =  ugettext_lazy("* Photo"), size=(400, 400), thumbnail_size=(133,100))
     desc = models.TextField(blank=True, null=True, verbose_name = ugettext_lazy("Details"))
     author = models.CharField(max_length=255,verbose_name = ugettext_lazy("Name"))
+    address = models.CharField(max_length=255,verbose_name = ugettext_lazy("Location"))
 
     # true if first update has been confirmed - redundant with
     # one in ReportUpdate, but makes aggregate SQL queries easier.
@@ -334,7 +335,7 @@ class ReportUpdate(models.Model):
     confirm_token = models.CharField(max_length=255, null=True)
     email = models.EmailField(max_length=255, verbose_name = ugettext_lazy("Email"))
     author = models.CharField(max_length=255,verbose_name = ugettext_lazy("Name"))
-    phone = models.CharField(max_length=255, verbose_name = ugettext_lazy("Phone") )
+    phone = models.CharField(max_length=255, verbose_name = ugettext_lazy("Phone"), blank=True,null=True )
     first_update = models.BooleanField(default=False)
     
     def notify(self):
@@ -351,7 +352,7 @@ class ReportUpdate(models.Model):
     def notify_on_new(self):
         # send to the city immediately.           
         subject = render_to_string("emails/send_report_to_city/subject.txt", {'update': self })
-        message = render_to_string("emails/send_report_to_city/message.txt", { 'update': self })
+        message = render_to_string("emails/send_report_to_city/message.txt", { 'update': self, 'SITE_URL':settings.SITE_URL })
         
         to_email_addrs,cc_email_addrs = self.report.ward.get_emails(self.report)
         email_msg = CCEmailMessage(subject,message,settings.EMAIL_FROM_USER, 
@@ -491,7 +492,7 @@ class FixMyStreetMap(GoogleMap):
         marker = GMarker(geom=(pnt.x,pnt.y), draggable=draggable)
         if draggable:
             event = GEvent('dragend',
-                           'function() { window.location.href = "/reports/new?" +"&lat="+geodjango.map_canvas_marker1.getPoint().lat().toString()+"&lon="+geodjango.map_canvas_marker1.getPoint().lng().toString(); }')        
+                           'function() { reverse_geocode (geodjango.map_canvas_marker1.getPoint()); }')        
             marker.add_event(event)
         markers.append(marker)
         

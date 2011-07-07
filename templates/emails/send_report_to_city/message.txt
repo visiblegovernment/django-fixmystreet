@@ -4,8 +4,9 @@ Submitted By: {{update.author|safe}}
 Phone:        {{update.phone}}
 Email:        {{update.email}}
 FMS ID:       {{update.report.id}}
+{% if update.report.address %}Location:     {{update.report.address}}{% endif %}
 
 {{update.desc|safe}}
 
 Submitted via FixMyStreet.ca on {{update.report.created_at|date}}.
-{{update.report.get_absolute_url}}
+{{SITE_URL}}{{update.report.get_absolute_url}}

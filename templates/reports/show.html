@@ -49,14 +49,18 @@
 			{% endif %}
 			<div id='report-header'>
 				<div id='report-status'>
-				{% trans "Category:" %}<b>{{report.category.name}}</b><br/>
-				{% trans "Filed by:" %}{{report.author}}<br/>				
+				<table>				
+				<tr><th>{% trans "Category:" %}</th><td><b>{{report.category.name}}</b></td></tr>
+				{% if report.address %}				
+				<tr><th>{% trans "Location:" %}</th><td>{{report.address}}</td></tr>
+				{% endif %}
+				<tr><th>{% trans "Filed by:" %}</th><td>{{report.author}}</td></tr>				
 				
 				{% if report.sent_at %}
-					{% trans "Sent to" %}: {{report.email_sent_to}}<br/>
-					{% trans "On" %}: {{report.sent_at|date}}.
+					<tr><th>{% trans "Sent to" %}:</th><td>{{report.email_sent_to}}</td></tr>
+					<tr><th>{% trans "On" %}:</th><td>{{report.sent_at|date}}</td></tr>
 				{% endif %}
-				
+				</table>
 				<br/>
 				</div>
 				{% if report.is_confirmed %}

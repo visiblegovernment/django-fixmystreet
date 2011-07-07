@@ -89,11 +89,12 @@ class ReportForm(forms.ModelForm):
 
     class Meta:
         model = Report
-        fields = ('lat','lon','title', 'category', 'photo')
+        fields = ('lat','lon','title', 'address', 'category','photo')
 
 #    category = CategoryChoiceField()
     lat = forms.fields.CharField(widget=forms.widgets.HiddenInput)
     lon = forms.fields.CharField(widget=forms.widgets.HiddenInput)
+#    address = forms.fields.CharField(widget=forms.widgets.HiddenInput)
 
     def __init__(self,data=None,files=None,initial=None):
         if data:

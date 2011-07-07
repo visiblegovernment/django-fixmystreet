@@ -24,7 +24,8 @@ def new( request ):
                 return( HttpResponseRedirect( report.get_absolute_url() ))
     else:
         report_form = ReportForm(initial={ 'lat': request.GET['lat'],
-                                           'lon': request.GET['lon'] } )
+                                           'lon': request.GET['lon'],
+                                           'address': request.GET.get('address',None) } )
 
     return render_to_response("reports/new.html",
                 { "google": FixMyStreetMap(pnt, True),

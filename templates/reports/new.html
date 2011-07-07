@@ -4,6 +4,7 @@
 {% block script %}
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
 <script type="text/javascript" src="/js/jquery.livequery.pack.js"></script>
+{% include '_fixmystreetmap.js' %}
 <script>
 function updateNotes() {
 	// updates entry notes
@@ -58,8 +59,6 @@ margin-left:1.5em;
 	<h3>{% trans "Submitting a report" %}</h3>
 
 	<form enctype="multipart/form-data" method="post" action="/reports/" id='report_form'>
-		<input type="hidden" name="lat" id="lat" value="{{lat}}" />
-		<input type="hidden" name="lon" id="lon" value="{{lon}}" />
 		<table class='form'>
 			{{ report_form.as_table }}
 			<tr>
