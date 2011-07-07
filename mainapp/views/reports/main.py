@@ -29,6 +29,7 @@ def new( request ):
 
     return render_to_response("reports/new.html",
                 { "google": FixMyStreetMap(pnt, True),
+                  'GOOGLE_KEY': settings.GMAP_KEY,
                   "report_form": report_form,
                   "update_form": report_form.update_form,
                   'ward': report_form.ward },

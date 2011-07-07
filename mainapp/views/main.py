@@ -76,6 +76,7 @@ def search_address(request):
         
     return render_to_response("search_result.html",
                 {'google' : gmap,
+                 'GOOGLE_KEY': settings.GMAP_KEY,
                  "pnt": pnt,
                  "enable_map": True,
                  "ward" : wards[0],
