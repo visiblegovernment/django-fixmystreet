@@ -24,18 +24,15 @@ def new( request ):
             if report:
                 return( HttpResponseRedirect( report.get_absolute_url() ))
     else:
-        report_form = ReportForm(initial={ 'lat': request.GET['lat'],
-                                           'lon': request.GET['lon'],
-                                           'address': request.GET.get('address',None) } )
-
         initial={ 'lat': request.GET['lat'],
-                  'lon': request.GET['lon'] }            
-        
+                  'lon': request.GET['lon'],
+                  'address': request.GET.get('address',None) 
+                  }            
+
         if request.user.is_authenticated():
             initial[ 'author' ] = request.user.first_name + " " + request.user.last_name
             initial[ 'phone' ] = request.user.get_profile().phone
             initial[ 'email' ] = request.user.email
-        
         report_form = ReportForm( initial=initial, freeze_email=request.user.is_authenticated() )
 
     return render_to_response("reports/new.html",
@@ -51,7 +48,7 @@ def show( request, report_id ):
     report = get_object_or_404(Report, id=report_id)
     subscribers = report.reportsubscriber_set.count() + 1
     initial = {}
-    
+
     if request.user.is_authenticated():
         initial[ 'author' ] = request.user.first_name + " " + request.user.last_name
         initial[ 'phone' ] = request.user.get_profile().phone

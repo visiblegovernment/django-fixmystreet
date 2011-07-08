@@ -95,7 +95,7 @@ class Open311v2(TestCase):
             self.assertEquals( request_id, '6', "we've created a new request" ) 
         else:
             self.assertEquals( response.status_code, 400 )
-            errors = doc.getElementsByTagName('error')                
+            errors = doc.getElementsByTagName('error')
             self.assertEquals(len(errors),len(expected_errors))
             for error in errors:
                 error_text = error.childNodes[0].data

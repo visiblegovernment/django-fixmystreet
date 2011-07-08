@@ -1,7 +1,6 @@
 from django import forms
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
-from fixmystreet import settings
 from django.conf import settings
 from mainapp.models import Ward, Report, ReportUpdate, ReportCategoryClass,ReportCategory,ReportSubscriber,DictToPoint,UserProfile
 from django.utils.translation import ugettext_lazy as _
