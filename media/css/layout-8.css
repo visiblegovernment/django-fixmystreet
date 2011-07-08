@@ -469,6 +469,8 @@ input.big_button:hover {background: url("/media/images/search-hover.png") no-rep
 #instructable img {padding-right:1.5em;}
 #contact_us_form { width:450px; text-align: left; }
 #contact_us_form p { margin-bottom: .5em; }
+#posters { text-align: center;  }
+#posters p {width: 450px; margin: 20px auto;}
 
 .left {float:left;}
 .right {float:right;}

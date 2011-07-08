@@ -10,3 +10,15 @@ To confirm your submission, please click on the following URL:
 
 Thank you,
 The FixMyStreet.ca Team
+
+
+{% if update.first_update %}
+--------------------------------------------------------------
+
+The more people who know about fixmystreet.ca, the more 
+useful it will be.  Share your report on Twitter or Facebook, 
+or hang a poster at a university or local coffee shop: 
+http://fixmystreet.ca/posters/
+
+--------------------------------------------------------------
+{% endif %}

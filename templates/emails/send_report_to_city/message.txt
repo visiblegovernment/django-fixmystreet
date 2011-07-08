@@ -5,6 +5,7 @@ Phone:        {{update.phone}}
 Email:        {{update.email}}
 FMS ID:       {{update.report.id}}
 {% if update.report.address %}Location:     {{update.report.address}}{% endif %}
+{% if update.report.photo %}Image URL:    {{SITE_URL}}/media/{{update.report.photo}}{% endif %}
 
 {{update.desc|safe}}
 

@@ -89,4 +89,10 @@ def search_address(request):
 
 def about(request):
    return render_to_response("about.html",{'faq_entries' : FaqEntry.objects.all().order_by('order')},
-                context_instance=RequestContext(request))    
+                context_instance=RequestContext(request)) 
+   
+def posters(request): 
+   return render_to_response("posters.html",
+                {'languages': settings.LANGUAGES },
+                 context_instance=RequestContext(request))
+      

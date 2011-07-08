@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}
+	{% trans "Posters" %}
+{% endblock %}
+{% block content %}
+<div id="page_content_container">
+<h3>FixMyStreet Canada {% trans "Posters" %}</h3>
+<div id="posters">
+<p>{% blocktrans %}
+Help spread the word.  The more people who know about fixmystreet.ca, the more 
+useful it will be.  Share your report on Twitter or Facebook, 
+or hang a poster at a university or neighbourhood coffee shop.
+{% endblocktrans %}
+<ul>
+{% for lang in languages %}
+	<li><a href='/media/posters/FMSPoster_{{lang.0}}.pdf'> {% trans "Poster" %} - {{lang.1}}</a></li>
+{% endfor %}
+</ul>
+</div>
+</div>
+{% endblock %}
