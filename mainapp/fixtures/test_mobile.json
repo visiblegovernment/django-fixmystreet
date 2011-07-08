@@ -1,6 +1,17 @@
 [
     {
         "pk": 1, 
+        "model": "mainapp.apikey", 
+        "fields": {
+            "organization": "Test Mobile API", 
+            "key": "test_mobile_api_key", 
+            "type": 1, 
+            "approved": true, 
+            "contact_email": "test@yahoo.ca"
+        }
+    }, 
+    {
+        "pk": 1, 
         "model": "mainapp.report", 
         "fields": {
             "category": 5, 

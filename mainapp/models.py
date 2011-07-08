@@ -320,7 +320,7 @@ class Report(models.Model):
     is_confirmed = models.BooleanField(default=False)
 
     # what API did the report come in on?
-    api = models.ForeignKey(ApiKey,null=True,blank=True)
+    api_key = models.ForeignKey(ApiKey,null=True,blank=True)
     
     # this this report come in from a particular mobile app?
     device_id = models.CharField(max_length=100,null=True,blank=True)
