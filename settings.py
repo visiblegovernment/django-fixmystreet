@@ -116,7 +116,6 @@ AUTHENTICATION_BACKENDS = (
     'mainapp.tests.testsocial_auth.dummy_socialauth.DummyBackend',
 )
 
-SESSION_COOKIE_SECURE = True
 SOCIAL_AUTH_USER_MODEL = 'mainapp.FMSUser'
 SOCIAL_AUTH_ASSOCIATE_BY_MAIL = True
 ACCOUNT_ACTIVATION_DAYS = 14

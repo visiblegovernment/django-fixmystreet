@@ -5,11 +5,12 @@ from mainapp.models import Report
 import xml.dom.minidom
 from django.core import mail
 
-PATH = os.path.dirname(__file__)           
+PATH = os.path.dirname(__file__)         
 
-ANON_CREATE_PARAMS =  { 'lat': '45.4301269580000024',
-                        'lon': '-75.6824648380000014',
+ANON_CREATE_PARAMS =  { 'lat': '45.4198266',
+                        'lon': '-75.6943189',
                         'service_code': 5,
+                        'location': 'Some Street',
                         'first_name': 'John',
                         'last_name':'Farmer',
                         'title': 'Submitted by our mobile app',
@@ -21,6 +22,7 @@ ANON_CREATE_PARAMS =  { 'lat': '45.4301269580000024',
 LOGGEDIN_CREATE_PARAMS =  { 'title': 'A report from our API from a logged in user', 
                             'lat': '45.4301269580000024',
                             'lon': '-75.6824648380000014',
+                            'location': 'Some Street',
                             'service_code': 5,
                             'description': 'The description' 
                         } 
@@ -34,7 +36,7 @@ EXPECTED_ERRORS = {
            'title': None,
            'description': ['description:This field is required.'],
            'email': ['email:This field is required.'],
-           'phone': ['phone:This field is required.']  }
+           'phone': None  }
 
 class Open311v2(TestCase):
     
@@ -93,7 +95,7 @@ class Open311v2(TestCase):
             self.assertEquals( request_id, '6', "we've created a new request" ) 
         else:
             self.assertEquals( response.status_code, 400 )
-            errors = doc.getElementsByTagName('error')
+            errors = doc.getElementsByTagName('error')                
             self.assertEquals(len(errors),len(expected_errors))
             for error in errors:
                 error_text = error.childNodes[0].data

@@ -76,6 +76,7 @@ CREATE_PARAMS =  { 'title': 'A report created when logged in',
                      'lon': '-75.6870889663999975',
                      'category': 5,
                      'desc': 'The description',
+                     'address': 'Some street',
                 } 
 
 

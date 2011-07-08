@@ -10,6 +10,7 @@ import re
 CREATE_PARAMS =  { 'title': 'A report from our API', 
                      'lat': '45.4043333270000034',
                      'lon': '-75.6870889663999975',
+                     'address': 'Some Street',
                      'category': 5,
                      'desc': 'The description',
                      'author': 'John Farmer',

@@ -57,7 +57,8 @@ class CategoryChoiceField(forms.fields.ChoiceField):
                  initial=None, help_text=None, *args, **kwargs):
         # assemble the opt groups.
         choices = []
-        choices.append( ('', ugettext_lazy("Select a Category")) )
+        self.ward = ward
+        choices.append( ('', _("Select a Category")) )
         if ward:
             categories = ward.city.get_categories()
             categories = categories.order_by('category_class')
@@ -76,6 +77,11 @@ class CategoryChoiceField(forms.fields.ChoiceField):
         super(CategoryChoiceField,self).__init__(choices=choices,required=required,widget=widget,label=label,initial=initial,help_text=help_text,*args,**kwargs)
 
     def clean(self, value):
+        if not self.ward:
+            # don't bother validating if we couldn't resolve
+            # the ward... this will be picked up in another error
+            return None
+        
         super(CategoryChoiceField,self).clean(value)
         try:
             model = ReportCategory.objects.get(pk=value)
@@ -114,48 +120,24 @@ class ReportForm(forms.ModelForm):
         model = Report
         fields = ('lat','lon','title', 'address', 'category','photo')
 
-#    category = CategoryChoiceField()
     lat = forms.fields.CharField(widget=forms.widgets.HiddenInput)
     lon = forms.fields.CharField(widget=forms.widgets.HiddenInput)
-#    address = forms.fields.CharField(widget=forms.widgets.HiddenInput)
 
-    def __init__(self,data=None,files=None,initial=None):
+    def __init__(self,data=None,files=None,initial=None,freeze_email=False):
         if data:
             d2p = DictToPoint(data,exceptclass=None)
         else:
             d2p = DictToPoint(initial,exceptclass=None)
         
-<<<<<<< HEAD:mainapp/forms.py
         self.pnt = d2p.pnt()
-        self.ward = d2p.ward()    
-        self.update_form = ReportUpdateForm(data)
+        self.ward = d2p.ward()
+        self.update_form = ReportUpdateForm(data=data,initial=initial,freeze_email=freeze_email)
         super(ReportForm,self).__init__(data,files, initial=initial)
         self.fields['category'] = CategoryChoiceField(self.ward)
     
     def clean(self):
-        if not self.ward:
+        if self.pnt and not self.ward:
             raise forms.ValidationError("lat/lon not supported")
-=======
-    def _get_pnt(self):        
-        lat = self.cleaned_data.get("lat")
-        lon = self.cleaned_data.get("lon")
-        pnt = fromstr("POINT(" + lon + " " + lat + ")", srid=4326)
-        return(pnt)
-    
-    def _get_ward(self):
-        pnt = self._get_pnt()
-        try:
-            ward = Ward.objects.get(geom__contains=pnt)
-            return(ward)
-        except:
-            return( None )
-    
-    def clean(self):
-        if self.cleaned_data.has_key('lat') and self.cleaned_data.has_key('lon'):
-            ward = self._get_ward()
-            if not ward:
-                raise forms.ValidationError("lat/lon not supported")
->>>>>>> support open311v2 API:mainapp/forms.py
 
         # Always return the full collection of cleaned data.
         return self.cleaned_data

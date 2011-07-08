@@ -39,8 +39,7 @@ class Open311ReportForm(ReportForm):
         if len(categories) == 0:
             return None
         return(categories[0])
-                
-        
+            
     def clean_title(self):
         data = self.cleaned_data.get('title',None)
         if data:

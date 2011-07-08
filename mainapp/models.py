@@ -259,6 +259,31 @@ class EmailRule(models.Model):
             prefix = "TO:"
         return( "%s - %s (%s)" % (self.city.name,rule_behavior.describe(self),prefix) )
         
+class ApiKey(models.Model):
+    
+    WIDGET = 0
+    MOBILE = 1
+    
+    TypeChoices = [
+    (WIDGET, 'Embedded Widget'),
+    (MOBILE, 'Mobile'), ]
+    
+    organization = models.CharField(max_length=255)
+    key = models.CharField(max_length=100)
+    type = models.IntegerField(choices=TypeChoices)
+    contact_email = models.EmailField()
+    approved = models.BooleanField(default=False)
+    
+    def save(self):
+        if not self.key or self.key == "":
+            m = md5.new()
+            m.update(self.contact_email)
+            m.update(str(time.time()))
+            self.confirm_token = m.hexdigest()
+        super(ApiKey,self).save()
+        
+    def __unicode__(self):
+        return( str(self.organization) )
 
 class Report(models.Model):
     title = models.CharField(max_length=100, verbose_name = ugettext_lazy("Subject"))
@@ -294,6 +319,12 @@ class Report(models.Model):
     
     is_confirmed = models.BooleanField(default=False)
 
+    # what API did the report come in on?
+    api = models.ForeignKey(ApiKey,null=True,blank=True)
+    
+    # this this report come in from a particular mobile app?
+    device_id = models.CharField(max_length=100,null=True,blank=True)
+    
     objects = models.GeoManager()
     
     def is_subscribed(self, email):
@@ -780,6 +811,9 @@ class CityAdmin(User):
         proxy = True
 
     objects = CityAdminManager()
+    
+    
+
     
         
 class DictToPoint():
