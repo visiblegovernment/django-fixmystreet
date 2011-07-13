@@ -98,7 +98,8 @@ urlpatterns += patterns('mainapp.views.ajax',
 
 
 urlpatterns += patterns('',
- url('^accounts/register/$', register, { 'form_class': FMSNewRegistrationForm,
+ url('^accounts/register/$', register, {'SSL':SSL_ON , 
+                                        'form_class': FMSNewRegistrationForm,
                                          'extra_context': 
                                     { 'providers': SUPPORTED_SOCIAL_PROVIDERS } },name='registration_register'),
  url('^accounts/login/$',  auth_views.login, {'SSL':SSL_ON, 
@@ -116,7 +117,7 @@ urlpatterns += patterns('mainapp.views.account',
     url(r'^accounts/home/', 'home',{ 'SSL':SSL_ON },  name='account_home'),
     url(r'^accounts/edit/', 'edit', {'SSL':SSL_ON }, name='account_edit'),
     (r'^accounts/login/error/$', 'error'),
-    url(r'^accounts/complete/(?P<backend>[^/]+)/$', 'socialauth_complete', name='socialauth_complete'),
+    url(r'^accounts/complete/(?P<backend>[^/]+)/$', 'socialauth_complete', {'SSL':SSL_ON }, name='socialauth_complete'),
 )
 
 urlpatterns += patterns('',

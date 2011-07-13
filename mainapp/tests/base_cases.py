@@ -48,16 +48,19 @@ class CreateReport(BaseCase):
         response = self.c.post('/reports/', CREATE_PARAMS, follow=True )
         self.assertEquals( response.status_code, 200 )
         self.assertEquals(response.template[0].name, 'reports/show.html')
-        self.assertEqual(Report.objects.filter(title=CREATE_PARAMS['title']).count(), 1 )
-
+        self.assertEqual(Report.objects.filter(title=CREATE_PARAMS['title'],is_confirmed=False).count(), 1,"There's a new unconfirmed report." )
+        self.assertEqual(ReportUpdate.objects.filter(report__title=CREATE_PARAMS['title'],is_confirmed=False,first_update=True).count(), 1,"There's an unconfirmed report update." )
+        
         # a confirmation email should be sent to the user
-        self.assertEquals(len(mail.outbox), 1)
+        self.assertEquals(len(mail.outbox), 1, "a confirmation email was sent.")
         self.assertEquals(mail.outbox[0].to, [u'testcreator@hotmail.com'])
         
         #test confirmation link
         confirm_url = self._get_confirm_url(mail.outbox[0])
         response = self.c.get(confirm_url, follow=True)
         self.assertEquals( response.status_code, 200 )
+        self.assertEqual(Report.objects.filter(title=CREATE_PARAMS['title'],is_confirmed=True).count(), 1,"The report is confirmed." )
+
 
         #now there should be two emails in our outbox
         self.assertEquals(len(mail.outbox), 2)

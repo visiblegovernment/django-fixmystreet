@@ -43,12 +43,14 @@ class Open311ReportForm(ReportForm):
         model = Report
         fields = ('service_code','description','lat','lon','title', 'category', 'photo','device_id','api_key')
 
-    def __init__(self,data=None,files=None,initial=None, freeze_email=False):
+    def __init__(self,data=None,files=None,initial=None, user=None):
+        
         if data:
+            data = data.copy() # can't modify request.POST directly
             data['desc'] = data.get('description','')
             data['category'] = data.get('service_code','1')
             data['author'] = (data.get('first_name','') + " "  + data.get('last_name','')).strip()
-        super(Open311ReportForm,self).__init__(data,files, initial=initial,freeze_email=freeze_email)
+        super(Open311ReportForm,self).__init__(data,files, initial=initial,user=user)
         self.fields['device_id'].required = True
         self.fields['category'].required = False
         self.fields['title'].required = False
@@ -98,15 +100,14 @@ class Open311v2Api(object):
             return self._render_reports(request, reports)
         else:
             # creating a new report
-            data = request.POST.copy()
-            report_form = Open311ReportForm( data, request.FILES )
+            report_form = Open311ReportForm( request.POST, request.FILES,user=request.user )
             try:
                 if report_form.is_valid():
-                    report = report_form.save(request.user.is_authenticated())
+                    report = report_form.save()
                     if report:
                         return( self._render_reports(request, [ report ] ) )
                 return( self._render_errors(request, report_form.all_errors()))
-            except Exception, e:
+            except InvalidAPIKey, e:
                 return render( request,
                         'open311/v2/_errors.%s' % (self.content_type),
                         { 'errors' : {'403' : str(e) } },

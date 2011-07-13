@@ -9,6 +9,7 @@ from django.core.mail import send_mail, EmailMessage
 import md5
 import urllib
 import time
+import datetime
 from mainapp import emailrules
 from datetime import datetime as dt
 from django.utils.safestring import mark_safe
@@ -325,6 +326,7 @@ class Report(models.Model):
     # this this report come in from a particular mobile app?
     device_id = models.CharField(max_length=100,null=True,blank=True)
     
+    # who filed this report?
     objects = models.GeoManager()
     
     def is_subscribed(self, email):
@@ -430,10 +432,29 @@ class ReportUpdate(models.Model):
         # does this update require confirmation?
         if not self.is_confirmed:
             self.get_confirmation()
+            super(ReportUpdate,self).save()
         else:
+            # update parent report
+            if not self.created_at: 
+                self.created_at = datetime.datetime.now()
+            if self.is_fixed:
+                self.report.is_fixed = True
+                self.report.fixed_at = self.created_at   
+            # we track a last updated time in the report to make statistics 
+            # (such as on the front page) easier.  
+            if not self.first_update:
+                self.report.updated_at = self.created_at
+            else:
+                self.report.updated_at = self.report.created_at
+                self.report.is_confirmed = True
+            super(ReportUpdate,self).save()
+            self.report.save()
             self.notify()
-        super(ReportUpdate,self).save()
-            
+
+    def confirm(self):    
+        self.is_confirmed = True
+        self.save()
+
             
     def get_confirmation(self):
         """ Send a confirmation email to the user. """        
@@ -471,7 +492,7 @@ class ReportSubscriber(models.Model):
     confirm_token = models.CharField(max_length=255, null=True)
     is_confirmed = models.BooleanField(default=False)    
     email = models.EmailField()
-
+    
     class Meta:
         db_table = u'report_subscribers'
 

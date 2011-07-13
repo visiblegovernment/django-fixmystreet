@@ -121,7 +121,7 @@ class TestLoggedInUser(TestCase):
         self.assertEquals(response.template[0].name, 'reports/show.html')
         
         # there's a new report
-        self.assertEqual(Report.objects.filter(title=CREATE_PARAMS['title'],is_confirmed=True).count(), 1 )
+        self.assertEqual(Report.objects.filter(title=CREATE_PARAMS['title'],is_confirmed=True,is_fixed=False).count(), 1 )
         self.assertEqual(ReportUpdate.objects.filter(author="Clark Kent",email='user1@test.com',desc=params['desc'],is_confirmed=True).count(),1)
                          
         # email should be sent directly to the city
@@ -151,9 +151,11 @@ class TestLoggedInUser(TestCase):
         # file the report
         response = c.post('/reports/4/updates/', UPDATE_PARAMS, follow=True )
         self.assertEquals( response.status_code, 200 )
+        
         # there's a new update
-        self.assertEqual(ReportUpdate.objects.filter(author="Clark Kent",email='user1@test.com',desc=UPDATE_PARAMS['desc'],is_fixed=True,is_confirmed=True).count(),1)
-
+        self.assertEqual(ReportUpdate.objects.filter(report__id=4,author="Clark Kent",email='user1@test.com',desc=UPDATE_PARAMS['desc'],is_fixed=True,is_confirmed=True).count(),1)
+        self.assertEqual(Report.objects.filter(id=4,is_fixed=True).count(),1)
+        
         # we're redirected to the report page
         self.assertEquals(response.template[0].name, 'reports/show.html')
         # and it has our update on it.

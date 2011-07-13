@@ -97,14 +97,39 @@ class EditProfileForm(forms.ModelForm):
 class ReportUpdateForm(forms.ModelForm):
     class Meta:
         model = ReportUpdate
-        fields = ( 'desc','author','email','phone')
+        fields = ('desc','author','email','phone')
 
-    def __init__(self,data=None,files=None,initial=None, freeze_email=False):
-        super(ReportUpdateForm,self).__init__(data,files=files, initial=initial)
-        if freeze_email:
+    def __init__(self,data=None,files=None,initial={},first_update=False,user = None):
+       self.user = None
+       self.first_update= first_update
+       if user and user.is_authenticated() and UserProfile.objects.filter(user=user).exists():
+           self.user = user
+
+       if self.user:
+           if not data:
+               initial[ 'author' ] = user.first_name + " " + user.last_name
+               initial[ 'phone' ] = user.get_profile().phone
+               initial[ 'email' ] = user.email
+           else:
+               # this can't be overridden.
+               data['email'] = user.email
+               
+       super(ReportUpdateForm,self).__init__(data,files=files, initial=initial)
+       
+       if self.user and not data:
             self.fields['email'].widget.attrs['readonly'] = 'readonly'
-
-
+       
+       
+    def save(self,commit=True):
+       update = super(ReportUpdateForm,self).save( commit = False )
+       update.first_update = self.first_update
+       if self.user:
+           #update.user = self.user
+           update.is_confirmed = True
+       if commit:
+           update.save()
+       return( update )
+            
 class ReportForm(forms.ModelForm):
     """
     ReportForm --
@@ -122,7 +147,7 @@ class ReportForm(forms.ModelForm):
     lat = forms.fields.CharField(widget=forms.widgets.HiddenInput)
     lon = forms.fields.CharField(widget=forms.widgets.HiddenInput)
 
-    def __init__(self,data=None,files=None,initial=None,freeze_email=False):
+    def __init__(self,data=None,files=None,initial=None,user=None):
         if data:
             d2p = DictToPoint(data,exceptclass=None)
         else:
@@ -130,7 +155,7 @@ class ReportForm(forms.ModelForm):
         
         self.pnt = d2p.pnt()
         self.ward = d2p.ward()
-        self.update_form = ReportUpdateForm(data=data,initial=initial,freeze_email=freeze_email)
+        self.update_form = ReportUpdateForm(data=data,initial=initial,user=user,first_update = True)
         super(ReportForm,self).__init__(data,files, initial=initial)
         self.fields['category'] = CategoryChoiceField(self.ward)
     
@@ -146,7 +171,8 @@ class ReportForm(forms.ModelForm):
         update_valid = self.update_form.is_valid()
         return( update_valid and report_valid )
     
-    def save(self, is_confirmed = False):
+    def save(self):
+        
         report = super(ReportForm,self).save( commit = False )
         update = self.update_form.save(commit=False)
         
@@ -157,14 +183,12 @@ class ReportForm(forms.ModelForm):
         #this info is custom
         report.point = self.pnt
         report.ward = self.ward
-        report.is_confirmed = is_confirmed
-        update.report = report
-        update.first_update = True
-        update.is_confirmed = is_confirmed
-        update.created_at = report.created_at
+        #report.user = update.user            
+
         report.save()
         update.report = report
         update.save()
+        
         return( report )
     
     def all_errors(self):
