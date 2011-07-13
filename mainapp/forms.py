@@ -112,6 +112,7 @@ class ReportUpdateForm(forms.ModelForm):
                initial[ 'email' ] = user.email
            else:
                # this can't be overridden.
+               data = data.copy()
                data['email'] = user.email
                
        super(ReportUpdateForm,self).__init__(data,files=files, initial=initial)
