@@ -12,6 +12,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.sites.models import Site
 from django.utils.encoding import force_unicode
+from django.utils.safestring import mark_safe
+
 
 class ContactForm(forms.Form):
     name = forms.CharField(max_length=100,
@@ -93,14 +95,17 @@ class EditProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ( 'phone',)
+        
 
 class ReportUpdateForm(forms.ModelForm):
+        
     class Meta:
         model = ReportUpdate
-        fields = ('desc','author','email','phone')
+        fields = ('desc','author','email','phone','is_fixed')
 
-    def __init__(self,data=None,files=None,initial={},first_update=False,user = None):
+    def __init__(self,data=None,files=None,initial={},first_update=False,user = None, report=None):
        self.user = None
+       self.report = report
        self.first_update= first_update
        if user and user.is_authenticated() and UserProfile.objects.filter(user=user).exists():
            self.user = user
@@ -119,17 +124,39 @@ class ReportUpdateForm(forms.ModelForm):
        
        if self.user and not data:
             self.fields['email'].widget.attrs['readonly'] = 'readonly'
-       
-       
+    
+       if first_update:
+           del(self.fields['is_fixed'])
+       else:
+            self.fields['is_fixed'] = forms.fields.BooleanField(required=False,
+                                         help_text=_('This problem has been fixed.'),
+                                         label='')
+              
     def save(self,commit=True):
        update = super(ReportUpdateForm,self).save( commit = False )
+       if self.report:
+           update.report = self.report
+           
        update.first_update = self.first_update
        if self.user:
            #update.user = self.user
            update.is_confirmed = True
        if commit:
            update.save()
+           if update.is_confirmed:
+               update.notify()
        return( update )
+           
+    def as_table(self):
+        "over-ridden to get rid of <br/> in help_text_html. "
+        return self._html_output(
+            normal_row = u'<tr%(html_class_attr)s><th>%(label)s</th><td>%(errors)s%(field)s%(help_text)s</td></tr>',
+            error_row = u'<tr><td colspan="2">%s</td></tr>',
+            row_ender = u'</td></tr>',
+            help_text_html = u'<span class="helptext">%s</span>',
+            errors_on_separate_row = False)
+    
+ 
             
 class ReportForm(forms.ModelForm):
     """
@@ -189,6 +216,9 @@ class ReportForm(forms.ModelForm):
         report.save()
         update.report = report
         update.save()
+        
+        if update.is_confirmed:
+            update.notify()
         
         return( report )
     
