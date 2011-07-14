@@ -62,7 +62,6 @@ class CategoryChoiceField(forms.fields.ChoiceField):
         choices.append( ('', _("Select a Category")) )
         if ward:
             categories = ward.city.get_categories()
-            categories = categories.order_by('category_class')
         else:
             categories = []
             

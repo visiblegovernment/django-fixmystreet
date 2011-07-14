@@ -1,0 +1,38 @@
+<services>
+    <service>
+        <service_code>1</service_code>
+        <service_name>Broken or Damaged Equipment/Play Structures</service_name>
+        <description>Please provide the location within the park where the problem is located (e.g. near the play structure; along the pathway that runs from the south end of the park to the neighbouring school; beside the water fountain near the east parking lot). Please provide the name or address of the park if possible.</description>
+        <metadata>false</metadata>
+        <type>realtime</type>
+        <keywords></keywords>
+        <group>Parks</group>
+    </service>
+    <service>
+        <service_code>3</service_code>
+        <service_name>Lights Malfunctioning in Park</service_name>
+        <description>Please provide the location within the park where the problem is located (e.g. near the play structure; along the pathway that runs from the south end of the park to the neighbouring school; beside the water fountain near the east parking lot). Please provide the name or address of the park if possible.</description>
+        <metadata>false</metadata>
+        <type>realtime</type>
+        <keywords></keywords>
+        <group>Parks</group>
+    </service>
+    <service>
+        <service_code>4</service_code>
+        <service_name>Debris or Litter in Park</service_name>
+        <description>Please provide the location within the park where the problem is located (e.g. near the play structure; along the pathway that runs from the south end of the park to the neighbouring school; beside the water fountain near the east parking lot). Please provide the name or address of the park if possible.</description>
+        <metadata>false</metadata>
+        <type>realtime</type>
+        <keywords></keywords>
+        <group>Parks</group>
+    </service>
+    <service>
+        <service_code>2</service_code>
+        <service_name>Full or Overflowing Garbage Cans </service_name>
+        <description>Please provide the location within the park where the problem is located (e.g. near the play structure; along the pathway that runs from the south end of the park to the neighbouring school; beside the water fountain near the east parking lot). Please provide the name or address of the park if possible.</description>
+        <metadata>false</metadata>
+        <type>realtime</type>
+        <keywords></keywords>
+        <group>Parks</group>
+    </service>
+</services>

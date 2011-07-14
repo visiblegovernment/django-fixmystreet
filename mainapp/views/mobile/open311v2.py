@@ -3,20 +3,20 @@ from django.contrib.gis.measure import D
 from django.shortcuts import render,render_to_response, get_object_or_404
 from django.template import Context, RequestContext
 from django.http import HttpResponse, HttpResponseBadRequest
-from mainapp.models import ApiKey,Report,ReportCategory,DictToPoint
+from mainapp.models import ApiKey,Report,ReportCategory,DictToPoint,City
 from django.conf.urls.defaults import patterns, url, include
 from mainapp.forms import ReportForm
 from django.conf import settings
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
-
+from django.http import Http404
+import re
 
 class InvalidAPIKey(Exception):
 
     def __init__(self):
         super(InvalidAPIKey,self).__init__("Invalid api_key received -- can't proceed with create_request.")
-
-
+    
 class ApiKeyField(forms.fields.CharField):
     
     def __init__(self,required=True, widget=None, label=None,
@@ -116,12 +116,35 @@ class Open311v2Api(object):
                         status = 403 )
 
     def services(self,request):
-        services = ReportCategory.objects.all()
+        city = None
+        if request.GET.has_key('lat') and request.GET.has_key('lon'):
+            ward = DictToPoint( request.GET ).ward()
+            if not ward:
+                return HttpResponse('lat/lon not supported',status=404)
+            city = ward.city
+        if request.GET.has_key('jurisdiction_id'):
+            # expect format <city>_<province-abbrev>.fixmystreet.ca
+            city = self._parse_jurisdiction(request.GET['jurisdiction_id'])
+            if not city:
+                return HttpResponse('jurisdiction_id provided not found',status=404)
+        if not city:
+            return HttpResponse('jurisdiction_id was not provided',status=400)
+        
+        categories = city.get_categories()
+
         return render_to_response('open311/v2/_services.%s' % (self.content_type),
-                          { 'services' : services },
+                          { 'services' : categories },
                           mimetype = 'text/%s' % ( self.content_type ),
                           context_instance=RequestContext(request))
-        
+    
+    def _parse_jurisdiction(self,jurisdiction):
+        # expect format <city>_<province-abbrev>.fixmystreet.ca
+        match = re.match(r"(\w+)_(\w+)\.fixmystreet\.ca",jurisdiction)
+        if not match:
+            return None
+        city = get_object_or_404(City,name__iexact=match.group(1),province__abbrev__iexact=match.group(2))
+        return city
+    
     def _render_reports(self, request, reports):
         return render_to_response('open311/v2/_reports.%s' % (self.content_type),
                           { 'reports' : reports },

@@ -99,11 +99,13 @@ class City(models.Model):
     
     def get_categories(self):
         if self.category_set:
-            return self.category_set.categories
+            categories = self.category_set.categories
         else:
             # the 'Default' group is defined in fixtures/initial_data
             default = ReportCategorySet.objects.get(name='Default')
-            return default.categories
+            categories = default.categories
+        categories = categories.order_by('category_class')
+        return( categories )
     
     def get_absolute_url(self):
         return "/cities/" + str(self.id)

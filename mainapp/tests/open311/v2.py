@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.test.client import Client
 import os
-from mainapp.models import Report,ApiKey
+from mainapp.models import Report,ApiKey,ReportCategorySet,ReportCategory,City
 import xml.dom.minidom
 from django.core import mail
 
@@ -49,15 +49,33 @@ class Open311v2(TestCase):
     c = Client()
 
     def test_get_report(self):
-        url = self._url('requests/1.xml?jurisdiction_id=oglo.fixmystreet.ca')
+        url = self._url('requests/1.xml?jurisdiction_id=oglo_on.fixmystreet.ca')
         response = self.c.get(url)
         self._expectXML(response, 'get_report_1.xml' )
-        
-    def test_get_services(self):
-        url = self._url('services.xml?jurisdiction_id=oglo.fixmystreet.ca')
-        response = self.c.get(url)
-        self._expectXML(response, 'get_services.xml' )
+                
+    def test_get_services_by_jurid(self):
+        url = self._url('services.xml?jurisdiction_id=oglo_on.fixmystreet.ca')
+        self._test_get_services(url)
 
+    def test_get_services_by_latlon(self):
+        url = self._url('services.xml?lat=45.4301269580000024;lon=-75.6824648380000014')
+        self._test_get_services(url)    
+
+    def test_get_services_by_unspecified(self):
+        url = self._url('services.xml')
+        response = self.c.get(url)
+        self.assertEquals(response.status_code,400)
+
+    def test_get_services_by_bad_jurid(self):
+        url = self._url('services.xml?jurisdiction_id=doesnt_exist')
+        response = self.c.get(url)
+        self.assertEquals(response.status_code,404)
+
+    def test_get_services_by_bad_latlon(self):
+        url = self._url('services.xml?lat=-45.4301269580000024;lon=75.6824648380000014')
+        response = self.c.get(url)
+        self.assertEquals(response.status_code,404)
+        
     def test_get_by_lat_lon(self):
         params = { 'lon': '-75.6824648380000014',
                    'lat': '45.4301269580000024' }
@@ -165,6 +183,24 @@ class Open311v2(TestCase):
         params[ 'api_key' ] = 'bad api key'
         self._create_request(params,["403:Invalid api_key received -- can't proceed with create_request."],error_code=403)
 
+    def _test_get_services(self,url):
+        response = self.c.get(url)
+        # check that the default is as expected.
+        self._expectXML(response, 'get_default_services.xml' )
+        
+        # now, change the services available in the city.
+        new_categoryset = ReportCategorySet.objects.create(name='modified')
+        for category in ReportCategory.objects.filter(category_class__name_en='Parks'):
+            new_categoryset.categories.add(category)
+        new_categoryset.save()
+        city = City.objects.get(name='Oglo')
+        city.category_set = new_categoryset
+        city.save()
+
+        response = self.c.get(url)
+        # check that the default is as expected.
+        self._expectXML(response, 'get_modified_services.xml' )
+        
 
     def _url(self, url):
         return('/open311/v2/' + url )
