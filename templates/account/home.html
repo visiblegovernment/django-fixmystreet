@@ -15,22 +15,7 @@
 </ul>
 </div>
 <h2>My Reports</h2> 
-<div class="pagination">
-	<span class="step-links">
-		{% if page.has_previous %}
-     		<a href="?page={{ page.previous_page_number }}">{% trans "Previous" %}</a> | 
- 		{% endif %}
-        {% if page.has_other_pages %}
-			<span class="current">
-            			{{page.start_index}}-{{page.end_index}} {% trans "of" %} {{page.paginator.count}} {% trans "Reports." %} 
-        	</span>
-        {% endif %}
-        {% if page.has_next %}
-            | <a href="?page={{ page.next_page_number }}">{% trans "Next" %}</a>
-        {% endif %}
-    </span>
-</div>
-
+{% include "reports/_pagination.html" %}
 <table class='myreports'>
 	<tr>
 		<th>{% trans "Report" %}</th>
@@ -63,20 +48,5 @@
 	</tr>
 	{% endfor %}	
 </table>	
-<div class="pagination">
-	<span class="step-links">
-		{% if page.has_previous %}
-     		<a href="?page={{ page.previous_page_number }}">{% trans "Previous" %}</a> | 
- 		{% endif %}
-        {% if page.has_other_pages %}
-			<span class="current">
-            			{{page.start_index}}-{{page.end_index}} {% trans "of" %} {{page.paginator.count}} {% trans "Reports." %} 
-        	</span>
-        {% endif %}
-        {% if page.has_next %}
-            | <a href="?page={{ page.next_page_number }}">{% trans "Next" %}</a>
-        {% endif %}
-    </span>
-</div>
-
+{% include "reports/_pagination.html" %}
 {% endblock %}
