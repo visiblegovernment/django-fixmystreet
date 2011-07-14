@@ -3,6 +3,7 @@
 {% block css %}
 <style type="text/css" media="screen">
 	div#profile-menu { text-align: right; padding-right: 20px; padding-bottom: 1.5em; }
+	.open { color: red; };
 </style>
 {% endblock %}
 {% block title %}My Reports{% endblock %}
@@ -14,46 +15,68 @@
 </ul>
 </div>
 <h2>My Reports</h2> 
+<div class="pagination">
+	<span class="step-links">
+		{% if page.has_previous %}
+     		<a href="?page={{ page.previous_page_number }}">{% trans "Previous" %}</a> | 
+ 		{% endif %}
+        {% if page.has_other_pages %}
+			<span class="current">
+            			{{page.start_index}}-{{page.end_index}} {% trans "of" %} {{page.paginator.count}} {% trans "Reports." %} 
+        	</span>
+        {% endif %}
+        {% if page.has_next %}
+            | <a href="?page={{ page.next_page_number }}">{% trans "Next" %}</a>
+        {% endif %}
+    </span>
+</div>
+
 <table class='myreports'>
 	<tr>
-		<th>Report</th>
-		<th>Status</th>
-		<th>Date Filed</th>
-		<th>Days Open</th>
-		<th>My Role</th>
+		<th>{% trans "Report" %}</th>
+		<th>{% trans "Date Filed" %}</th>
+		<th>{% trans "Status" %}</th>
+		<th>{% trans "Days Open" %}</th>
+		<th>{% trans "My Role" %}</th>
 	</tr>
-	{% for report in allreports %}
-	{% ifchanged report.is_fixed %}
-	<tr>
-		<td colspan="5" class='section'>
-		{% if report.is_fixed %}Fixed{% else %}Open{% endif %} Reports
-		</td>
-	</tr>
-	{% endifchanged %}
+	{% for report in reports %}
 	<tr class={% cycle 'row-even','row-odd' %}>
 		<td>
 			<a href='{{report.get_absolute_url}}'>{{report.title}}</a>
 		</td>
 		<td>
-			{% if report.is_fixed %}Fixed{% else %}Open{% endif %}
+			{{report.created_at|date:"Y-m-d"}}
 		</td>
-
-		<td>
-			{{report.sent_at|date:"Y-m-d"}}
+		<td {%if not report.is_fixed %}class='open'{%endif%} >
+			{% if report.is_fixed %}{% trans "Fixed" %}{% else %}{% trans "Open" %}{% endif %}
 		</td>
-		<td>
+		<td {%if not report.is_fixed %}class='open'{% endif %}>
 			{{report.days_open}}
 		</td>
 		<td>
-			{% if report.is_reporter %}Reporter
+			{% if report.is_reporter %}{% trans "Reporter" %}
 			{% else %}
-				{% if report.is_updater %}Updater
-				{% else %}Subscriber{% endif %}
+				{% if report.is_updater %}{% trans "Updater" %}
+				{% else %}{% trans "Subscriber" %}{% endif %}
 			{% endif %}
 		</td>
 	</tr>
-	{% endfor %}
-	
+	{% endfor %}	
 </table>	
+<div class="pagination">
+	<span class="step-links">
+		{% if page.has_previous %}
+     		<a href="?page={{ page.previous_page_number }}">{% trans "Previous" %}</a> | 
+ 		{% endif %}
+        {% if page.has_other_pages %}
+			<span class="current">
+            			{{page.start_index}}-{{page.end_index}} {% trans "of" %} {{page.paginator.count}} {% trans "Reports." %} 
+        	</span>
+        {% endif %}
+        {% if page.has_next %}
+            | <a href="?page={{ page.next_page_number }}">{% trans "Next" %}</a>
+        {% endif %}
+    </span>
+</div>
 
 {% endblock %}

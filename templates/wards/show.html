@@ -4,7 +4,6 @@
 {% block content %}
 	<div id="fullwidth">
 	<h3>{% trans "Reports for" %} {{ward.name}}, {{ward.city.name}} (Ward {{ward.number}})</h3>
-	<p>{% trans "Reports filed between" %} {{date_range_start|date:"N jS, Y"}} {% trans "and" %} {{date_range_end|date:"N jS, Y"}}. 
 		{% if older_reports_link %} (<a href="{{older_reports_link}}" %}>{% trans "See older reports" %}</a>){% endif %}</p>
 		<div id='leftcol'>
 			<ol>
@@ -12,6 +11,21 @@
 					<p>{% trans "No problems have been reported." %}</p>
 				
 				{% endif %}
+				<div class="pagination">
+    				<span class="step-links">
+        			{% if page.has_previous %}
+            		<a href="?page={{ page.previous_page_number }}">{% trans "Previous" %}</a> | 
+        			{% endif %}
+        			{% if page.has_other_pages %}
+					<span class="current">
+            			{{page.start_index}}-{{page.end_index}} {% trans "of" %} {{page.paginator.count}} {% trans "Reports." %} 
+        			</span>
+        			{% endif %}
+        			{% if page.has_next %}
+            		| <a href="?page={{ page.next_page_number }}">{% trans "Next" %}</a>
+        			{% endif %}
+    				</span>
+				</div>
 				{% for report in reports %}					
 					{% ifchanged report.status %}  	
 					 <p/><h2>{% trans report.status %}</h2>

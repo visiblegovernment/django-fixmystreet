@@ -428,7 +428,7 @@ class ReportUpdate(models.Model):
               [self.report.first_update().email],  fail_silently=False)
 
             
-    def save(self):
+    def save(self,notify=True):
         # does this update require confirmation?
         if not self.is_confirmed:
             self.get_confirmation()
@@ -449,7 +449,8 @@ class ReportUpdate(models.Model):
                 self.report.is_confirmed = True
             super(ReportUpdate,self).save()
             self.report.save()
-            self.notify()
+            if notify:
+                self.notify()
 
     def confirm(self):    
         self.is_confirmed = True

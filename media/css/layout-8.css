@@ -12,6 +12,8 @@ body {
 	margin: 0px auto;
 }
 
+#content_middle {padding-top:2em;padding-bottom:2em;margin-top:2em;color:#b4b4b4;}
+
 #city_top_problems table td:first-child { padding-left: 5px; }
 
 #city_all_problems {  }
@@ -537,7 +539,7 @@ input.big_button:hover {background: url("/media/images/search-hover.png") no-rep
 #contact_us_form p { margin-bottom: .5em; }
 #posters { text-align: center;  }
 #posters p {width: 450px; margin: 20px auto;}
-.myreports { width:100%; }
+.myreports { width:100%; padding: 2em 0em; }
 .myreports td { padding: 2px; }
 .myreports td.section {color:#FFFFFF;
 font-size:80%;
