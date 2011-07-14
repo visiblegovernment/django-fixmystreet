@@ -100,7 +100,7 @@ def socialauth_complete( request, backend ):
         if error_key:  # store error in session
             request.session[error_key] = str(e)
 
-    if user: 
+    if user:
         backend_name = backend.AUTH_BACKEND.name
         if getattr(user, 'is_active', True):
             # a returning active user

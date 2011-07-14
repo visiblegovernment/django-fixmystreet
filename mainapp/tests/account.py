@@ -23,23 +23,24 @@ class TestAccountHome(TestCase):
         self.assertEqual(r,True)
         r = c.get('/accounts/home/',follow=True)
         self.assertEqual(r.status_code,200)
-        self.assertEqual(len(r.context['allreports']),4)
-        # check report 2
-        self.assertEqual(r.context['allreports'][0].id,2)
-        self.assertEqual(r.context['allreports'][0].is_reporter,True)
-        self.assertEqual(r.context['allreports'][0].is_updater,True)
-        # check report 3
-        self.assertEqual(r.context['allreports'][1].id,3)
-        self.assertEqual(r.context['allreports'][1].is_reporter,False)
-        self.assertEqual(r.context['allreports'][1].is_updater,True)
+        self.assertEqual(len(r.context['reports']),4)
         # check report 4
-        self.assertEqual(r.context['allreports'][2].id,4)
-        self.assertEqual(r.context['allreports'][2].is_reporter,False)
-        self.assertEqual(r.context['allreports'][2].is_updater,False)
+        self.assertEqual(r.context['reports'][0].id,4)
+        self.assertEqual(r.context['reports'][0].is_reporter,False)
+        self.assertEqual(r.context['reports'][0].is_updater,False)
+        # check report 3
+        self.assertEqual(r.context['reports'][1].id,3)
+        self.assertEqual(r.context['reports'][1].is_reporter,False)
+        self.assertEqual(r.context['reports'][1].is_updater,True)
+
+        # check report 2
+        self.assertEqual(r.context['reports'][2].id,2)
+        self.assertEqual(r.context['reports'][2].is_reporter,True)
+        self.assertEqual(r.context['reports'][2].is_updater,True)
         # check report 1
-        self.assertEqual(r.context['allreports'][3].id,1)
-        self.assertEqual(r.context['allreports'][3].is_reporter,True)
-        self.assertEqual(r.context['allreports'][3].is_updater,False)
+        self.assertEqual(r.context['reports'][3].id,1)
+        self.assertEqual(r.context['reports'][3].is_reporter,True)
+        self.assertEqual(r.context['reports'][3].is_updater,False)
         
         
                          
@@ -58,17 +59,17 @@ class TestAccountHome(TestCase):
         r = c.get('/accounts/home/',follow=True)
         self.assertEqual(r.status_code,200)
 
-        self.assertEqual(len(r.context['allreports']),2)
+        self.assertEqual(len(r.context['reports']),2)
 
         # check report 3
-        self.assertEqual(r.context['allreports'][0].id,3)
-        self.assertEqual(r.context['allreports'][0].is_reporter,True)
-        self.assertEqual(r.context['allreports'][0].is_updater,False)
+        self.assertEqual(r.context['reports'][0].id,3)
+        self.assertEqual(r.context['reports'][0].is_reporter,True)
+        self.assertEqual(r.context['reports'][0].is_updater,False)
 
         # check report 1
-        self.assertEqual(r.context['allreports'][1].id,1)
-        self.assertEqual(r.context['allreports'][1].is_reporter,False)
-        self.assertEqual(r.context['allreports'][1].is_updater,True)
+        self.assertEqual(r.context['reports'][1].id,1)
+        self.assertEqual(r.context['reports'][1].is_reporter,False)
+        self.assertEqual(r.context['reports'][1].is_updater,True)
 
 
 CREATE_PARAMS =  { 'title': 'A report created when logged in', 
@@ -276,9 +277,8 @@ class TestRegistration(TestCase):
         # activate the user.
         self._activate()
         
-        # now, do social auth completion again.  are we logged in?
-        
-        response = c.get(SOCIAL_COMPLETE_URL_W_EMAIL,follow=True)        
+        # now, do social auth completion again.  are we logged in?        
+        response = c.get(SOCIAL_COMPLETE_URL_W_EMAIL,follow=True)  
         self.assertEquals(response.status_code, 200 )
         self.assertEquals(response.templates[0].name, 'account/home.html')
 
