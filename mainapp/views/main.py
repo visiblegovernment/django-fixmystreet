@@ -96,3 +96,7 @@ def posters(request):
                 {'languages': settings.LANGUAGES },
                  context_instance=RequestContext(request))
       
+def privacy(request): 
+   return render_to_response("privacy.html",
+                { },
+                 context_instance=RequestContext(request))

@@ -68,12 +68,13 @@ th {
 	text-decoration: underline;
 }
 
-#faq p, #faq ul {
+.text-page p, .text-page ul {
 	margin-left: 2em;
+	margin-bottom: 1em;
 	text-align:left !important;
 }
 
-#faq ul li { margin-left:4em; }
+.text-page ul li { margin-left:4em; }
 
 #error-msg p { color: #222222; }
 
@@ -139,5 +140,3 @@ margin-bottom:0.8em;
 #content_middle label {text-transform:uppercase;}
 #instructable {color:#b4b4b4;}
 #report-body p { margin-bottom: .5em;}
-#faq p { margin-bottom: 1em;}
-#faq ul { margin-bottom: 1em;}

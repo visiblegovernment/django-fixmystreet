@@ -42,6 +42,8 @@ urlpatterns += patterns('mainapp.views.main',
     (r'^search', 'search_address'),
     (r'about/$', 'about',{}, 'about_url_name'),
     (r'posters/$', 'posters',{}, 'posters'),
+    (r'privacy/$', 'privacy',{}, 'privacy'),
+
 )
 
 urlpatterns += patterns('mainapp.views.faq',
