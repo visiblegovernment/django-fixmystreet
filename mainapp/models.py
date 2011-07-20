@@ -695,10 +695,10 @@ class UserProfile(models.Model):
     # can edit through the admin 
     # panel.  
     
-    cities = models.ManyToManyField(City, null=True)
+    cities = models.ManyToManyField(City, null=True,blank=True)
     
     # fields for 'non-admin' users:
-    phone = models.CharField(max_length=255, verbose_name = ugettext_lazy("Phone"), null=True )
+    phone = models.CharField(max_length=255, verbose_name = ugettext_lazy("Phone"), null=True, blank=True )
     
     
     def __unicode__(self):

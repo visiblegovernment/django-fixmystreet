@@ -91,11 +91,32 @@ class CategoryChoiceField(forms.fields.ChoiceField):
 
 
 class EditProfileForm(forms.ModelForm):
+
+    first_name = forms.CharField()
+    last_name = forms.CharField()
+
     class Meta:
         model = UserProfile
-        fields = ( 'phone',)
+        fields = ( 'first_name','last_name','phone',)
         
-
+     
+    RELATED_FIELD_MAP = {
+            'first_name': 'first_name',
+            'last_name': 'last_name',
+    }
+        
+    def __init__(self, *args, **kwargs):
+        super(EditProfileForm, self).__init__(*args, **kwargs)
+        if self.instance.id:
+            for field, target_field in self.RELATED_FIELD_MAP.iteritems():
+                self.initial[ field ] = getattr(self.instance.user, target_field )
+     
+    def save(self, *args, **kwargs):
+          for field, target_field in self.RELATED_FIELD_MAP.iteritems():
+              setattr(self.instance.user,target_field, self.cleaned_data.get(field))
+          self.instance.user.save()
+          super(EditProfileForm, self).save(*args, **kwargs)
+     
 class ReportUpdateForm(forms.ModelForm):
         
     class Meta:

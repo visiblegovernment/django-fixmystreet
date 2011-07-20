@@ -22,6 +22,9 @@
 </div>
 {% endif %}
 <h3>{% trans "Join FixMyStreet.ca!" %}</h3>
+{% if social_connect %}
+<p>{% trans "We need a few more pieces of information to continue..." %} 
+{% endif %}
 <form action="{% url registration_register %}" method="POST">{% csrf_token %}
 <table class='form'>
 {{form.as_table}}

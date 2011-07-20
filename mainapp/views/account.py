@@ -58,8 +58,7 @@ def home( request ):
         page = paginator.page(paginator.num_pages)
         
     return render_to_response("account/home.html",
-                {"profile": request.user.get_profile(),
-                 'reports':page.object_list,
+                {'reports':page.object_list,
                  'page':page },
                 context_instance=RequestContext(request))
 
