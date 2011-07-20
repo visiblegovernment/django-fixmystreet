@@ -9,19 +9,20 @@
 		<th class='table-stat'>{% trans "Recently Fixed" %}*</th>
 		<th class='table-stat'>{% trans "Old Fixed" %}*</th>
 	</tr>
-{% for entry in report_counts.get_results %}
-	{% if report_counts.province_changed %}
-		<tr ><td colspan=7 class='section' >{{report_counts.province}}</td></tr>
+{% for entry in report_counts %}
+	{% if entry.province %}
+		{% ifchanged entry.province %}
+			<tr ><td colspan=7 class='section' >{{entry.province.name}}</td></tr>
+		{% endifchanged %}
 	{% endif %}
 	<tr class="{% cycle 'row-odd' 'row-even' %}">
-	<td><a href='/feeds{{report_counts.get_absolute_url}}'><img src="/media/images/rss25x26.png" /></a></td>
-	<td>{{report_counts.number}}</td>
-	<td><a href='{{report_counts.get_absolute_url}}'>{{report_counts.name}}</a></td>
-	<td>{{report_counts.recent_new}}</td>
-	<td>{{report_counts.old_unfixed}}</td>
-	<td>{{report_counts.recent_fixed}}</td>
-	<td>{{report_counts.old_fixed}}</td>
-	{% if report_counts.next %}{% endif %}
+	<td><a href='/feeds{{entry.get_absolute_url}}'><img src="/media/images/rss25x26.png" /></a></td>
+	<td>{{entry.number}}</td>
+	<td><a href='{{entry.get_absolute_url}}'>{{entry.name}}</a></td>
+	<td>{{entry.recent_new}}</td>
+	<td>{{entry.old_unfixed}}</td>
+	<td>{{entry.recent_fixed}}</td>
+	<td>{{entry.old_fixed}}</td>
 	</tr>
 {% endfor %}
 </table>

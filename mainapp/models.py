@@ -17,6 +17,7 @@ from django.utils.translation import ugettext_lazy, ugettext as _
 from contrib.transmeta import TransMeta
 from contrib.stdimage import StdImageField
 from django.utils.encoding import iri_to_uri
+from django.template.defaultfilters import slugify
 from django.contrib.gis.geos import fromstr
 from django.http import Http404
 from django.contrib.auth.models import User,Group,Permission
@@ -108,7 +109,7 @@ class City(models.Model):
         return( categories )
     
     def get_absolute_url(self):
-        return "/cities/" + str(self.id)
+        return "/cities/%d" %( self.id ) 
 
     def get_rule_descriptions(self):
         rules = EmailRule.objects.filter(city=self)
@@ -150,7 +151,7 @@ class Ward(models.Model):
     email = models.EmailField(blank=True, null=True)
 
     def get_absolute_url(self):
-        return "/wards/" + str(self.id)
+        return "/wards/%d" % ( self.id ) 
 
     def __unicode__(self):      
         return self.name + ", " + self.city.name  
@@ -350,18 +351,8 @@ class Report(models.Model):
             
     class Meta:
         db_table = u'reports'
+        
 
-class ReportCount(object):        
-    def __init__(self, interval):
-        self.interval = interval
-    
-    def dict(self):
-        return({ "recent_new": "count( case when age(clock_timestamp(), reports.created_at) < interval '%s' THEN 1 ELSE null end )" % self.interval,
-          "recent_fixed": "count( case when age(clock_timestamp(), reports.fixed_at) < interval '%s' AND reports.is_fixed = True THEN 1 ELSE null end )" % self.interval,
-          "recent_updated": "count( case when age(clock_timestamp(), reports.updated_at) < interval '%s' AND reports.is_fixed = False and reports.updated_at != reports.created_at THEN 1 ELSE null end )" % self.interval,
-          "old_fixed": "count( case when age(clock_timestamp(), reports.fixed_at) > interval '%s' AND reports.is_fixed = True THEN 1 ELSE null end )" % self.interval,
-          "old_unfixed": "count( case when age(clock_timestamp(), reports.fixed_at) > interval '%s' AND reports.is_fixed = False THEN 1 ELSE null end )" % self.interval } )  
- 
 class ReportUpdate(models.Model):   
     report = models.ForeignKey(Report)
     desc = models.TextField(blank=True, null=True, verbose_name = ugettext_lazy("Details"))
@@ -590,107 +581,55 @@ class CityMap(GoogleMap):
         GoogleMap.__init__(self,center=ward.geom.centroid,zoom=13,key=settings.GMAP_KEY, polygons=polygons,dom_id='map_canvas')
     
 
+    
+class CountIf(models.sql.aggregates.Aggregate):
+    # take advantage of django 1.3 aggregate functionality
+    # from discussion here: http://groups.google.com/group/django-users/browse_thread/thread/bd5a6b329b009cfa
+    sql_function = 'COUNT'
+    sql_template= '%(function)s(CASE %(condition)s WHEN true THEN 1 ELSE NULL END)'
+    
+    def __init__(self, lookup, **extra):
+        self.lookup = lookup
+        self.extra = extra
 
-    
-class SqlQuery(object):
-    """
-        This is a workaround: django doesn't support our optimized 
-        direct SQL queries very well.
-    """
-        
-    def __init__(self):
-        self.cursor = None
-        self.index = 0
-        self.results = None    
+    def _default_alias(self):
+        return '%s__%s' % (self.lookup, self.__class__.__name__.lower())
+    default_alias = property(_default_alias)
 
-    def next(self):
-        self.index = self.index + 1
-    
-    def get_results(self):
-        if not self.cursor:
-            self.cursor = connection.cursor()
-            self.cursor.execute(self.sql)
-            self.results = self.cursor.fetchall()
-        return( self.results )
-
-class ReportCountQuery(SqlQuery):
-      
-    def name(self):
-        return self.get_results()[self.index][5]
-
-    def recent_new(self):
-        return self.get_results()[self.index][0]
-    
-    def recent_fixed(self):
-        return self.get_results()[self.index][1]
-    
-    def recent_updated(self):
-        return self.get_results()[self.index][2]
-    
-    def old_fixed(self):
-        return self.get_results()[self.index][3]
-    
-    def old_unfixed(self):
-        return self.get_results()[self.index][4]
+    def add_to_query(self, query, alias, col, source, is_summary):
+        super(CountIf, self).__init__(col, source, is_summary, **self.extra)
+        query.aggregate_select[alias] = self
             
-    def __init__(self, interval = '1 month'):
-        SqlQuery.__init__(self)
-        self.base_query = """select count( case when age(clock_timestamp(), reports.created_at) < interval '%s' and reports.is_confirmed THEN 1 ELSE null end ) as recent_new,\
- count( case when age(clock_timestamp(), reports.fixed_at) < interval '%s' AND reports.is_fixed = True THEN 1 ELSE null end ) as recent_fixed,\
- count( case when age(clock_timestamp(), reports.updated_at) < interval '%s' AND reports.is_fixed = False and reports.updated_at != reports.created_at THEN 1 ELSE null end ) as recent_updated,\
- count( case when age(clock_timestamp(), reports.fixed_at) > interval '%s' AND reports.is_fixed = True THEN 1 ELSE null end ) as old_fixed,\
- count( case when age(clock_timestamp(), reports.created_at) > interval '%s' AND reports.is_confirmed AND reports.is_fixed = False THEN 1 ELSE null end ) as old_unfixed   
- """ % (interval,interval,interval,interval,interval) 
-        self.sql = self.base_query + " from reports where reports.is_confirmed = true" 
-
-class CityTotals(ReportCountQuery):
-
-    def __init__(self, interval, city):
-        ReportCountQuery.__init__(self,interval)
-        self.sql = self.base_query 
-        self.sql += """ from reports left join wards on reports.ward_id = wards.id left join cities on cities.id = wards.city_id 
-        """ 
-        self.sql += ' where reports.is_confirmed = True and wards.city_id = %d ' % city.id
         
-class CityWardsTotals(ReportCountQuery):
+class ReportCounter(CountIf):
+    """ initialize an aggregate with one of 5 typical report queries """
 
-    def __init__(self, city):
-        ReportCountQuery.__init__(self,"1 month")
-        self.sql = self.base_query 
-        self.url_prefix = "/wards/"            
-        self.sql +=  ", wards.name, wards.id, wards.number from wards "
-        self.sql += """left join reports on wards.id = reports.ward_id join cities on wards.city_id = cities.id join province on cities.province_id = province.id
-        """
-        self.sql += "and cities.id = " + str(city.id)
-        self.sql += " group by  wards.name, wards.id, wards.number order by wards.number" 
+    CONDITIONS = {
+        'recent_new' : "age(clock_timestamp(), reports.created_at) < interval '%s' and reports.is_confirmed = True",
+        'recent_fixed' : "age(clock_timestamp(), reports.fixed_at) < interval '%s' AND reports.is_fixed = True",
+        'recent_updated': "age(clock_timestamp(), reports.updated_at) < interval '%s' AND reports.is_fixed = False and reports.updated_at != reports.created_at",
+        'old_fixed' : "age(clock_timestamp(), reports.fixed_at) > interval '%s' AND reports.is_fixed = True",
+        'old_unfixed' : "age(clock_timestamp(), reports.created_at) > interval '%s' AND reports.is_confirmed = True AND reports.is_fixed = False"  
+                }
     
-    def number(self):
-         return(self.get_results()[self.index][7])
+    def __init__(self, col, key, interval ):
+        super(ReportCounter,self).__init__( col, condition=self.CONDITIONS[ key ] % ( interval ) )
+         
         
-    def get_absolute_url(self):
-        return( self.url_prefix + str(self.get_results()[self.index][6]))
-
-class AllCityTotals(ReportCountQuery):
-
-    def __init__(self):
-        ReportCountQuery.__init__(self,"1 month")
-        self.sql = self.base_query         
-        self.url_prefix = "/cities/"            
-        self.sql +=  ", cities.name, cities.id, province.name from cities "
-        self.sql += """left join wards on wards.city_id = cities.id join province on cities.province_id = province.id left join reports on wards.id = reports.ward_id 
-        """ 
-        self.sql += "group by cities.name, cities.id, province.name order by province.name, cities.name"
-           
-    def get_absolute_url(self):
-        return( self.url_prefix + str(self.get_results()[self.index][6]))
+class ReportCounters(dict):
+    """ create a dict of typical report count aggregators. """    
+    def __init__(self,report_col, interval = '1 Month'):
+        super(ReportCounters,self).__init__()
+        for key in ReportCounter.CONDITIONS.keys():
+            self[key] = ReportCounter(report_col,key,interval)
     
-    def province(self):
-        return(self.get_results()[self.index][7])
-        
-    def province_changed(self):
-        if (self.index ==0 ):
-            return( True )
-        return( self.get_results()[self.index][7] != self.get_results()[self.index-1][7] )
+class OverallReportCount(dict):
+    """ this query needs some intervention """
+    def __init__(self, interval ):
+        super(OverallReportCount,self).__init__()
+        q = Report.objects.annotate(**ReportCounters('id', interval ) ).values('recent_new','recent_fixed','recent_updated')
+        q.query.group_by = []
+        self.update( q[0] )
 
 class FaqEntry(models.Model):
     __metaclass__ = TransMeta

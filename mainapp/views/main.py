@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponseRedirect, Http404
-from mainapp.models import DictToPoint, Report, ReportUpdate, Ward, FixMyStreetMap, ReportCountQuery, City, FaqEntry
+from mainapp.models import DictToPoint, Report, ReportUpdate, Ward, FixMyStreetMap, OverallReportCount, City, FaqEntry
 from mainapp import search
 from django.template import Context, RequestContext
 from django.contrib.gis.measure import D 
@@ -27,7 +27,7 @@ def home(request, location = None, error_msg =None):
         location = request.GET["q"]
                     
     return render_to_response("home.html",
-                {"report_counts": ReportCountQuery('1 year'),
+                {"report_counts": OverallReportCount('1 year'),
                  "cities": City.objects.all(),
                  'search_error': error_msg,
                  'location':location,
