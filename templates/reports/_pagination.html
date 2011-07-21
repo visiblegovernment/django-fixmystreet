@@ -2,13 +2,13 @@
 <div class="pagination">
 	<span class="step-links">
 		{% if page.has_previous %}
-     		<a href="?page={{ page.previous_page_number }}">{% trans "Previous" %}</a> | 
+     		<a href="?page={{ page.previous_page_number }}{{url_parms}}">{% trans "Previous" %}</a> | 
         {% endif %}
         {% if page.has_other_pages %}
 			<span class="current">{{page.start_index}}-{{page.end_index}} {% trans "of" %} {{page.paginator.count}} {% trans "Reports." %} </span>
         {% endif %}
         {% if page.has_next %}
-            | <a href="?page={{ page.next_page_number }}">{% trans "Next" %}</a>
+            | <a href="?page={{ page.next_page_number }}{{url_parms}}">{% trans "Next" %}</a>
         {% endif %}
     </span>
 </div>

@@ -77,7 +77,9 @@ def search_address(request):
                  "enable_map": True,
                  "ward" : ward,
                  "reports" : reports,
-                 "page":page },
+                 "page":page,
+                 "url_parms": "&lat=%s&lon=%s" %( request.GET['lat'], request.GET['lon'])
+                  },
                  context_instance=RequestContext(request))
 
 
