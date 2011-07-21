@@ -11,6 +11,7 @@
 {% block content %}
 <h2>My Reports</h2> 
 {% include "reports/_pagination.html" %}
+{% if reports %}
 <table class='myreports'>
 	<tr>
 		<th>{% trans "Report" %}</th>
@@ -43,5 +44,11 @@
 	</tr>
 	{% endfor %}	
 </table>	
+{% else %}
+<br/>
+<p>{% trans "You haven't yet filed any reports." %}</p>
+<br/>
+<a href='/'>{% trans "Submit a Report" %}</a>
+{% endif %}
 {% include "reports/_pagination.html" %}
 {% endblock %}

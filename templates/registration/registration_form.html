@@ -5,6 +5,7 @@
 <style type="text/css" media="screen">
 	div#social-connect { text-align: center; padding-bottom: 1.5em; }
 	div#social-connect li { margin: 5px auto; }
+	div#register p { margin-bottom: 15px; }
 </style>
 {% endblock %}
 {% block content %}
@@ -23,7 +24,7 @@
 {% endif %}
 <h3>{% trans "Join FixMyStreet.ca!" %}</h3>
 {% if social_connect %}
-<p>{% trans "We need a few more pieces of information to continue..." %} 
+<p>{% trans "We need a few more pieces of information to continue..." %}</p> 
 {% endif %}
 <form action="{% url registration_register %}" method="POST">{% csrf_token %}
 <table class='form'>
@@ -36,9 +37,6 @@
 </tr>
 </table>
 </form>
-<div id='tos'>
-{% trans "By clicking 'Sign Up', you are indicating you agree to the fixmystreet.ca terms of service." %}
-</div>
 
 </div>
 {% if providers %}

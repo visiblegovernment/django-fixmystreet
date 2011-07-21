@@ -16,9 +16,9 @@
 			<img src="/media/images/arrow-right.png" class="right">
 		</div>
 		<br/><br/>
-		<p><strong>{% trans "Nearby reports filed between" %} {{date_range_start|date:"N jS, Y"}} {% trans "and" %} {{date_range_end|date:"N jS, Y"}}
-		{% if older_reports_link %} (<a href="{{older_reports_link}}" %}>{% trans "See older reports" %}</a>){% endif %}:</strong>
 	{% if reports %}
+		<p><strong>{% trans "Nearby Reports" %}:</strong></p>
+		{% include "reports/_pagination.html" %}
 		<ol id='search_results'>
 		{% for report in reports %}
 			<li><a href="{{report.get_absolute_url}}"> {{report.title}} ({{report.distance.km|floatformat:2}} km)</a>
@@ -26,13 +26,16 @@
 			</li>
 		{% endfor %}
 		</ol>
-			<p/>
-			<p>{% trans "Zoom out to see more reports nearby." %}</p>
+		<p/>
+        <p>{% trans "Zoom out to see more reports nearby." %}</p>
+		{% include "reports/_pagination.html" %}
+	
 	{% else %}
 			<p>{% trans "No problems have been reported in this area." %}</p>
 	{% endif %}
 		</ol>
 		</p>
+
 	</div>
 
 	<div id="rightcol">

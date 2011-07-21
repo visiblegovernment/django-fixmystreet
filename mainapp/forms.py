@@ -99,7 +99,9 @@ class EditProfileForm(forms.ModelForm):
         model = UserProfile
         fields = ( 'first_name','last_name','phone',)
         
-     
+    # from example here:
+    # http://yuji.wordpress.com/2010/02/16/django-extension-of-modeladmin-admin-views-arbitrary-form-validation-with-adminform/ 
+
     RELATED_FIELD_MAP = {
             'first_name': 'first_name',
             'last_name': 'last_name',
@@ -326,17 +328,16 @@ class FMSNewRegistrationForm(RegistrationForm):
     
     def send_email(self,new_user):
         registration_profile = RegistrationProfile.objects.get(user=new_user)
-        current_site = Site.objects.get_current()
             
         subject = render_to_string('registration/activation_email_subject.txt',
-                                       { 'site': current_site })
+                                   )
         # Email subject *must not* contain newlines
         subject = ''.join(subject.splitlines())
             
         message = render_to_string('registration/activation_email.txt',
-                                       { 'activation_key': registration_profile.activation_key,
-                                         'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS,
-                                         'site': current_site })
+                                       { 'user': new_user,
+                                         'activation_link': "%s/accounts/activate/%s/" %(settings.SITE_URL,registration_profile.activation_key),
+                                         'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS })
             
         new_user.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
 

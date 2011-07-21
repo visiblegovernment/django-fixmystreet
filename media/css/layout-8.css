@@ -435,7 +435,7 @@ div#register {
 
 #account-form h3 {
 font-size:2em;
-margin-bottom:20px;
+margin-bottom:15px;
 }
 
 #register label {
@@ -537,7 +537,7 @@ input.big_button:hover {background: url("/media/images/search-hover.png") no-rep
 #instructable img {padding-right:1.5em;}
 #contact_us_form { width:450px; text-align: left; }
 #contact_us_form p { margin-bottom: .5em; }
-#privacy { text-align: left; }
+#privacy { text-align: }
 #posters { text-align: center;  }
 #posters p {width: 450px; margin: 20px auto;}
 .myreports { width:100%; padding: 2em 0em; }

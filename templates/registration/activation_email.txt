@@ -1,0 +1,16 @@
+Hello {{user.first_name}},
+
+You are almost done! Your FixMyStreet.ca account has been 
+created but your email address needs to be verified before 
+your account becomes fully active.
+
+Click here to activate your account, or cut and paste 
+the link to your browser:
+
+{{activation_link}}
+
+Please keep this information for you records:
+Username: {{user.username}}
+
+Thank you for using FixMyStreet.ca.
+The FixMyStreet.ca Team 
