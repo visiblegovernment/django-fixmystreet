@@ -140,3 +140,8 @@ margin-bottom:0.8em;
 #content_middle label {text-transform:uppercase;}
 #instructable {color:#b4b4b4;}
 #report-body p { margin-bottom: .5em;}
+#faq p {margin-bottom:1em;}
+#faq p, #faq ul {
+margin-left:2em;
+text-align:left !important;
+}

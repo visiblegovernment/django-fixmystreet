@@ -41,13 +41,10 @@ urlpatterns += patterns('mainapp.views.main',
     (r'^$', 'home', {}, 'home_url_name'),
     (r'^search', 'search_address'),
     (r'about/$', 'about',{}, 'about_url_name'),
+    (r'^about/(\S+)$', 'show_faq'),
     (r'posters/$', 'posters',{}, 'posters'),
     (r'privacy/$', 'privacy',{}, 'privacy'),
 
-)
-
-urlpatterns += patterns('mainapp.views.faq',
-    (r'^about/(\S+)$', 'show'),
 )
 
 

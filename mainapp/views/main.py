@@ -86,6 +86,13 @@ def search_address(request):
 def about(request):
    return render_to_response("about.html",{'faq_entries' : FaqEntry.objects.all().order_by('order')},
                 context_instance=RequestContext(request)) 
+
+
+def show_faq( request, slug ):
+    faq = get_object_or_404(FaqEntry, slug=slug)
+    return render_to_response("faq/show.html",
+                {"faq_entry":faq },
+                 context_instance=RequestContext(request))
    
 def posters(request): 
    return render_to_response("posters.html",
