@@ -16,7 +16,7 @@
 		{% endifchanged %}
 	{% endif %}
 	<tr class="{% cycle 'row-odd' 'row-even' %}">
-	<td><a href='/feeds{{entry.get_absolute_url}}'><img src="/media/images/rss25x26.png" /></a></td>
+	<td><a href='{{entry.feed_url}}'><img src="/media/images/rss25x26.png" /></a></td>
 	<td>{{entry.number}}</td>
 	<td><a href='{{entry.get_absolute_url}}'>{{entry.name}}</a></td>
 	<td>{{entry.recent_new}}</td>

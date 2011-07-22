@@ -2,7 +2,7 @@ from django.conf.urls.defaults import *
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.contrib import admin
-from mainapp.feeds import LatestReports, LatestReportsByCity, LatestReportsByWard, LatestUpdatesByReport
+from mainapp.feeds import LatestReports, CityIdFeed, CitySlugFeed, WardIdFeed, WardSlugFeed,LatestUpdatesByReport
 from mainapp.models import City
 from social_auth.views import auth as social_auth
 from social_auth.views import disconnect as social_disconnect
@@ -14,13 +14,6 @@ from mainapp.views.mobile import open311v2
 import mainapp.views.cities as cities
 
 
-feeds = {
-    'reports': LatestReports,
-    'wards': LatestReportsByWard,
-    'cities': LatestReportsByCity,
-    'report_updates': LatestUpdatesByReport,
-}
-
 SSL_ON = not settings.DEBUG
     
 admin.autodiscover()
@@ -30,11 +23,18 @@ urlpatterns = patterns('',
     (r'^reset/(?P<uidb36>[-\w]+)/(?P<token>[-\w]+)/$', 'django.contrib.auth.views.password_reset_confirm'),
     (r'^reset/done/$', 'django.contrib.auth.views.password_reset_complete'),
     (r'^admin/', admin.site.urls,{'SSL':SSL_ON}),
-    (r'^feeds/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
     (r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^login/(?P<backend>[^/]+)/$', social_auth, name='begin'),
     url(r'^disconnect/(?P<backend>[^/]+)/$', social_disconnect, name='socialdisconnect'),
+)
 
+urlpatterns += patterns('',
+    (r'^feeds/cities/(\d+)$', CityIdFeed()), # backwards compatibility
+    (r'^feeds/wards/(\d+)$', WardIdFeed()), # backwards compatibility
+    (r'^feeds/cities/([^/]+).rss', CitySlugFeed()),
+    (r'^feeds/cities/([^/]+)/wards/(\S+).rss', WardSlugFeed()),
+    (r'^feeds/reports/$', LatestReports()), # backwards compatibility
+    (r'^feeds/reports.rss$', LatestReports()),
 )
 
 urlpatterns += patterns('mainapp.views.main',
@@ -56,13 +56,15 @@ urlpatterns += patterns('mainapp.views.promotion',
 )
 
 urlpatterns += patterns('mainapp.views.wards',
-    (r'^wards/(\d+)', 'show'),       
+    (r'^wards/(\d+)', 'show_by_id'), # support old url format       
+    (r'^cities/(\S+)/wards/(\S+)/', 'show_by_slug'),           
     (r'^cities/(\d+)/wards/(\d+)', 'show_by_number'),           
 )
 
 urlpatterns += patterns('',
-    (r'^cities/(\d+)$', cities.show ),       
-    (r'^cities', cities.index, {}, 'cities_url_name'),
+    (r'^cities/(\d+)$', cities.show_by_id ), # support old url format   
+    (r'^cities/(\S+)/$', cities.show_by_slug ),    
+    (r'^cities/$', cities.index, {}, 'cities_url_name'),
 )
 
 urlpatterns += patterns( 'mainapp.views.reports.updates',

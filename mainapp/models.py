@@ -95,6 +95,8 @@ class City(models.Model):
     category_set = models.ForeignKey(ReportCategorySet, null=True, blank=True)
     objects = models.GeoManager()
 
+    slug = models.CharField(max_length=100, unique=True, blank=True)
+
     def __unicode__(self):      
         return self.name
     
@@ -109,13 +111,22 @@ class City(models.Model):
         return( categories )
     
     def get_absolute_url(self):
-        return "/cities/%d" %( self.id ) 
+        return "/cities/%s/" % (self.slug )
+    
+    def feed_url(self):
+        return ('/feeds/cities/%s.rss' % ( self.slug) )
+
 
     def get_rule_descriptions(self):
         rules = EmailRule.objects.filter(city=self)
         describer = emailrules.EmailRulesDesciber(rules,self)
         return( describer.values() )
 
+    def save(self):
+        if not self.slug:
+            self.slug = slugify(self.name + '-' + self.province.abbrev.lower() )
+        super(City,self).save()
+        
     class Meta:
         db_table = u'cities'
 
@@ -150,8 +161,19 @@ class Ward(models.Model):
     # if the 'Ward' email rule is enabled
     email = models.EmailField(blank=True, null=True)
 
+    # lookup used in URL
+    slug = models.CharField(max_length=100, blank=True)
+
     def get_absolute_url(self):
-        return "/wards/%d" % ( self.id ) 
+        return( "/cities/%s/wards/%s/" %( self.city.slug, self.slug ))
+        
+    def feed_url(self):
+        return ('/feeds/cities/%s/wards/%s.rss' % ( self.city.slug, self.slug ))
+
+    def save(self):
+        if not self.slug:
+            self.slug = slugify(self.name )
+        super(Ward,self).save()
 
     def __unicode__(self):      
         return self.name + ", " + self.city.name  

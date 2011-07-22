@@ -9,9 +9,7 @@ def index(request):
                 context_instance=RequestContext(request))
 
 
-def show( request, city_id ):
-    city = get_object_or_404(City, id=city_id)
-    
+def show( request, city ):    
     #top problems
     top_problems = Report.objects.filter(ward__city=city,is_fixed=False).annotate(subscriber_count=Count('reportsubscriber' ) ).filter(subscriber_count__gte=1).order_by('-subscriber_count')[:5]
     if request.GET.has_key('test'):
@@ -28,6 +26,16 @@ def show( request, city_id ):
                  "report_counts": Ward.objects.filter(city=city).annotate(**ReportCounters('report'))
                   },
                  context_instance=RequestContext(request))
+
+def show_by_id(request, city_id ):
+    print "getting city by id"
+    city = get_object_or_404(City, id=city_id)
+    return( show(request,city )) 
+
+def show_by_slug(request, city_slug ):
+    print "getting city by slug"
+    city = get_object_or_404(City, slug=city_slug)
+    return( show(request,city )) 
 
 def home( request, city, error_msg, disambiguate ):
     #top problems

@@ -1,7 +1,8 @@
-from django.contrib.syndication.feeds import Feed
+from django.contrib.syndication.views import Feed
 from django.contrib.syndication.feeds import FeedDoesNotExist
-from django.core.exceptions import ObjectDoesNotExist
 from mainapp.models import Report, ReportUpdate, City, Ward
+from django.shortcuts import get_object_or_404
+
 
 class LatestReports(Feed):
     title = "All FixMyStreet Reports"
@@ -11,15 +12,8 @@ class LatestReports(Feed):
     def items(self):
         return Report.objects.filter(is_confirmed=True).order_by('-created_at')[:30]
 
-class LatestReportsByCity(Feed):
+class CityFeedBase(Feed):
     
-    def get_object(self, bits):
-        # In case of "/rss/beats/0613/foo/bar/baz/", or other such clutter,
-        # check that bits has only one member.
-        if len(bits) != 1:
-            raise ObjectDoesNotExist        
-        return City.objects.get(id=bits[0])
-
     def title(self, obj):
         return "FixMyStreet.ca: Reports for %s" % obj.name
 
@@ -35,15 +29,20 @@ class LatestReportsByCity(Feed):
        return Report.objects.filter(is_confirmed=True,ward__city=obj.id).order_by('-created_at')[:30]
 
 
-class LatestReportsByWard(Feed):
-    
-    def get_object(self, bits):
-        # In case of "/rss/beats/0613/foo/bar/baz/", or other such clutter,
-        # check that bits has only one member.
-        if len(bits) != 1:
-            raise ObjectDoesNotExist        
-        return Ward.objects.get(id=bits[0])
+class CityIdFeed(CityFeedBase):
+    ''' retrieve city by id '''
+    def get_object(self, request, id ):
+       print "getting city by object"
+       return get_object_or_404(City, pk=id)
 
+class CitySlugFeed(CityFeedBase):
+    ''' retrieve city by slug '''
+    def get_object(self, request, slug ):
+       print "getting city by slug"
+       return get_object_or_404(City, slug=slug)
+    
+class WardFeedBase(Feed):
+    
     def title(self, obj):
         return "FixMyStreet.ca: Reports for %s, %s" % (obj.name, obj.city.name)
 
@@ -57,6 +56,18 @@ class LatestReportsByWard(Feed):
 
     def items(self, obj):
        return Report.objects.filter(is_confirmed=True,ward=obj.id).order_by('-created_at')[:30]
+
+
+class WardIdFeed(WardFeedBase):
+    ''' retrieve city by id '''
+    def get_object(self, request, id ):
+       return get_object_or_404(Ward, pk=id)
+
+class WardSlugFeed(WardFeedBase):
+    ''' retrieve city by slug '''
+    def get_object(self, request, city_slug, ward_slug ):
+       return get_object_or_404(Ward, slug=ward_slug,city__slug=city_slug)
+    
 
 # Allow subsciption to a particular report.
 

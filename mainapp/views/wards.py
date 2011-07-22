@@ -7,8 +7,7 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 import datetime
     
-def show( request, ward_id ):
-    ward = get_object_or_404(Ward, id=ward_id)
+def show( request, ward ):
     
     try:
         page_no = int(request.GET.get('page', '1'))
@@ -47,8 +46,15 @@ def show( request, ward_id ):
                  "page":page,
                  "reports": reports                },
                 context_instance=RequestContext(request))
-    
+
+def show_by_id(request,ward_id):
+    ward = get_object_or_404(Ward, id=ward_id)
+    return(show(request,ward))
+
 def show_by_number( request, city_id, ward_no ):
-    city= get_object_or_404(City, id=city_id)
-    ward = get_object_or_404( city=city, number=ward_no)
-    show(request,ward.id)
+    ward = get_object_or_404( Ward,city__id=city_id, number=ward_no)
+    return(show(request,ward))
+
+def show_by_slug( request, city_slug, ward_slug ):
+    ward = get_object_or_404( Ward,city__slug=city_slug, slug=ward_slug)
+    return(show(request,ward))
