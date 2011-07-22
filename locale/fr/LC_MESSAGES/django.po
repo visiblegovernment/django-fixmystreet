@@ -22,11 +22,11 @@ msgstr "Tous les rapports"
 
 #: mainapp/emailrules.py:24
 msgid "the councillor's email address"
-msgstr "Qui peut voir mon adresse courriel?"
+msgstr "l'adresse courriel de l'échevin"
 
 #: mainapp/emailrules.py:41
 msgid "the 311 email address for that neighborhood"
-msgstr ""
+msgstr "l'adresse courriel 311 pour ce quartier"
 
 #: mainapp/emailrules.py:54
 #, python-format
@@ -81,16 +81,15 @@ msgstr "Téléphone"
 
 #: mainapp/forms.py:270
 msgid "First Name"
-msgstr ""
+msgstr "Prénom"
 
 #: mainapp/forms.py:273
-#, fuzzy
 msgid "Last Name"
 msgstr "Nom"
 
 #: mainapp/forms.py:326
 msgid "That email is already in use."
-msgstr ""
+msgstr "Cette adresse courriel est déja utilisée."
 
 #: mainapp/models.py:293
 msgid "Subject"
@@ -106,7 +105,7 @@ msgstr "Détails"
 
 #: mainapp/models.py:319
 msgid "Location"
-msgstr ""
+msgstr "Location"
 
 #: mainapp/views/main.py:54
 msgid ""
@@ -147,7 +146,7 @@ msgid ""
 "adapting the source code to Canada."
 msgstr ""
 "Chris Taggart, d' <a href='http://www.openottawa.org/'> OpenOttawa </a>, "
-"pourl'adaptation du code source pour le Canada."
+"pour l'adaptation du code source pour le Canada."
 
 #: templates/about.html:21
 msgid ""
@@ -155,7 +154,7 @@ msgid ""
 "domain name."
 msgstr ""
 "Brad Elliott, de <a href='http://www.dyad.ca'>dyad infoSys</a>, pour le nom "
-"de domain."
+"du domaine."
 
 #: templates/about.html:22
 msgid "The City of Ottawa, for being open to new ideas."
@@ -181,7 +180,7 @@ msgstr ""
 
 #: templates/base.html:20
 msgid "FixMyStreet.ca"
-msgstr "FixMyStreet (réparer ma rue) Canada"
+msgstr "FixMyStreet (Réparer ma rue) Canada"
 
 #: templates/base.html:20
 msgid "Home"
@@ -193,15 +192,13 @@ msgstr "Soumettre un Rapport"
 
 #: templates/base.html:75
 msgid "View Reports"
-msgstr "Voyer Rapports"
+msgstr "Voir Rapports"
 
 #: templates/base.html:76
-#, fuzzy
 msgid "My Reports"
-msgstr "Tous les Rapports"
+msgstr "Mes Rapports"
 
 #: templates/base.html:107 templates/privacy.html:4
-#, fuzzy
 msgid "Privacy"
 msgstr "Politique de Confidentialité"
 
@@ -211,7 +208,7 @@ msgstr "Contactez Nous"
 
 #: templates/base.html:109
 msgid "Hang a Poster"
-msgstr ""
+msgstr "Accrocher un poster"
 
 #: templates/home.html:26
 msgid "report/view/discuss"
@@ -296,9 +293,8 @@ msgid "Recent Reports"
 msgstr "Derniers Rapports"
 
 #: templates/posters.html:4 templates/posters.html.py:8
-#, fuzzy
 msgid "Posters"
-msgstr "Signalé par"
+msgstr "Affiches"
 
 #: templates/posters.html:10
 msgid ""
@@ -308,11 +304,14 @@ msgid ""
 "useful it will be.  Share your report on Twitter or Facebook, \n"
 "or hang a poster at a university or neighbourhood coffee shop.\n"
 msgstr ""
+"\n"
+"Aidez-nous à diffuser le mot. Plus les gens connaissent fixmystreet.ca, "
+"plus le site sera utile. Partagez votre rapport sur Twitter ou Facebook, \n"
+"ou accrocher un poster dans un café d'université ou de votre quartier. \n"
 
 #: templates/posters.html:18
-#, fuzzy
 msgid "Poster"
-msgstr "Signalé par"
+msgstr "Affiche"
 
 #: templates/privacy.html:8
 msgid "Privacy Policy"
@@ -386,6 +385,71 @@ msgid ""
 "This policy was last updated the 15 of July, 2011.\n"
 "</p>\n"
 msgstr ""
+"\n"
+"<h4>A propos de cette politique</h4> \n"
+"\n"
+"<p> Cette politique de confidentialité définit la manière dont fixmystreet.ca utilise et \n"
+"protège les informations que vous donnez fixmystreet.ca lorsque \n"
+"vous utilisez ce site. Fixmystreet.ca s'engage à assurer \n"
+"que votre intimité est protégée. </p> \n"
+"\n"
+"<h4>Ce que nous collectons</h4> \n"
+"\n"
+"<p> Quand vous soumettez un rapport, ou créer un compte avec \n"
+"Fixmystreet.ca, nous recueillons les informations suivantes: \n"
+"</p> \n"
+"<ul> \n"
+"\t <li> votre nom </ li> \n"
+"<li> votre adresse courriel </li> \n"
+"<li> votre numéro de téléphone </li> \n"
+"</ul> \n"
+"<h4>Ce que nous faire avec cette information </h4> \n"
+"<p> \n"
+"Si vous soumettez un problème, nous transmettrons vos coordonnées, \n"
+"et les détails du problème, au contact municipal \n"
+"responsable de la région où vous situé le problème. \n"
+"quand vous soumettez un rapport ou une mise à jour, votre nom est affiché \n"
+"sur le site, mais pas votre adresse courriel ou votre numéro de téléphone. \n"
+"</p> \n"
+"<p> \n"
+"Nous ne donnerons pas ni vendrons vos informations de contact à \n"
+"quiconque, sauf si nous sommes obligés de par la loi. \n"
+"</p> \n"
+"<h4> Sécurité </h4> \n"
+"<p> \n"
+"Nonus nous sommes engagés à veiller à ce que vos informations \n"
+"soient sécurisés. Afin d'empêcher tout accès non autorisé ou \n"
+"divulgation, nous avons mis en place des procédures physiques, \n"
+"électroniques et de gestion pour sauvegarder et \n"
+"sécuriser les informations que nous recueillons en ligne. \n"
+"</p> \n"
+"<h4> Comment nous utilisons les cookies </h4> \n"
+"<p> Un cookie est un petit fichier qui demande la permission d' \n"
+"être placé sur le disque dur de votre ordinateur. Une fois que vous acceptez, \n"
+"le fichier est ajouté et le cookie permet d'analyser le trafic web \n"
+"ou vous permet de savoir lorsque vous visitez un site particulier. \n"
+"Les cookies permettent aux applications web de vous répondre en tant qu'un \n"
+"individu. L'application Web peut adapter son fonctionnement à \n"
+"vos besoins, goûts et dégoûts en rassemblant et en se souvenant \n"
+"de l'informations sur vos préférences. </p> \n"
+"\n"
+"<p> Nous utilisons des cookies de trafic pour identifier quelles pages \n"
+"sont utilisés. Cela nous aide à analyser la circulation sur nos pages web \n"
+"et à améliorer notre site afin de l'adapter \n"
+"aux besoins des clients. Nous n'utilisons ces informations \n"
+"que pour des fins d'analyses statistiques et les données sont ensuite \n"
+"retirées du système. </p> \n"
+"\n"
+"<h4> Questions </h4> \n"
+"\n"
+"<p>Pour toutes questions concernant fixmystreet.ca, \n"
+"contactez info@fixmystreet.ca, ou utilisez le formulaire de contact \n"
+"fourni sur le site. </p> \n"
+"\n"
+"<h4>Date d'effet </h4> \n"
+"<p> \n"
+"Cette politique a été mise à jour le 15 Juillet, 2011. \n"
+"</p> \n"
 
 #: templates/search_result.html:13
 msgid "To Report a New Problem"
@@ -398,9 +462,8 @@ msgstr ""
 "l'emplacement sur la carte."
 
 #: templates/search_result.html:20
-#, fuzzy
 msgid "Nearby Reports"
-msgstr "Nouveau Rapport"
+msgstr "Rapports du Quartier"
 
 #: templates/search_result.html:25
 msgid "fixed"
@@ -416,11 +479,11 @@ msgstr "Aucun problème n'a été signalé."
 
 #: templates/account/edit.html:8
 msgid "Edit Profile"
-msgstr ""
+msgstr "Modifiez votre Profil"
 
 #: templates/account/edit.html:11
 msgid "Editing User Profile For"
-msgstr ""
+msgstr "Modifiez le Profil d'Utilisateur Pour"
 
 #: templates/account/edit.html:18 templates/reports/new.html:89
 #: templates/reports/show.html:103
@@ -428,56 +491,49 @@ msgid "Submit"
 msgstr "Envoyez"
 
 #: templates/account/home.html:17
-#, fuzzy
 msgid "Report"
-msgstr "Nouveau Rapport"
+msgstr "Rapport"
 
 #: templates/account/home.html:18
-#, fuzzy
 msgid "Date Filed"
-msgstr "Rapports "
+msgstr "Date de Soumission"
 
 #: templates/account/home.html:19
-#, fuzzy
 msgid "Status"
-msgstr "Statistiques"
+msgstr "État"
 
 #: templates/account/home.html:20
 msgid "Days Open"
-msgstr ""
+msgstr "Jours Actifs"
 
 #: templates/account/home.html:21
 msgid "My Role"
-msgstr ""
+msgstr "Mon Rôle"
 
 #: templates/account/home.html:32
-#, fuzzy
 msgid "Fixed"
-msgstr "résolus"
+msgstr "Résolus"
 
 #: templates/account/home.html:32
-#, fuzzy
 msgid "Open"
-msgstr "Sur"
+msgstr "Actif"
 
 #: templates/account/home.html:38
-#, fuzzy
 msgid "Reporter"
-msgstr "Rapports par"
+msgstr "Auteur"
 
 #: templates/account/home.html:40
-#, fuzzy
 msgid "Updater"
-msgstr "Mises à Jour"
+msgstr "Auteur Secondaire"
 
 #: templates/account/home.html:41
 #, fuzzy
 msgid "Subscriber"
-msgstr "Abonnez-vous"
+msgstr "Abonné"
 
 #: templates/account/home.html:49
 msgid "You haven't yet filed any reports."
-msgstr ""
+msgstr "Vous avez soumis aucun rapport."
 
 #: templates/admin/base_site.html:4
 msgid "FixMyStreet.ca Admin"
@@ -489,19 +545,19 @@ msgstr "FixMyStreet.ca Administration"
 
 #: templates/admin/login.html:19
 msgid "Username:"
-msgstr ""
+msgstr "Nom d'Utilisateur:"
 
 #: templates/admin/login.html:22
 msgid "Password:"
-msgstr ""
+msgstr "Mot de Passe:"
 
 #: templates/admin/login.html:27
 msgid "Log in"
-msgstr ""
+msgstr "Log in"
 
 #: templates/ajax/category_description.html:2 templates/reports/new.html:76
 msgid "Please Note"
-msgstr "Notez S'il Vous Plaît"
+msgstr "N.B."
 
 #: templates/ajax/category_description.html:5
 msgid "Is it Hate Graffiti?"
@@ -550,9 +606,8 @@ msgid "Reports for"
 msgstr "Rapports par"
 
 #: templates/cities/show.html:11
-#, fuzzy
 msgid "City Stats"
-msgstr "Statistiques"
+msgstr "Statistiques Municipales"
 
 #: templates/cities/show.html:27
 msgid "Top Problems"
@@ -631,92 +686,88 @@ msgstr ""
 
 #: templates/registration/activate.html:3
 msgid "Activation Complete"
-msgstr ""
+msgstr "Fin de l'Activation"
 
 #: templates/registration/activate.html:5
 msgid "Account Confirmed"
-msgstr ""
+msgstr "Compte Confirmé"
 
 #: templates/registration/activate.html:6
 msgid "Thanks for signing up!"
-msgstr ""
+msgstr "Merci pour votre inscription!"
 
 #: templates/registration/activate.html:8
-#, fuzzy
 msgid "Return to FixMyStreet.ca"
-msgstr "FixMyStreet (réparer ma rue) Canada"
+msgstr "Retour à FixMyStreet (Réparer ma rue) Canada"
 
 #: templates/registration/error.html:9
 msgid "Login Error"
-msgstr ""
+msgstr "Erreur de Login"
 
 #: templates/registration/login.html:3 templates/registration/login.html:6
 #: templates/registration/login.html:19
 msgid "Login"
-msgstr ""
+msgstr "Login"
 
 #: templates/registration/login.html:13
 msgid "Forgot?"
-msgstr ""
+msgstr "Oublié?"
 
 #: templates/registration/login.html:24
 msgid "Don't have an account?"
-msgstr ""
+msgstr "Vous n'avez pas de compte?"
 
 #: templates/registration/login.html:24
 msgid "Create one."
-msgstr ""
+msgstr "Créer un compte."
 
 #: templates/registration/login.html:28
 msgid "Or, log in using:"
-msgstr ""
+msgstr "Ou, log in en utilisant:"
 
 #: templates/registration/registration_form.html:3
 msgid "Register"
-msgstr ""
+msgstr "S'Enregistrer"
 
 #: templates/registration/registration_form.html:18
-#, fuzzy
 msgid "You are connected to fixmystreet.ca with:"
-msgstr "Comme indiqué par les utilisateurs de fixmystreet.ca."
+msgstr "Vous être connecter à fixmystreet.ca avec:"
 
 #: templates/registration/registration_form.html:22
 msgid "Disconnect"
-msgstr ""
+msgstr "Déconnecter"
 
 #: templates/registration/registration_form.html:25
-#, fuzzy
 msgid "Join FixMyStreet.ca!"
-msgstr "FixMyStreet (réparer ma rue) Canada"
+msgstr "Vous Joindre à FixMyStreet.ca (Réparer ma rue)!"
 
 #: templates/registration/registration_form.html:27
 msgid "We need a few more pieces of information to continue..."
-msgstr ""
+msgstr "Nous avons besoin de quelques autres informations pour continuer ..."
 
 #: templates/registration/registration_form.html:35
 msgid "Sign Up"
-msgstr ""
+msgstr "S'Inscrire"
 
 #: templates/registration/registration_form.html:44
 msgid "Use your existing account from..."
-msgstr ""
+msgstr "Utilisez votre compte de ..."
 
 #: templates/reports/_pagination.html:5
 msgid "Previous"
-msgstr ""
+msgstr "Avant"
 
 #: templates/reports/_pagination.html:8
 msgid "of"
-msgstr ""
+msgstr "de"
 
 #: templates/reports/_pagination.html:8
-#, fuzzy
 msgid "Reports."
-msgstr "Tous les Rapports"
+msgstr "Rapports."
 
 #: templates/reports/_pagination.html:11
 msgid "Next"
-msgstr ""
+msgstr "Prochain"
 
 #: templates/reports/new.html:3
 msgid "New Report"
@@ -732,8 +783,7 @@ msgstr "* Facultatif"
 
 #: templates/reports/new.html:78
 msgid "Please be polite, concise and to the point."
-msgstr ""
-"S'il vous plaît noter que les mises à jour ne sont pas envoyées à la Ville."
+msgstr "S'il vous plaît être poli, concis et précis."
 
 #: templates/reports/new.html:79
 msgid ""
@@ -758,13 +808,13 @@ msgid ""
 "site please contact city officials directly."
 msgstr ""
 "Rappelez-vous que FixMyStreet est surtout pour signaler les problèmes "
-"physiques qui peuvent être résolus. Si votre problème n'est pas approprié "
+"physiques qui peuvent être addressés. Si votre problème n'est pas approprié "
 "pour ce site, rappelez-vous que vous pouvez contacter directement les "
-"fonctionnaires municipaux en appelant # 311."
+"fonctionnaires municipaux."
 
 #: templates/reports/new.html:97
 msgid "Where will my report be sent?"
-msgstr "Où en rapport soit envoyé?"
+msgstr "Où mon rapport sera envoyé?"
 
 #: templates/reports/show.html:35
 msgid ""
@@ -774,7 +824,7 @@ msgid ""
 "visitors until you have done so.</p>"
 msgstr ""
 "S'il vous plaît vérifier votre adresse courriel et cliquez sur le lien de "
-"confirmation pour compléter votresoumission. Votre rapport ne sera pas "
+"confirmation pour compléter votre soumission. Votre rapport ne sera pas "
 "envoyé au département 311 de la Ville et ne sera pas visible aux autres "
 "visiteurs jusqu'à ce que vous l'avez fait."
 
@@ -784,7 +834,7 @@ msgstr "Catégorie:"
 
 #: templates/reports/show.html:55
 msgid "Location:"
-msgstr ""
+msgstr "Location:"
 
 #: templates/reports/show.html:57
 msgid "Filed by:"
