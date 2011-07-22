@@ -31,8 +31,7 @@ class SocialProvider(object):
     
 SUPPORTED_SOCIAL_PROVIDERS = [ 
                 SocialProvider('Facebook'),
-                SocialProvider('Twitter'),
-                SocialProvider('Google') ]
+                SocialProvider('Twitter') ]
 
 DEFAULT_REDIRECT = getattr(settings, 'SOCIAL_AUTH_LOGIN_REDIRECT_URL', '') or \
                    getattr(settings, 'LOGIN_REDIRECT_URL', '')
