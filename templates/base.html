@@ -44,11 +44,11 @@
 									{% if user.is_staff %}
 								<li><a href='/admin'>Admin</a></li>
 									{% endif %}
-								<li><a href='{% url account_edit %}'>My Account</a></li>
-								<li><a href='{% url auth_logout %}'>Sign Out</a></li>
+								<li><a href='{% url account_edit %}'>{% trans "My Account" %}</a></li>
+								<li><a href='{% url auth_logout %}'>{% trans "Sign Out" %}</a></li>
 								{% else %}
-								<li><a href='{% url auth_login %}'>Sign In</a></li>
-								<li><a href='{% url registration_register %}'>Create Account</a></li>
+								<li><a href='{% url auth_login %}'>{% trans "Sign In" %}</a></li>
+								<li><a href='{% url registration_register %}'>{% trans "Create Account" %}</a></li>
 								{% endif %}
 							</ul>
 				

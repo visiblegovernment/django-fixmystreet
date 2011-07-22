@@ -9,7 +9,7 @@
 {% block title %}My Reports{% endblock %}
 
 {% block content %}
-<h2>My Reports</h2> 
+<h2>{% trans "My Reports" %}</h2> 
 {% include "reports/_pagination.html" %}
 {% if reports %}
 <table class='myreports'>

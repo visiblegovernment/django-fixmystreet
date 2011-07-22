@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% block title %}{% trans "Login" %}{% endblock %}
+{% block title %}{% trans "Sign In" %}{% endblock %}
 {% block content %}
 <div id='account-form'>
-	<h3>{% trans "Login" %}</h3>
+	<h3>{% trans "Sign In" %}</h3>
 	<form action="/accounts/login/" method="POST">{% csrf_token %}
 	<table class='form'>
 	{{form.as_table}}

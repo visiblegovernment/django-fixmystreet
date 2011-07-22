@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-20 21:53-0400\n"
+"POT-Creation-Date: 2011-07-22 16:43-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,11 +55,11 @@ msgstr " et "
 msgid "cc'd to:"
 msgstr "cc'd à:"
 
-#: mainapp/forms.py:21 mainapp/models.py:318 mainapp/models.py:364
+#: mainapp/forms.py:21 mainapp/models.py:340 mainapp/models.py:386
 msgid "Name"
 msgstr "Nom"
 
-#: mainapp/forms.py:24 mainapp/forms.py:353 mainapp/models.py:363
+#: mainapp/forms.py:24 mainapp/forms.py:353 mainapp/models.py:385
 msgid "Email"
 msgstr "Courriel"
 
@@ -75,7 +75,7 @@ msgstr "Choisissez une Catégorie"
 msgid "This problem has been fixed."
 msgstr "Ce problème a été résolu."
 
-#: mainapp/forms.py:267 mainapp/models.py:365 mainapp/models.py:701
+#: mainapp/forms.py:267 mainapp/models.py:387 mainapp/models.py:723
 msgid "Phone"
 msgstr "Téléphone"
 
@@ -91,19 +91,19 @@ msgstr "Nom"
 msgid "That email is already in use."
 msgstr "Cette adresse courriel est déja utilisée."
 
-#: mainapp/models.py:293
+#: mainapp/models.py:315
 msgid "Subject"
 msgstr "Sujet"
 
-#: mainapp/models.py:316
+#: mainapp/models.py:338
 msgid "* Photo"
 msgstr "* Photo"
 
-#: mainapp/models.py:317 mainapp/models.py:358
+#: mainapp/models.py:339 mainapp/models.py:380
 msgid "Details"
 msgstr "Détails"
 
-#: mainapp/models.py:319
+#: mainapp/models.py:341
 msgid "Location"
 msgstr "Location"
 
@@ -186,15 +186,32 @@ msgstr "FixMyStreet (Réparer ma rue) Canada"
 msgid "Home"
 msgstr "Page d'accueil"
 
+#: templates/base.html:47
+msgid "My Account"
+msgstr "Mon Compte"
+
+#: templates/base.html:48
+msgid "Sign Out"
+msgstr "Deconnectez"
+
+#: templates/base.html:50 templates/registration/login.html:3
+#: templates/registration/login.html:6
+msgid "Sign In"
+msgstr "Connectez-vous"
+
+#: templates/base.html:51
+msgid "Create Account"
+msgstr "Créer un Compte"
+
 #: templates/base.html:74 templates/account/home.html:51
 msgid "Submit a Report"
-msgstr "Soumettre un Rapport"
+msgstr "Créer un Rapport"
 
 #: templates/base.html:75
 msgid "View Reports"
 msgstr "Voir Rapports"
 
-#: templates/base.html:76
+#: templates/base.html:76 templates/account/home.html:12
 msgid "My Reports"
 msgstr "Mes Rapports"
 
@@ -305,8 +322,8 @@ msgid ""
 "or hang a poster at a university or neighbourhood coffee shop.\n"
 msgstr ""
 "\n"
-"Aidez-nous à diffuser le mot. Plus les gens connaissent fixmystreet.ca, "
-"plus le site sera utile. Partagez votre rapport sur Twitter ou Facebook, \n"
+"Aidez-nous à diffuser le mot. Plus les gens connaissent fixmystreet.ca, plus "
+"le site sera utile. Partagez votre rapport sur Twitter ou Facebook, \n"
 "ou accrocher un poster dans un café d'université ou de votre quartier. \n"
 
 #: templates/posters.html:18
@@ -388,7 +405,8 @@ msgstr ""
 "\n"
 "<h4>A propos de cette politique</h4> \n"
 "\n"
-"<p> Cette politique de confidentialité définit la manière dont fixmystreet.ca utilise et \n"
+"<p> Cette politique de confidentialité définit la manière dont fixmystreet."
+"ca utilise et \n"
 "protège les informations que vous donnez fixmystreet.ca lorsque \n"
 "vous utilisez ce site. Fixmystreet.ca s'engage à assurer \n"
 "que votre intimité est protégée. </p> \n"
@@ -425,7 +443,8 @@ msgstr ""
 "</p> \n"
 "<h4> Comment nous utilisons les cookies </h4> \n"
 "<p> Un cookie est un petit fichier qui demande la permission d' \n"
-"être placé sur le disque dur de votre ordinateur. Une fois que vous acceptez, \n"
+"être placé sur le disque dur de votre ordinateur. Une fois que vous "
+"acceptez, \n"
 "le fichier est ajouté et le cookie permet d'analyser le trafic web \n"
 "ou vous permet de savoir lorsque vous visitez un site particulier. \n"
 "Les cookies permettent aux applications web de vous répondre en tant qu'un \n"
@@ -527,7 +546,6 @@ msgid "Updater"
 msgstr "Auteur Secondaire"
 
 #: templates/account/home.html:41
-#, fuzzy
 msgid "Subscriber"
 msgstr "Abonné"
 
@@ -704,14 +722,13 @@ msgstr "Retour à FixMyStreet (Réparer ma rue) Canada"
 msgid "Login Error"
 msgstr "Erreur de Login"
 
-#: templates/registration/login.html:3 templates/registration/login.html:6
-#: templates/registration/login.html:19
-msgid "Login"
-msgstr "Login"
-
 #: templates/registration/login.html:13
 msgid "Forgot?"
 msgstr "Oublié?"
+
+#: templates/registration/login.html:19
+msgid "Login"
+msgstr "Login"
 
 #: templates/registration/login.html:24
 msgid "Don't have an account?"
@@ -724,6 +741,25 @@ msgstr "Créer un compte."
 #: templates/registration/login.html:28
 msgid "Or, log in using:"
 msgstr "Ou, log in en utilisant:"
+
+#: templates/registration/registration_complete.html:2
+msgid "Registration Complete"
+msgstr "Enregistrement Complet"
+
+#: templates/registration/registration_complete.html:4
+msgid "Check Your Inbox..."
+msgstr "Vérifiez votre boîte de réception..."
+
+#: templates/registration/registration_complete.html:5
+msgid ""
+"Your account has been created, but you still need to confirm your email "
+"address."
+msgstr ""
+"Votre compte a été créé, mais vous avez encore besoin de confirmer votre adresse email."
+
+#: templates/registration/registration_complete.html:7
+msgid "Please check your email."
+msgstr "S'il vous plaît vérifier votre email."
 
 #: templates/registration/registration_form.html:3
 msgid "Register"
@@ -739,7 +775,7 @@ msgstr "Déconnecter"
 
 #: templates/registration/registration_form.html:25
 msgid "Join FixMyStreet.ca!"
-msgstr "Vous Joindre à FixMyStreet.ca (Réparer ma rue)!"
+msgstr "Inscrivez-vous à FixMyStreet.ca!"
 
 #: templates/registration/registration_form.html:27
 msgid "We need a few more pieces of information to continue..."
