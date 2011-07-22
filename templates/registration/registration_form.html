@@ -17,7 +17,7 @@
 <div id='social-connect' >
 	<p>{% trans "You are connected to fixmystreet.ca with:" %}</p>
 	<ul>
-		<li class='social-logo-show' txt="{{social.name}}" style="background-position: 0px {{social.logo_offset}}px;"/>
+		<li class='social-logo-show' txt="{{social_connect.name}}" style="background-position: 0px {{social_connect.logo_offset}}px;"/>
 	</ul>
 	<a href={% url socialdisconnect social_connect.key %}>{% trans "Disconnect" %}</a>
 </div>
