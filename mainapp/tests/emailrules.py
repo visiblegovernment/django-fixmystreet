@@ -40,6 +40,17 @@ class TestToCouncillor(EmailRuleTestBase):
         self.failUnlessEqual( self.test_ward.get_emails(self.test_report), ([self.test_report.ward.councillor.email],[]) )
         
 
+class TestToWardAddress(EmailRuleTestBase):
+
+    def test(self):
+        email = 'ward_email@yahoo.ca'
+        rule = EmailRule( rule=EmailRule.TO_WARD, city = self.test_city )
+        rule.save()
+        self.test_ward.councillor = None
+        self.test_ward.email = email
+        self.test_ward.save()
+        self.failUnlessEqual( self.test_ward.get_emails(self.test_report), ([email],[]) )
+
 
 class TestMatchingCategoryClass(EmailRuleTestBase):
 

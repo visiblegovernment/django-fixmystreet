@@ -26,7 +26,7 @@ class ToCouncillor(EmailRuleBehaviour):
 class ToWard(EmailRuleBehaviour):
 
     def get_email(self, report, email_rule):
-        return( report.ward.councillor.email )
+        return( report.ward.email )
 
     def describe(self, email_rule ):
         return("Send Reports to Email Address for Ward")
