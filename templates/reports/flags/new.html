@@ -7,7 +7,7 @@
      <h3>{{report.title}}</h3>
      <p>{{report.first_update.desc}}</p>
 </blockquote>
-<form action="/reports/{{report.id}}/flags/" method="POST">
+<form action="/reports/{{report.id}}/flags/" method="POST">{% csrf_token %}
 <input type="submit" value="{% trans "Flag this Report" %}">
 </form>
 

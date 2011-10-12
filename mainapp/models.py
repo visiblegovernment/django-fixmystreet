@@ -9,6 +9,7 @@ from django.core.mail import send_mail, EmailMessage
 import md5
 import urllib
 import time
+import datetime
 from mainapp import emailrules
 from datetime import datetime as dt
 from django.utils.safestring import mark_safe
@@ -16,9 +17,11 @@ from django.utils.translation import ugettext_lazy, ugettext as _
 from contrib.transmeta import TransMeta
 from contrib.stdimage import StdImageField
 from django.utils.encoding import iri_to_uri
+from django.template.defaultfilters import slugify
 from django.contrib.gis.geos import fromstr
 from django.http import Http404
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,Group,Permission
+from registration.models import RegistrationProfile 
       
 # from here: http://www.djangosnippets.org/snippets/630/        
 class CCEmailMessage(EmailMessage):
@@ -92,25 +95,38 @@ class City(models.Model):
     category_set = models.ForeignKey(ReportCategorySet, null=True, blank=True)
     objects = models.GeoManager()
 
+    slug = models.CharField(max_length=100, unique=True, blank=True)
+
     def __unicode__(self):      
         return self.name
     
     def get_categories(self):
         if self.category_set:
-            return self.category_set.categories
+            categories = self.category_set.categories
         else:
             # the 'Default' group is defined in fixtures/initial_data
             default = ReportCategorySet.objects.get(name='Default')
-            return default.categories
+            categories = default.categories
+        categories = categories.order_by('category_class')
+        return( categories )
     
     def get_absolute_url(self):
-        return "/cities/" + str(self.id)
+        return "/cities/%s/" % (self.slug )
+    
+    def feed_url(self):
+        return ('/feeds/cities/%s.rss' % ( self.slug) )
+
 
     def get_rule_descriptions(self):
         rules = EmailRule.objects.filter(city=self)
         describer = emailrules.EmailRulesDesciber(rules,self)
         return( describer.values() )
 
+    def save(self):
+        if not self.slug:
+            self.slug = slugify(self.name + '-' + self.province.abbrev.lower() )
+        super(City,self).save()
+        
     class Meta:
         db_table = u'cities'
 
@@ -145,11 +161,22 @@ class Ward(models.Model):
     # if the 'Ward' email rule is enabled
     email = models.EmailField(blank=True, null=True)
 
+    # lookup used in URL
+    slug = models.CharField(max_length=100, blank=True)
+
     def get_absolute_url(self):
-        return "/wards/" + str(self.id)
+        return( "/cities/%s/wards/%s/" %( self.city.slug, self.slug ))
+        
+    def feed_url(self):
+        return ('/feeds/cities/%s/wards/%s.rss' % ( self.city.slug, self.slug ))
+
+    def save(self):
+        if not self.slug:
+            self.slug = slugify(self.name )
+        super(Ward,self).save()
 
     def __unicode__(self):      
-        return self.city.name + " " + self.name
+        return self.name + ", " + self.city.name  
 
     # return a list of email addresses to send new problems in this ward to.
     def get_emails(self,report):
@@ -258,6 +285,31 @@ class EmailRule(models.Model):
             prefix = "TO:"
         return( "%s - %s (%s)" % (self.city.name,rule_behavior.describe(self),prefix) )
         
+class ApiKey(models.Model):
+    
+    WIDGET = 0
+    MOBILE = 1
+    
+    TypeChoices = [
+    (WIDGET, 'Embedded Widget'),
+    (MOBILE, 'Mobile'), ]
+    
+    organization = models.CharField(max_length=255)
+    key = models.CharField(max_length=100)
+    type = models.IntegerField(choices=TypeChoices)
+    contact_email = models.EmailField()
+    approved = models.BooleanField(default=False)
+    
+    def save(self):
+        if not self.key or self.key == "":
+            m = md5.new()
+            m.update(self.contact_email)
+            m.update(str(time.time()))
+            self.confirm_token = m.hexdigest()
+        super(ApiKey,self).save()
+        
+    def __unicode__(self):
+        return( str(self.organization) )
 
 class Report(models.Model):
     title = models.CharField(max_length=100, verbose_name = ugettext_lazy("Subject"))
@@ -293,6 +345,13 @@ class Report(models.Model):
     
     is_confirmed = models.BooleanField(default=False)
 
+    # what API did the report come in on?
+    api_key = models.ForeignKey(ApiKey,null=True,blank=True)
+    
+    # this this report come in from a particular mobile app?
+    device_id = models.CharField(max_length=100,null=True,blank=True)
+    
+    # who filed this report?
     objects = models.GeoManager()
     
     def is_subscribed(self, email):
@@ -314,18 +373,8 @@ class Report(models.Model):
             
     class Meta:
         db_table = u'reports'
+        
 
-class ReportCount(object):        
-    def __init__(self, interval):
-        self.interval = interval
-    
-    def dict(self):
-        return({ "recent_new": "count( case when age(clock_timestamp(), reports.created_at) < interval '%s' THEN 1 ELSE null end )" % self.interval,
-          "recent_fixed": "count( case when age(clock_timestamp(), reports.fixed_at) < interval '%s' AND reports.is_fixed = True THEN 1 ELSE null end )" % self.interval,
-          "recent_updated": "count( case when age(clock_timestamp(), reports.updated_at) < interval '%s' AND reports.is_fixed = False and reports.updated_at != reports.created_at THEN 1 ELSE null end )" % self.interval,
-          "old_fixed": "count( case when age(clock_timestamp(), reports.fixed_at) > interval '%s' AND reports.is_fixed = True THEN 1 ELSE null end )" % self.interval,
-          "old_unfixed": "count( case when age(clock_timestamp(), reports.fixed_at) > interval '%s' AND reports.is_fixed = False THEN 1 ELSE null end )" % self.interval } )  
- 
 class ReportUpdate(models.Model):   
     report = models.ForeignKey(Report)
     desc = models.TextField(blank=True, null=True, verbose_name = ugettext_lazy("Details"))
@@ -398,10 +447,29 @@ class ReportUpdate(models.Model):
         # does this update require confirmation?
         if not self.is_confirmed:
             self.get_confirmation()
+            super(ReportUpdate,self).save()
         else:
-            self.notify()
-        super(ReportUpdate,self).save()
-            
+            # update parent report
+            if not self.created_at: 
+                self.created_at = datetime.datetime.now()
+            if self.is_fixed:
+                self.report.is_fixed = True
+                self.report.fixed_at = self.created_at   
+            # we track a last updated time in the report to make statistics 
+            # (such as on the front page) easier.  
+            if not self.first_update:
+                self.report.updated_at = self.created_at
+            else:
+                self.report.updated_at = self.report.created_at
+                self.report.is_confirmed = True
+            super(ReportUpdate,self).save()
+            self.report.save()
+
+    def confirm(self):    
+        self.is_confirmed = True
+        self.save()
+        self.notify()
+
             
     def get_confirmation(self):
         """ Send a confirmation email to the user. """        
@@ -439,7 +507,7 @@ class ReportSubscriber(models.Model):
     confirm_token = models.CharField(max_length=255, null=True)
     is_confirmed = models.BooleanField(default=False)    
     email = models.EmailField()
-
+    
     class Meta:
         db_table = u'report_subscribers'
 
@@ -450,6 +518,7 @@ class ReportSubscriber(models.Model):
             m.update(self.email)
             m.update(str(time.time()))
             self.confirm_token = m.hexdigest()
+        if not self.is_confirmed:
             confirm_url = settings.SITE_URL + "/reports/subscribers/confirm/" + self.confirm_token
             message = render_to_string("emails/subscribe/message.txt", 
                     { 'confirm_url': confirm_url, 'subscriber': self })
@@ -534,107 +603,55 @@ class CityMap(GoogleMap):
         GoogleMap.__init__(self,center=ward.geom.centroid,zoom=13,key=settings.GMAP_KEY, polygons=polygons,dom_id='map_canvas')
     
 
+    
+class CountIf(models.sql.aggregates.Aggregate):
+    # take advantage of django 1.3 aggregate functionality
+    # from discussion here: http://groups.google.com/group/django-users/browse_thread/thread/bd5a6b329b009cfa
+    sql_function = 'COUNT'
+    sql_template= '%(function)s(CASE %(condition)s WHEN true THEN 1 ELSE NULL END)'
+    
+    def __init__(self, lookup, **extra):
+        self.lookup = lookup
+        self.extra = extra
 
-    
-class SqlQuery(object):
-    """
-        This is a workaround: django doesn't support our optimized 
-        direct SQL queries very well.
-    """
-        
-    def __init__(self):
-        self.cursor = None
-        self.index = 0
-        self.results = None    
+    def _default_alias(self):
+        return '%s__%s' % (self.lookup, self.__class__.__name__.lower())
+    default_alias = property(_default_alias)
 
-    def next(self):
-        self.index = self.index + 1
-    
-    def get_results(self):
-        if not self.cursor:
-            self.cursor = connection.cursor()
-            self.cursor.execute(self.sql)
-            self.results = self.cursor.fetchall()
-        return( self.results )
-
-class ReportCountQuery(SqlQuery):
-      
-    def name(self):
-        return self.get_results()[self.index][5]
-
-    def recent_new(self):
-        return self.get_results()[self.index][0]
-    
-    def recent_fixed(self):
-        return self.get_results()[self.index][1]
-    
-    def recent_updated(self):
-        return self.get_results()[self.index][2]
-    
-    def old_fixed(self):
-        return self.get_results()[self.index][3]
-    
-    def old_unfixed(self):
-        return self.get_results()[self.index][4]
+    def add_to_query(self, query, alias, col, source, is_summary):
+        super(CountIf, self).__init__(col, source, is_summary, **self.extra)
+        query.aggregate_select[alias] = self
             
-    def __init__(self, interval = '1 month'):
-        SqlQuery.__init__(self)
-        self.base_query = """select count( case when age(clock_timestamp(), reports.created_at) < interval '%s' and reports.is_confirmed THEN 1 ELSE null end ) as recent_new,\
- count( case when age(clock_timestamp(), reports.fixed_at) < interval '%s' AND reports.is_fixed = True THEN 1 ELSE null end ) as recent_fixed,\
- count( case when age(clock_timestamp(), reports.updated_at) < interval '%s' AND reports.is_fixed = False and reports.updated_at != reports.created_at THEN 1 ELSE null end ) as recent_updated,\
- count( case when age(clock_timestamp(), reports.fixed_at) > interval '%s' AND reports.is_fixed = True THEN 1 ELSE null end ) as old_fixed,\
- count( case when age(clock_timestamp(), reports.created_at) > interval '%s' AND reports.is_confirmed AND reports.is_fixed = False THEN 1 ELSE null end ) as old_unfixed   
- """ % (interval,interval,interval,interval,interval) 
-        self.sql = self.base_query + " from reports where reports.is_confirmed = true" 
-
-class CityTotals(ReportCountQuery):
-
-    def __init__(self, interval, city):
-        ReportCountQuery.__init__(self,interval)
-        self.sql = self.base_query 
-        self.sql += """ from reports left join wards on reports.ward_id = wards.id left join cities on cities.id = wards.city_id 
-        """ 
-        self.sql += ' where reports.is_confirmed = True and wards.city_id = %d ' % city.id
         
-class CityWardsTotals(ReportCountQuery):
+class ReportCounter(CountIf):
+    """ initialize an aggregate with one of 5 typical report queries """
 
-    def __init__(self, city):
-        ReportCountQuery.__init__(self,"1 month")
-        self.sql = self.base_query 
-        self.url_prefix = "/wards/"            
-        self.sql +=  ", wards.name, wards.id, wards.number from wards "
-        self.sql += """left join reports on wards.id = reports.ward_id join cities on wards.city_id = cities.id join province on cities.province_id = province.id
-        """
-        self.sql += "and cities.id = " + str(city.id)
-        self.sql += " group by  wards.name, wards.id, wards.number order by wards.number" 
+    CONDITIONS = {
+        'recent_new' : "age(clock_timestamp(), reports.created_at) < interval '%s' and reports.is_confirmed = True",
+        'recent_fixed' : "age(clock_timestamp(), reports.fixed_at) < interval '%s' AND reports.is_fixed = True",
+        'recent_updated': "age(clock_timestamp(), reports.updated_at) < interval '%s' AND reports.is_fixed = False and reports.updated_at != reports.created_at",
+        'old_fixed' : "age(clock_timestamp(), reports.fixed_at) > interval '%s' AND reports.is_fixed = True",
+        'old_unfixed' : "age(clock_timestamp(), reports.created_at) > interval '%s' AND reports.is_confirmed = True AND reports.is_fixed = False"  
+                }
     
-    def number(self):
-         return(self.get_results()[self.index][7])
+    def __init__(self, col, key, interval ):
+        super(ReportCounter,self).__init__( col, condition=self.CONDITIONS[ key ] % ( interval ) )
+         
         
-    def get_absolute_url(self):
-        return( self.url_prefix + str(self.get_results()[self.index][6]))
-
-class AllCityTotals(ReportCountQuery):
-
-    def __init__(self):
-        ReportCountQuery.__init__(self,"1 month")
-        self.sql = self.base_query         
-        self.url_prefix = "/cities/"            
-        self.sql +=  ", cities.name, cities.id, province.name from cities "
-        self.sql += """left join wards on wards.city_id = cities.id join province on cities.province_id = province.id left join reports on wards.id = reports.ward_id 
-        """ 
-        self.sql += "group by cities.name, cities.id, province.name order by province.name, cities.name"
-           
-    def get_absolute_url(self):
-        return( self.url_prefix + str(self.get_results()[self.index][6]))
+class ReportCounters(dict):
+    """ create a dict of typical report count aggregators. """    
+    def __init__(self,report_col, interval = '1 Month'):
+        super(ReportCounters,self).__init__()
+        for key in ReportCounter.CONDITIONS.keys():
+            self[key] = ReportCounter(report_col,key,interval)
     
-    def province(self):
-        return(self.get_results()[self.index][7])
-        
-    def province_changed(self):
-        if (self.index ==0 ):
-            return( True )
-        return( self.get_results()[self.index][7] != self.get_results()[self.index-1][7] )
+class OverallReportCount(dict):
+    """ this query needs some intervention """
+    def __init__(self, interval ):
+        super(OverallReportCount,self).__init__()
+        q = Report.objects.annotate(**ReportCounters('id', interval ) ).values('recent_new','recent_fixed','recent_updated')
+        q.query.group_by = []
+        self.update( q[0] )
 
 class FaqEntry(models.Model):
     __metaclass__ = TransMeta
@@ -700,14 +717,91 @@ class UserProfile(models.Model):
     # can edit through the admin 
     # panel.  
     
-    cities = models.ManyToManyField(City, null=True)
+    cities = models.ManyToManyField(City, null=True,blank=True)
+    
+    # fields for 'non-admin' users:
+    phone = models.CharField(max_length=255, verbose_name = ugettext_lazy("Phone"), null=True, blank=True )
+    
     
     def __unicode__(self):
         return self.user.username
+
+    
+class FMSUserManager(models.Manager):   
+    '''
+    FMSUser and FMSUserManager integrate
+    with django-social-auth and django-registration
+    '''     
+    def create_user(self, username, email, password=None):
+        user = RegistrationProfile.objects.create_inactive_user(username,password,email,send_email=False)
+
+        if user:
+            UserProfile.objects.get_or_create(user=user)
+            return FMSUser.objects.get(username=user.username)
+        else:
+             return( None )
+     
+class FMSUser(User):
+    '''
+    FMSUser and FMSUserManager integrate
+    with django-social-auth and django-registration
+    '''     
+    class Meta:
+        proxy = True
+
+    objects = FMSUserManager()
+    
+
+class CityAdminManager(models.Manager):    
+    PERMISSION_NAMES = [ 'Can change ward', 
+                     'Can add email rule',
+                     'Can change email rule',
+                     'Can delete email rule',
+                     'Can add councillor',
+                     'Can change councillor',
+                     'Can delete councillor' ]
+
+    GROUP_NAME = 'CityAdmins'
+    
+    def get_group(self):
+        if Group.objects.filter(name=self.GROUP_NAME).exists():
+            return Group.objects.get(name=self.GROUP_NAME)
+        else:
+            group = Group.objects.create(name=self.GROUP_NAME)        
+            for name in self.PERMISSION_NAMES:
+                permission = Permission.objects.get(name=name)
+                group.permissions.add(permission)
+            group.save()
+            return group
     
     
+    def create_user(self, username, email, city, password=None):
+        group = self.get_group()
+        user = User.objects.create_user(username, email, password )
+        user.is_staff = True
+        user.groups.add(group)
+        user.save()
+        profile = UserProfile(user=user)
+        profile.save()
+        profile.cities.add(city)
+        profile.save()
+        return user
+        
+class CityAdmin(User):
+    '''
+        An admin user who can edit ward data for a city.
+    '''     
+    class Meta:
+        proxy = True
+
+    objects = CityAdminManager()
+    
+    
+
+    
+        
 class DictToPoint():
-    
+    ''' Helper class '''
     def __init__(self, dict, exceptclass = Http404 ):
         if exceptclass and not dict.has_key('lat') or not dict.has_key('lon'):
             raise exceptclass

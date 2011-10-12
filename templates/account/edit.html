@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block css %}
+<style type="text/css" media="screen">
+#profile-form h3 { text-align: left; margin-bottom:20px; }
+</style>
+{% endblock %}
+{% block title %}{% trans "Edit Profile" %}{% endblock %}
+{% block content %}
+<div id='profile-form'>
+	<h3>{% trans "Editing User Profile For" %} {{user.first_name}} {{user.last_name}}</h3>
+	<form action="/accounts/edit/" method="POST">{% csrf_token %}
+	<table class='form'>
+	{{form.as_table}}
+	<tr>
+	<td></td>
+	<td>
+		<input type="submit" name="Submit" class='big_button' value="{% trans "Submit" %}">
+	</td>
+	</tr>
+	</table>
+	</form>
+</div>
+{% endblock %}
+

@@ -38,8 +38,23 @@
 						<a href='/'><img src="/media/images/fms-canada-logo.gif"></a>
 					</div>
 					<div id="header_right">
+						<div id='account-signin'>
+							<ul>
+								{% if user.is_authenticated %}
+									{% if user.is_staff %}
+								<li><a href='/admin'>Admin</a></li>
+									{% endif %}
+								<li><a href='{% url account_edit %}'>{% trans "My Account" %}</a></li>
+								<li><a href='{% url auth_logout %}'>{% trans "Sign Out" %}</a></li>
+								{% else %}
+								<li><a href='{% url auth_login %}'>{% trans "Sign In" %}</a></li>
+								<li><a href='{% url registration_register %}'>{% trans "Create Account" %}</a></li>
+								{% endif %}
+							</ul>
+				
+						</div>
 						<div id="language">
-							<form action="/i18n/setlang/" method="post">
+							<form action="/i18n/setlang/" method="post">{% csrf_token %}
 							<select name="language">
 								{% for lang in LANGUAGES %}
 								<option value="{{ lang.0 }}">{{ lang.1 }}</option>
@@ -58,8 +73,8 @@
 						<ul>
 							<li><a class="{% fmsmenu_active request 'submit' %}" href="/" >{% trans "Submit a Report" %}</a></li>
 							<li><a class="{% fmsmenu_active request 'view' %}" href="{{cities_link}}">{% trans "View Reports" %}</a></li>
+							<li><a class="{% fmsmenu_active request 'myreports' %}" href="{% url account_home %}">{% trans "My Reports" %}</a></li>
 							<li><a class="{% fmsmenu_active request about %}" href="{{about}}">{% trans "About" %}</a></li>
-							<li><a class="{% fmsmenu_active request contact %}" href="{{contact}}">{% trans "Contact Us" %}</a></li>
 						</ul>
 						</div>
 					</div>
@@ -88,7 +103,10 @@
 
 				<div id="footer" class="container_12">
 					<div class='grid_12'>
-					<a href="http://visiblegovernment.ca">VisibleGovernment.ca</a>  | <a href="/posters/">{% trans "Hang a Poster" %}</a></p>
+					<a href="http://visiblegovernment.ca">VisibleGovernment.ca</a>  
+					| <a href='{% url privacy %}'>{% trans "Privacy" %}</a></p>
+					| <a href='{% url contact_url_name %}'>{% trans "Contact Us" %}</a></p>
+					| <a href='{% url posters %}'>{% trans "Hang a Poster" %}</a> 
 					</div>
 				</div>
 

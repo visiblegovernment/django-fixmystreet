@@ -3,7 +3,6 @@ import os
 import logging
 
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
-TEST_RUNNER='django.contrib.gis.tests.run_tests'
 POSTGIS_TEMPLATE = 'template_postgis'
 
 logging.basicConfig(
@@ -50,15 +49,16 @@ DATE_FORMAT = "l, F jS, Y"
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.load_template_source',
-    'django.template.loaders.app_directories.load_template_source',
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
 #     'django.template.loaders.eggs.load_template_source',
 )
 
 # include request object in template to determine active page
 TEMPLATE_CONTEXT_PROCESSORS = (
   'django.core.context_processors.request',
-  'django.core.context_processors.auth',
+  'django.contrib.auth.context_processors.auth',
+  'django.core.context_processors.csrf',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -66,6 +66,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+#    'django.middleware.csrf.CsrfResponseMiddleware',
     'mainapp.middleware.subdomains.SubdomainMiddleware',
     'mainapp.middleware.SSLMiddleware.SSLRedirect',
 )
@@ -93,24 +95,48 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.gis',
+    'registration',
     'contrib.google_analytics',
     'contrib.transmeta',
+    'social_auth',
     'mainapp',
 )
 
 AUTH_PROFILE_MODULE = 'mainapp.UserProfile'
 
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.twitter.TwitterBackend',
+    'social_auth.backends.facebook.FacebookBackend',
+#    'social_auth.backends.google.GoogleOAuthBackend',
+#    'social_auth.backends.google.GoogleOAuth2Backend',
+#    'social_auth.backends.google.GoogleBackend',
+#    'social_auth.backends.yahoo.YahooBackend',
+#    'social_auth.backends.OpenIDBackend',
+    'django.contrib.auth.backends.ModelBackend',
+    'mainapp.tests.testsocial_auth.dummy_socialauth.DummyBackend',
+)
+
+SOCIAL_AUTH_USER_MODEL = 'mainapp.FMSUser'
+SOCIAL_AUTH_ASSOCIATE_BY_MAIL = True
+ACCOUNT_ACTIVATION_DAYS = 14
+SOCIAL_AUTH_EXTRA_DATA = False
+SOCIAL_AUTH_COMPLETE_URL_NAME = 'socialauth_complete'
+LOGIN_ERROR_URL = '/accounts/login/error/'
+SOCIAL_AUTH_ERROR_KEY = 'socialauth_error'
+LOGIN_REDIRECT_URL = '/accounts/home/'
 
 #################################################################################
 # These variables Should be defined in the local settings file
 #################################################################################
 #
-#DATABASE_ENGINE =            # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-#DATABASE_NAME =              # Or path to database file if using sqlite3.
-#DATABASE_USER =              # Not used with sqlite3.
-#DATABASE_PASSWORD =          # Not used with sqlite3.
-#DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
-#DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+#        'NAME': '',
+#        'USER': '',
+#        'PASSWORD': ''
+#    }
+#}
 #
 #EMAIL_USE_TLS =
 #EMAIL_HOST =
@@ -147,3 +173,9 @@ except ImportError:
 
 if DEBUG and globals().has_key('TESTVIEW'):
     INSTALLED_APPS += ('django_testview',)
+
+
+if DEBUG:
+    SOCIAL_AUTH_IMPORT_BACKENDS = (
+                                   'mainapp.tests.testsocial_auth',
+                                   )

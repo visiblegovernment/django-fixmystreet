@@ -6,9 +6,11 @@ from mainapp.models import Report,ReportUpdate,ReportSubscriber,City, \
 import settings
 import re
 
+
 CREATE_PARAMS =  { 'title': 'A report from our API', 
                      'lat': '45.4043333270000034',
                      'lon': '-75.6870889663999975',
+                     'address': 'Some Street',
                      'category': 5,
                      'desc': 'The description',
                      'author': 'John Farmer',
@@ -46,16 +48,19 @@ class CreateReport(BaseCase):
         response = self.c.post('/reports/', CREATE_PARAMS, follow=True )
         self.assertEquals( response.status_code, 200 )
         self.assertEquals(response.template[0].name, 'reports/show.html')
-        self.assertEqual(Report.objects.filter(title=CREATE_PARAMS['title']).count(), 1 )
-
+        self.assertEqual(Report.objects.filter(title=CREATE_PARAMS['title'],is_confirmed=False).count(), 1,"There's a new unconfirmed report." )
+        self.assertEqual(ReportUpdate.objects.filter(report__title=CREATE_PARAMS['title'],is_confirmed=False,first_update=True).count(), 1,"There's an unconfirmed report update." )
+        
         # a confirmation email should be sent to the user
-        self.assertEquals(len(mail.outbox), 1)
+        self.assertEquals(len(mail.outbox), 1, "a confirmation email was sent.")
         self.assertEquals(mail.outbox[0].to, [u'testcreator@hotmail.com'])
         
         #test confirmation link
         confirm_url = self._get_confirm_url(mail.outbox[0])
         response = self.c.get(confirm_url, follow=True)
         self.assertEquals( response.status_code, 200 )
+        self.assertEqual(Report.objects.filter(title=CREATE_PARAMS['title'],is_confirmed=True).count(), 1,"The report is confirmed." )
+
 
         #now there should be two emails in our outbox
         self.assertEquals(len(mail.outbox), 2)
@@ -163,6 +168,17 @@ class FlagReport(BaseCase):
         self.assertEquals(len(mail.outbox), 1)
         self.assertEquals(mail.outbox[0].to, [settings.ADMIN_EMAIL])
  
+    def _get_error_response(self,query):
+        " check we always end up on the home page "
+        response = self.c.get(self._url(query), follow=True)
+        self.assertEquals( response.status_code, 200 )
+        self.assertEquals( response.template[0].name, 'home.html')
+        return response
+    
+    def _url(self,query_str):
+        return( self.base_url + "?q=" + query_str )
+    
+
 
 class ChangeCategorySet(BaseCase):  
     
@@ -179,3 +195,4 @@ class ChangeCategorySet(BaseCase):
         
         response = self.c.get('/reports/new?&lat=45.4169416715279&lon=-75.70075750350952')
         self.assertContains(response,category_title)      
+    

@@ -7,7 +7,13 @@ MENU_DEFS = { 'submit' : { 'exact': [ '/','/reports/new', '/search' ],
                          },
               'view' : { 'exact': [],
                          'startswith' : [ '/cities','/wards', '/reports' ],
-                         'exclude':[ '/reports/new' ] }
+                         'exclude':[ '/reports/new' ] 
+                         },
+               'myreports' : {  'exact' :  [],
+                              'startswith' : [ '/accounts' ],
+                              'exclude' : []  },
+                    
+              
             }
 
 def is_match( path, pattern ):

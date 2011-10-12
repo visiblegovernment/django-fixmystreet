@@ -1,4 +1,4 @@
-from mainapp.models import UserProfile,City
+from mainapp.models import CityAdmin, City
 from optparse import make_option
 from django.contrib.auth.models import Group, User
 from django.core.management.base import BaseCommand,CommandError
@@ -17,12 +17,6 @@ class Command(BaseCommand):
             if not options.has_key(option.dest):
                 raise CommandError("%s must be specified" % (option.dest))
         city = City.objects.get(name=options['city'])
-        user = User.objects.create_user(options['userid'], options['email'], options['password'] )
-        user.is_staff = True
-        city_admin = Group.objects.get(name='CityAdmins')
-        user.groups.add(city_admin)
-        user.save()
-        profile = UserProfile(user=user)
-        profile.save()
-        profile.cities.add(city)
-        profile.save()
+        user = CityAdmin.objects.create_user(options['userid'], options['email'], city, options['password'] )
+        if not user:
+            print "error creating user"

@@ -7,17 +7,17 @@ from django.template import Context, RequestContext
 def new( request, report_id ):
     report = get_object_or_404(Report, id=report_id)
     if request.method == 'POST':    
-        update_form = ReportUpdateForm( request.POST )
+        update_form = ReportUpdateForm( request.POST, user=request.user, report=report )
         if update_form.is_valid():
-            update = update_form.save(commit=False)
-            update.is_fixed = request.POST.has_key('is_fixed')
-            update.report=report
-            update.save()    
-            # redirect after a POST       
-            return( HttpResponseRedirect( '/reports/updates/create/' ) )
+            update = update_form.save()
+            # redirect after a POST
+            if update.is_confirmed:
+                return( HttpResponseRedirect( report.get_absolute_url() ) )
+            else:       
+                return( HttpResponseRedirect( '/reports/updates/create/' ) )
                 
     else:
-        update_form = ReportUpdateForm()
+        update_form = ReportUpdateForm(initial={},user=request.user)
         
     return render_to_response("reports/show.html",
                 {   "report": report,
@@ -37,24 +37,7 @@ def confirm( request, confirm_token ):
     if update.is_confirmed:
         return( HttpResponseRedirect( update.report.get_absolute_url() ))
     
-    # is the update fixed?
-    if update.is_fixed:
-        update.report.is_fixed = True
-        update.report.fixed_at = update.created_at
+    update.confirm()
     
-    update.is_confirmed = True    
-    update.save()
-
-    # we track a last updated time in the report to make statistics 
-    # (such as on the front page) easier.  
-    
-    if not update.first_update:
-        update.report.updated_at = update.created_at
-    else:
-        update.report.updated_at = update.report.created_at
-        update.report.is_confirmed = True
- 
-    update.report.save()
-         
     # redirect to report    
     return( HttpResponseRedirect( update.report.get_absolute_url() ))

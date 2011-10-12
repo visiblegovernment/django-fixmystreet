@@ -16,7 +16,7 @@
 </p>
 <p>We'd love to get your feedback on this site:</p> 
 {% endblocktrans %}
-<form action="/contact" method="POST">
+<form action="/contact" method="POST">{% csrf_token %}
 <table class='form'>
 {{contact_form}}
 <tr>

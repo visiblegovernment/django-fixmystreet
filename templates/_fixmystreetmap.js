@@ -19,8 +19,8 @@ function url_for_geodata(geodata)
 function html_for_no_results()
 {
    	var html =	"<div id='error-msg'>";
-   	html += '<p>{% trans "Sorry, we couldn\'t find the address you entered. Please try again with another intersection, address or postal code, or add the name of the city to the end of the search."%}</p>';
-    html += '</div>'
+   	html += "<p>{% trans "Sorry, we couldn\'t find the address you entered. Please try again with another intersection, address or postal code, or add the name of the city to the end of the search."%}</p>";
+    html += "</div>";
     jQuery("#error").html(html).fadeIn(1000);
 }        
      

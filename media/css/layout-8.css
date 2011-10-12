@@ -12,6 +12,8 @@ body {
 	margin: 0px auto;
 }
 
+#content_middle {padding-top:2em;padding-bottom:2em;margin-top:2em;color:#b4b4b4;}
+
 #city_top_problems table td:first-child { padding-left: 5px; }
 
 #city_all_problems {  }
@@ -147,12 +149,28 @@ text-align:left;
 #language {
 	padding-top: 1em;
 	padding-right: 1em;
-	width: 100%;
+	width: 35%;
 	height: 40px;
 	text-align: right;
 	float: right
 }
 
+#account-signin {
+	padding-top: 1.5em;
+	float: left;
+	width: 60%;
+	font-size: 80%;
+}
+
+#account-signin ul {
+    float: right;
+}
+
+#account-signin ul li {
+    float: left;
+    margin-left: 10px;
+	list-style-type: none;
+}
 
 #content {
 	text-align: left;
@@ -192,7 +210,7 @@ table.form td select {
 }
 
 
-table.form input[type='text'],table.form textarea  {
+table.form input[type='text'],table.form textarea,table.form input[type='password']  {
 	width: 100%;
 	border:0 none;
 	color:#222222;
@@ -393,6 +411,56 @@ padding-right: 5px;
 	list-style-type: disc;
 }
 
+div.provider-list ul {
+list-style-type:none;
+}
+.social-logo-show {
+display:block;
+background:transparent url(/media/images/social/all_social.png) no-repeat scroll 0 0;
+height:24px;
+width:72px;
+}
+div#register { 
+	width: 100%;
+}
+
+#account-form { 
+	width: 50%;
+	float:left;
+	text-align: left;
+	border-right:1px solid #E0E0E0;
+	margin-bottom: 1.2em;
+
+}
+
+#account-form h3 {
+font-size:2em;
+margin-bottom:15px;
+}
+
+#register label {
+	width: 150px;
+}
+
+div#social-list 
+{
+	width: 30%;
+	float: left;
+	text-align: left;
+	padding:1em 0 20px 20px;
+
+}
+
+#social-list p {
+	font-size:1.16667em;
+	letter-spacing:-0.025em;
+	margin-bottom:18px;
+}
+
+#social-list li {
+margin-bottom:10px;
+}
+
 blockquote {
 margin-left: 3em !important;
 padding-left: 1em !important;
@@ -469,8 +537,18 @@ input.big_button:hover {background: url("/media/images/search-hover.png") no-rep
 #instructable img {padding-right:1.5em;}
 #contact_us_form { width:450px; text-align: left; }
 #contact_us_form p { margin-bottom: .5em; }
+#privacy { text-align: }
 #posters { text-align: center;  }
 #posters p {width: 450px; margin: 20px auto;}
-
+.myreports { width:100%; padding: 2em 0em; }
+.myreports td { padding: 2px; }
+.myreports td.section {color:#FFFFFF;
+font-size:80%;
+font-weight:bold;
+margin-top:5px;
+padding-left:5px;
+}
 .left {float:left;}
 .right {float:right;}
+
+

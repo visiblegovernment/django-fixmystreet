@@ -13,14 +13,18 @@ def new( request, report_id ):
         form = ReportSubscriberForm( request.POST )
         if form.is_valid():
            subscriber = form.save( commit = False )
-           subscriber.report = report;
+           subscriber.report = report
+           subscriber.is_confirmed = request.user.is_authenticated()
            if report.is_subscribed(subscriber.email):
                error_msg = _("You are already subscribed to this report.")
            else:
                subscriber.save()
                return( HttpResponseRedirect( '/reports/subscribers/create/' ) ) 
     else:
-        form = ReportSubscriberForm()
+        initial = {}
+        if request.user.is_authenticated():
+            initial['email'] = request.user.email
+        form = ReportSubscriberForm(initial=initial,freeze_email=request.user.is_authenticated())
         
     return render_to_response("reports/subscribers/new.html",
                 {   "subscriber_form": form,

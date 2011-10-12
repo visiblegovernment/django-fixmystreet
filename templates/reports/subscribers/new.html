@@ -7,7 +7,7 @@
 
 <h2>{% trans "Subscribe to Updates to Report" %}: {{report.title}}</h2>
 <p>{% trans "Enter your email address to subscribe to updates for this report:" %}</p>
-<form action="/reports/{{report.id}}/subscribers/" method="POST">
+<form action="/reports/{{report.id}}/subscribers/" method="POST">{% csrf_token %}
 {{subscriber_form.as_table}}
 <input type="submit" value="{% trans "Subscribe" %}">
 </form>

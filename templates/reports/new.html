@@ -58,7 +58,7 @@ margin-left:1.5em;
 	<div id="leftcol">
 	<h3>{% trans "Submitting a report" %}</h3>
 
-	<form enctype="multipart/form-data" method="post" action="/reports/" id='report_form'>
+	<form enctype="multipart/form-data" method="post" action="/reports/" id='report_form'>	{% csrf_token %}	
 		<table class='form'>
 			{{ report_form.as_table }}
 			<tr>

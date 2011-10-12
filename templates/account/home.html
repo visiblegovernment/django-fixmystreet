@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block css %}
+<style type="text/css" media="screen">
+	div#profile-menu { text-align: right; padding-right: 20px; padding-bottom: 1.5em; }
+	.open { color: red; };
+</style>
+{% endblock %}
+{% block title %}My Reports{% endblock %}
+
+{% block content %}
+<h2>{% trans "My Reports" %}</h2> 
+{% include "reports/_pagination.html" %}
+{% if reports %}
+<table class='myreports'>
+	<tr>
+		<th>{% trans "Report" %}</th>
+		<th>{% trans "Date Filed" %}</th>
+		<th>{% trans "Status" %}</th>
+		<th>{% trans "Days Open" %}</th>
+		<th>{% trans "My Role" %}</th>
+	</tr>
+	{% for report in reports %}
+	<tr class={% cycle 'row-even','row-odd' %}>
+		<td>
+			<a href='{{report.get_absolute_url}}'>{{report.title}}</a>
+		</td>
+		<td>
+			{{report.created_at|date:"Y-m-d"}}
+		</td>
+		<td {%if not report.is_fixed %}class='open'{%endif%} >
+			{% if report.is_fixed %}{% trans "Fixed" %}{% else %}{% trans "Open" %}{% endif %}
+		</td>
+		<td {%if not report.is_fixed %}class='open'{% endif %}>
+			{{report.days_open}}
+		</td>
+		<td>
+			{% if report.is_reporter %}{% trans "Reporter" %}
+			{% else %}
+				{% if report.is_updater %}{% trans "Updater" %}
+				{% else %}{% trans "Subscriber" %}{% endif %}
+			{% endif %}
+		</td>
+	</tr>
+	{% endfor %}	
+</table>	
+{% else %}
+<br/>
+<p>{% trans "You haven't yet filed any reports." %}</p>
+<br/>
+<a href='/'>{% trans "Submit a Report" %}</a>
+{% endif %}
+{% include "reports/_pagination.html" %}
+{% endblock %}
