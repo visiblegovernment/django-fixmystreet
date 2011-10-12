@@ -113,7 +113,7 @@ AUTHENTICATION_BACKENDS = (
 #    'social_auth.backends.yahoo.YahooBackend',
 #    'social_auth.backends.OpenIDBackend',
     'django.contrib.auth.backends.ModelBackend',
-    'mainapp.tests.testsocial_auth.dummy_socialauth.DummyBackend',
+#    'mainapp.tests.testsocial_auth.dummy_socialauth.DummyBackend',
 )
 
 SOCIAL_AUTH_USER_MODEL = 'mainapp.FMSUser'
@@ -152,6 +152,12 @@ LOGIN_REDIRECT_URL = '/accounts/home/'
 #
 #ADMIN_EMAIL =
 #ADMINS =
+#
+# ----- social_auth consumer id's ----- #
+#TWITTER_CONSUMER_KEY         = ''
+#TWITTER_CONSUMER_SECRET      = ''
+#FACEBOOK_APP_ID              = ''
+#FACEBOOK_API_SECRET          = ''
 #####################################################################################
 
 # import local settings overriding the defaults
