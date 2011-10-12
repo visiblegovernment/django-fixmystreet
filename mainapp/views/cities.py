@@ -28,12 +28,10 @@ def show( request, city ):
                  context_instance=RequestContext(request))
 
 def show_by_id(request, city_id ):
-    print "getting city by id"
     city = get_object_or_404(City, id=city_id)
     return( show(request,city )) 
 
 def show_by_slug(request, city_slug ):
-    print "getting city by slug"
     city = get_object_or_404(City, slug=city_slug)
     return( show(request,city )) 
 

@@ -339,7 +339,7 @@ class FMSNewRegistrationForm(RegistrationForm):
                                          'activation_link': "%s/accounts/activate/%s/" %(settings.SITE_URL,registration_profile.activation_key),
                                          'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS })
             
-        new_user.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
+        new_user.email_user(subject, message, settings.EMAIL_FROM_USER)
 
 
 # just override the AuthenticationForm username so that it's label

@@ -32,13 +32,11 @@ class CityFeedBase(Feed):
 class CityIdFeed(CityFeedBase):
     ''' retrieve city by id '''
     def get_object(self, request, id ):
-       print "getting city by object"
        return get_object_or_404(City, pk=id)
 
 class CitySlugFeed(CityFeedBase):
     ''' retrieve city by slug '''
     def get_object(self, request, slug ):
-       print "getting city by slug"
        return get_object_or_404(City, slug=slug)
     
 class WardFeedBase(Feed):
