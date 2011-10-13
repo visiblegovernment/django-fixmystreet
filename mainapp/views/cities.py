@@ -23,7 +23,7 @@ def show( request, city ):
                  "google": google,
                  'top_problems': top_problems,
                  'city_totals' : City.objects.filter(id=city.id).annotate(**ReportCounters('ward__report','10 years'))[0],
-                 "report_counts": Ward.objects.filter(city=city).annotate(**ReportCounters('report'))
+                 "report_counts": Ward.objects.filter(city=city).order_by('number').annotate(**ReportCounters('report'))
                   },
                  context_instance=RequestContext(request))
 
