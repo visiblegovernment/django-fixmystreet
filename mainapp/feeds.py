@@ -3,8 +3,20 @@ from django.contrib.syndication.feeds import FeedDoesNotExist
 from mainapp.models import Report, ReportUpdate, City, Ward
 from django.shortcuts import get_object_or_404
 
+class ReportFeedBase(Feed):
+    description_template = 'feeds/reports_description.html'
 
-class LatestReports(Feed):
+    def item_title(self, item):
+        return item.title
+
+    def item_pubdate(self, item):
+        return item.created_at
+    
+    def item_link(self,item):
+        return item.get_absolute_url()
+
+    
+class LatestReports(ReportFeedBase):
     title = "All FixMyStreet Reports"
     link = "/reports/"
     description = "All FixMyStreet.ca Reports"
@@ -12,7 +24,7 @@ class LatestReports(Feed):
     def items(self):
         return Report.objects.filter(is_confirmed=True).order_by('-created_at')[:30]
 
-class CityFeedBase(Feed):
+class CityFeedBase(ReportFeedBase):
     
     def title(self, obj):
         return "FixMyStreet.ca: Reports for %s" % obj.name
@@ -39,7 +51,7 @@ class CitySlugFeed(CityFeedBase):
     def get_object(self, request, slug ):
        return get_object_or_404(City, slug=slug)
     
-class WardFeedBase(Feed):
+class WardFeedBase(ReportFeedBase):
     
     def title(self, obj):
         return "FixMyStreet.ca: Reports for %s, %s" % (obj.name, obj.city.name)
