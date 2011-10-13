@@ -14,8 +14,8 @@ from mainapp import emailrules
 from datetime import datetime as dt
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy, ugettext as _
-from contrib.transmeta import TransMeta
-from contrib.stdimage import StdImageField
+from transmeta import TransMeta
+from stdimage import StdImageField
 from django.utils.encoding import iri_to_uri
 from django.template.defaultfilters import slugify
 from django.contrib.gis.geos import fromstr
@@ -29,7 +29,7 @@ class CCEmailMessage(EmailMessage):
                  bcc=None, connection=None, attachments=None, headers=None):
         super(CCEmailMessage, self).__init__(subject, body, from_email, to,
                                            bcc, connection, attachments, headers)
-        if cc:
+        if csc:
             self.cc = list(cc)
         else:
             self.cc = []

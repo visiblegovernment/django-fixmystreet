@@ -1,6 +1,6 @@
 from fixmystreet.mainapp.models import UserProfile,EmailRule,Ward,ReportCategory,City, ReportCategoryClass, FaqEntry, Councillor,ReportCategorySet
 from django.contrib import admin
-from contrib.transmeta import canonical_fieldname
+from transmeta import canonical_fieldname
 from django import forms
 
 admin.site.register(City)
