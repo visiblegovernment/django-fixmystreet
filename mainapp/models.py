@@ -29,7 +29,7 @@ class CCEmailMessage(EmailMessage):
                  bcc=None, connection=None, attachments=None, headers=None):
         super(CCEmailMessage, self).__init__(subject, body, from_email, to,
                                            bcc, connection, attachments, headers)
-        if csc:
+        if cc:
             self.cc = list(cc)
         else:
             self.cc = []
