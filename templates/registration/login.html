@@ -2,6 +2,12 @@
 {% load i18n %}
 {% block title %}{% trans "Sign In" %}{% endblock %}
 {% block content %}
+{% if login_disabled %}
+<div id='account-form'>
+	<h3>{% trans "Sign In" %}</h3>
+	<p>Sorry, user sign-in is temporarily disabled.</p>
+</div>
+{% else %}
 <div id='account-form'>
 	<h3>{% trans "Sign In" %}</h3>
 	<form action="/accounts/login/" method="POST">{% csrf_token %}
@@ -37,5 +43,6 @@
 	</ul>
 </div>
 </div>
+{% endif %}
 {% endblock %}
 

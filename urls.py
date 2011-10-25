@@ -22,11 +22,15 @@ urlpatterns = patterns('',
     (r'^password_reset/done/$', 'django.contrib.auth.views.password_reset_done'),
     (r'^reset/(?P<uidb36>[-\w]+)/(?P<token>[-\w]+)/$', 'django.contrib.auth.views.password_reset_confirm'),
     (r'^reset/done/$', 'django.contrib.auth.views.password_reset_complete'),
-    (r'^admin/', admin.site.urls,{'SSL':SSL_ON}),
-    (r'^i18n/', include('django.conf.urls.i18n')),
-    url(r'^login/(?P<backend>[^/]+)/$', social_auth, name='begin'),
-    url(r'^disconnect/(?P<backend>[^/]+)/$', social_disconnect, name='socialdisconnect'),
 )
+
+if not settings.LOGIN_DISABLED:
+    urlpatterns += patterns('',
+        (r'^admin/', admin.site.urls,{'SSL':SSL_ON}),
+        (r'^i18n/', include('django.conf.urls.i18n')),
+        url(r'^login/(?P<backend>[^/]+)/$', social_auth, name='begin'),
+        url(r'^disconnect/(?P<backend>[^/]+)/$', social_disconnect, name='socialdisconnect'),
+    )
 
 urlpatterns += patterns('',
     (r'^feeds/cities/(\d+)$', CityIdFeed()), # backwards compatibility
@@ -107,7 +111,7 @@ urlpatterns += patterns('',
                                               'template_name':'registration/login.html',
                                               'authentication_form':FMSAuthenticationForm,
                                               'extra_context': 
-                     { 'providers': SUPPORTED_SOCIAL_PROVIDERS }}, name='auth_login'), 
+                                              { 'providers': SUPPORTED_SOCIAL_PROVIDERS, 'login_disabled': settings.LOGIN_DISABLED }}, name='auth_login'), 
  url(r'^accounts/logout/$',  auth_views.logout,
                            {'SSL':SSL_ON,
                             'next_page': '/'}, name='auth_logout' ),
