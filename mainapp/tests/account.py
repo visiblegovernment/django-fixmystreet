@@ -5,6 +5,7 @@ from mainapp.models import UserProfile,Report,ReportUpdate,ReportSubscriber
 from django.db import connection
 from django.contrib.auth.models import User
 from django.core import mail
+from django.conf import settings
 
 
 class TestAccountHome(TestCase):
@@ -194,6 +195,11 @@ class TestLoggedInUser(TestCase):
         r = c.get( '/reports/4/subscribers' )
         self.assertEquals( r.status_code, 200 )
         self.assertContains(r,"user2@test.com")
+        c2 = Client()
+        r = c2.get( '/reports/4/subscribers' )
+        self.assertEquals( r.status_code, 200 )
+        self.assertNotContains(r,"user2@test.com")
+
         
     def test_subscribe_submit(self):
         c = Client()
@@ -242,6 +248,14 @@ REGISTER_POST = {
 
 class TestRegistration(TestCase):
     fixtures = []
+
+    def setUp(self):
+        self.curr_auth = settings.AUTHENTICATION_BACKENDS
+        settings.AUTHENTICATION_BACKENDS += ('mainapp.tests.testsocial_auth.dummy_socialauth.DummyBackend',)
+
+    def tearDown(self):
+        """Restores settings to avoid breaking other tests."""
+        settings.AUTHENTICATION_BACKENDS = self.curr_auth
 
     def test_socialuth_registration_w_noemail(self):
         # starting conditions        
@@ -320,11 +334,11 @@ class TestRegistration(TestCase):
         response = c.get('/accounts/edit/',follow=True)        
         self.assertEquals(response.status_code, 200 )
         self.assertEquals(response.templates[0].name, 'account/edit.html')
-        self.assertContains(response,'Editing Profile For %s %s' % ( FNAME, LNAME ))
+        self.assertContains(response,'Editing User Profile For %s %s' % ( FNAME, LNAME ))
         self.assertContains(response,PHONE)
         
         # test submitting an updated phone #
-        response = c.post( '/accounts/edit/', data={ 'phone': UPDATE_PHONE }, follow=True, **{ "wsgi.url_scheme" : "https" })
+        response = c.post( '/accounts/edit/', data={ 'phone': UPDATE_PHONE, 'first_name':FNAME, 'last_name':LNAME }, follow=True, **{ "wsgi.url_scheme" : "https" })
         self.assertEquals(response.status_code, 200 )
         self.assertEquals(response.templates[0].name, 'account/home.html')
         self.assertEquals(UserProfile.objects.filter(user__first_name=FNAME,phone=UPDATE_PHONE).count(),1)

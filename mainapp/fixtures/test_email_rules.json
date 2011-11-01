@@ -5,7 +5,8 @@
         "fields": {
             "name": "TestCityWithoutEmail",
             "province": 1,
-            "email": ""
+            "email": "",
+            "slug": "TestCityWithoutEmail"
         }
     }, 
     {
@@ -14,7 +15,8 @@
         "fields": {
             "name": "TestCityWithEmail",
             "province": 1,
-            "email": "311email@city.com"
+            "email": "311email@city.com",
+            "slug": "TestCityWithEmail"
         }
     }, 
 
