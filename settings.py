@@ -125,7 +125,7 @@ SOCIAL_AUTH_COMPLETE_URL_NAME = 'socialauth_complete'
 LOGIN_ERROR_URL = '/accounts/login/error/'
 SOCIAL_AUTH_ERROR_KEY = 'socialauth_error'
 LOGIN_REDIRECT_URL = '/accounts/home/'
-LOGIN_DISABLED = True
+LOGIN_DISABLED = False
 
 #################################################################################
 # These variables Should be defined in the local settings file
