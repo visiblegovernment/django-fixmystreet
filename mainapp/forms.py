@@ -125,6 +125,7 @@ class ReportUpdateForm(forms.ModelForm):
         model = ReportUpdate
         fields = ('desc','author','email','phone','is_fixed')
 
+
     def __init__(self,data=None,files=None,initial={},first_update=False,user = None, report=None):
        self.user = None
        self.report = report
@@ -139,6 +140,7 @@ class ReportUpdateForm(forms.ModelForm):
                initial[ 'email' ] = user.email
            else:
                # this can't be overridden.
+
                data = data.copy()
                data['email'] = user.email
                

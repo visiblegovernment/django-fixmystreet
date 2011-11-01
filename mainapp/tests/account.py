@@ -101,6 +101,14 @@ class TestLoggedInUser(TestCase):
         self.assertContains(r,"Clark Kent")
         self.assertContains(r,"user1@test.com")
         self.assertContains(r,"555-111-1111")
+        # check that default values are not filled in
+        # for a second, anonymous user (problem in the field)
+        c2 = Client()
+        r = c2.get( url )
+        self.assertEquals( r.status_code, 200 )
+        self.assertNotContains(r,"Clark Kent")
+        self.assertNotContains(r,"user1@test.com")
+        self.assertNotContains(r,"555-111-1111")
         
     def test_report_submit(self):
         params = CREATE_PARAMS.copy()
@@ -140,6 +148,16 @@ class TestLoggedInUser(TestCase):
         self.assertContains(r,"Clark Kent")
         self.assertContains(r,"user1@test.com")
         self.assertContains(r,"555-111-1111")
+
+        # check that default values are NOT already filled in.
+        # for a second client (problem in the field)
+        c2 = Client()
+        r = c2.get( url )
+        self.assertEquals( r.status_code, 200 )
+        self.assertNotContains(r,"Clark Kent")
+        self.assertNotContains(r,"user1@test.com")
+        self.assertNotContains(r,"555-111-1111")
+
         
     def test_update_submit(self):
         c = Client()

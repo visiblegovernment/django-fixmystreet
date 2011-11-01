@@ -46,7 +46,7 @@ def show( request, report_id ):
                   "subscribers": subscribers,
                   "ward":report.ward,
                   "updates": ReportUpdate.objects.filter(report=report, is_confirmed=True).order_by("created_at")[1:], 
-                  "update_form": ReportUpdateForm(user=request.user), 
+                  "update_form": ReportUpdateForm(user=request.user,initial={}), 
                   "google":  FixMyStreetMap((report.point)) },
                 context_instance=RequestContext(request))
 
